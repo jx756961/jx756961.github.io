@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue事件修饰符全解</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">vue事件修饰符全解</h2>
+  <div class="stackedit__html"><h6><a id="stop___eventstopPropagation__0"></a>.stop - 调用 event.stopPropagation() 阻止点击事件继续传播</h6>
+<blockquote>
+<p>阻止了事件冒泡,如果不添加 .stop 点击 thisClick 的同时 parentClick 也会被点击</p>
+</blockquote>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name"><span class="token namespace">v-on:</span>click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>parentClick<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>父级<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name"><span class="token namespace">v-on:</span>click.stop</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>thisClick<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>阻止单击事件继续传播<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h5><a id="prevent___eventpreventDefault___8"></a>.prevent - 调用 event.preventDefault()  阻止事件的默认行为</h5>
+<blockquote>
+<p>当添加 .prevent &lt; a &gt; 标签就没有跳转的行为</p>
+</blockquote>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>www.baidu.com<span class="token punctuation">"</span></span> <span class="token attr-name">@click.prevent</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>goBaiDu<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>我不想去百度<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h5><a id="once__13"></a>.once 只触发一次回调</h5>
+<blockquote>
+<p>每次初始化页面仅执行一次事件</p>
+</blockquote>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">@click.once</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>executeOnce(1)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>点击输出<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h5><a id="capture__capture__18"></a>.capture 添加事件侦听器时使用 capture 模式</h5>
+<blockquote>
+<p>即是给元素添加一个监听器，当元素发生冒泡时，先触发带有该修饰符的元素。若有多个该修饰符，则由外而内触发。就是谁有该事件修饰符，就先触发谁.</p>
+</blockquote>
+<pre><code class="prism language-html">	<span class="token comment">&lt;!--点击obj4的时候，弹出的顺序为：obj1、obj2、obj4、obj3 。 由于1，2有修饰符，故而先触发事件，然后就是4本身触发，最后冒泡事件  --&gt;</span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>content<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>obj1<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">v-on:</span>click.capture</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>doc($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          obj1
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>obj2<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">v-on:</span>click.capture</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>doc($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            obj2
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>obj3<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">v-on:</span>click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>doc($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+              obj3
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>obj4<span class="token punctuation">"</span></span> <span class="token attr-name"><span class="token namespace">v-on:</span>click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>doc($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+                obj4
+              <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span> 
+</code></pre>
+<h5><a id="self__37"></a>.self 只当事件是从侦听器绑定的元素本身触发时才触发回调</h5>
+<blockquote>
+<p>在Vue中，由于事件捕获和冒泡的存在，当点击某个元素时会引发其父元素（父父元素、父父父元素…）的点击事件发生，使得点击某个元素时达不到想要的效果。.self修饰符可以很好的解决这一情况，.self修饰符只有在点击事件绑定的元素与当前被点击元素一致时才触发点击事件。<br>
+<br>
+当给class为mid的div添加.self修饰符时，同样地点击id为inner的div，由于当前点击的元素不是class为mid的div，所以不会触发class为mid的点击事件。 <mark>console.log(<a href="http://event.currentTarget.id">event.currentTarget.id</a>)</mark>  或者<mark>console.log(event.currentTarget.className)</mark> 这里class的值只能通过className获取类似于原生DOM属性获取</p>
+</blockquote>
+<pre><code class="prism language-html">
+	  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>app<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>outer<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>outer<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>getTarget($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+          outer
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>mid<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>mid<span class="token punctuation">"</span></span> <span class="token attr-name">@click.self</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>getTarget($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+            mid
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inner<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>inner<span class="token punctuation">"</span></span> <span class="token attr-name">@click</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>getTarget($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>inner<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+          <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+</code></pre>
+<h5><a id="keyCode__keyAlias___56"></a>.{keyCode | keyAlias} - 只当事件是从特定键触发时才触发回调</h5>
+<blockquote>
+<p>keyCode 按键号码 keyAlias 按键别名 示例中13是回车键的号码 ,示例含义当回车键盘弹起执行事件回调<br>
+<a href="https://blog.csdn.net/qq_21386275/article/details/67640576">keyCode对照表</a></p>
+</blockquote>
+<pre><code class="prism language-html">	
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>
+       	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">@keyup.13</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>keyShow($event)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+   	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+</code></pre>
+<h5><a id="native__66"></a>.native 监听组件根元素的原生事件</h5>
+<blockquote>
+<p>在父组件中给子组件绑定一个原生的事件，就将子组件变成了普通的HTML标签，不加’. native’事件是无法触发。<br>
+<mark>注意:所有组件注册必须在 components 文件夹下,路由页面可以外部定义</mark></p>
+</blockquote>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>HelloWorld</span> <span class="token attr-name">@click.native</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>HelloWorld<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>HelloWorld</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h4><a id="220__72"></a><mark>2.2.0 以上版本新增</mark></h4>
+<h6><a id="1____middle_73"></a>1. 只当点击鼠标中键时触发 :  .middle</h6>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>  <span class="token attr-name">@click.middle</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>goClick()<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h6><a id="2___left_77"></a>2. 只当点击鼠标左键时触发:  .left</h6>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>  <span class="token attr-name">@click.left</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>goClick()<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h6><a id="3___right_81"></a>3.  只当点击鼠标右键时触发: .right</h6>
+<pre><code class="prism language-html">	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span>  <span class="token attr-name">@click.right</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>goClick()<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h4><a id="230__85"></a><mark>2.3.0 以上版本新增</mark></h4>
+<h5><a id="passive____passive_true___86"></a>.passive  以 { passive: true } 模式添加侦听器</h5>
+<blockquote>
+<p>passive这个修饰符会执行默认方法。</p>
+</blockquote>
+<blockquote>
+<p>【浏览器只有等内核线程执行到事件监听器对应的JavaScript代码时，才能知道内部是否会调用preventDefault函数来阻止事件的默认行为，所以浏览器本身是没有办法对这种场景进行优化的。这种场景下，用户的手势事件无法快速产生，会导致页面无法快速执行滑动逻辑，从而让用户感觉到页面卡顿。】</p>
+</blockquote>
+<blockquote>
+<p>通俗点说就是每次事件产生，浏览器都会去查询一下是否有preventDefault阻止该次事件的默认动作。我们加上passive就是为了告诉浏览器，不用查询了，我们没用preventDefault阻止默认动作。<br>
+这里一般用在滚动监听，@scoll，@touchmove 。因为滚动监听过程中，移动每个像素都会产生一次事件，每次都使用内核线程查询prevent会使滑动卡顿。我们通过passive将内核线程查询跳过，可以大大提升滑动的流畅度。</p>
+</blockquote>
+<blockquote>
+<p><mark>注：.passive不能和.prevent修饰符一同使用，否则浏览器会报错。</mark></p>
+</blockquote>
+</div>
+</body>
+
+</html>

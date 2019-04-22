@@ -1,0 +1,365 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Git常用命令</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Git常用命令</h2>
+  <div class="stackedit__html"><blockquote>
+<p>git 实现的功能<br>
+创建存盘点,保存不同版本数据<br>
+多任务多模块利用创建分支开发项目<br>
+实现多人协同开发项目, 利用共享仓库实现</p>
+</blockquote>
+<h5><a id="1_4"></a>1.下载安装及配置</h5>
+<ol>
+<li><a href="https://git-scm.com/">官方下载地址</a></li>
+<li>直接下一步安装git后面自行改动,不改动直接下一步</li>
+<li>安装结束 <em>win+r</em>  打开<em>cmd</em>窗口运行,<mark>git --version</mark> 查看版本正常查看证明安装成功</li>
+<li>右键项目找到 <mark>Git Bash Here</mark> 点击运行后会弹出一个类似于cmd形式的窗口这里就能运行git的命令。</li>
+<li>如果有需要忽略上传的文件在 <mark>.gitignore</mark> 文件中写上后就可以 例如：文件 <mark>bak.css</mark> 或者 文件夹 <mark>/.idea</mark></li>
+</ol>
+<ul>
+<li><strong>git 管理文件的三种状态</strong>
+<ol>
+<li>已提交：committd -&gt; git仓库,存储所有项目版本的地方</li>
+<li>已修改：modified-&gt;工作目录,能看到的都是工作区域目录</li>
+<li>已暂存：staged-&gt;暂存区, 暂时存放方便一起提交到仓库的地方</li>
+</ol>
+</li>
+<li><strong>开始项目实操</strong>
+<ol>
+<li>
+<p><code>git init</code> ：初始化空间（普通目录初始化成git仓库）</p>
+</li>
+<li>
+<p><code>git config --global user.name</code>  <code>用户名</code>  ：填写用户名</p>
+<blockquote>
+<p>需要要提交信息才能提交。类似于入门证。而且一个电脑只需配置一次就可以, 重新填写配置就会覆盖以前信息。</p>
+</blockquote>
+</li>
+<li>
+<p><code>git config --global user.email 邮箱地址@qq.com</code> ：填写邮箱地址</p>
+</li>
+<li>
+<p><code>git add 文件名</code>   ：存入暂存区</p>
+</li>
+<li>
+<p><code>git status</code> 查看仓库状态。</p>
+<blockquote>
+<p><code>modified</code>:被修改。<br>
+<code>绿色</code>是暂存区文件  。<br>
+<code>untarched files</code>  未追踪的文件</p>
+</blockquote>
+</li>
+<li>
+<p><code>git checkout 文件名</code>  可以将暂存区内容还原到工作区</p>
+</li>
+<li>
+<p><code>git reset –hard 版本号（提交id）</code>  （git reset -hard commit(备注信息) ）</p>
+<blockquote>
+<p>版本号就是版本字符串标识如示例, 版本回退,可以通过如下命令获取到版本号： git reflog 	。	例如：git reset –hard e12928c</p>
+</blockquote>
+</li>
+<li>
+<p>接下来开始构建 git 项目</p>
+</li>
+<li>
+<p>如果添加远程仓库错误使用 <code>git remote rm origin</code>   并且重新提交就可以了</p>
+</li>
+</ol>
+</li>
+</ul>
+<h5><a id="2_36"></a>2.操作分支和主线</h5>
+<blockquote>
+<p>想要创建新的分支必须<code>提交一次</code>才可以,因为默认master只显示不存在,只有<code>提交之后才存在</code> , 分支具备<code>继承</code>的功能</p>
+</blockquote>
+<ol>
+<li>新建分支<mark>login</mark></li>
+</ol>
+<pre><code class="prism language-shell">	创建分支
+	<span class="token function">git</span> branch login
+	查看分支
+	<span class="token function">git</span> branch
+	删除分支 （切换到主支master,具体看下面命令操作）
+	<span class="token function">git</span> branch -d login
+</code></pre>
+<ol start="2">
+<li>切换工作空间到<mark>login</mark>
+<blockquote>
+<p><code>checkout</code> 会把所有以前操作修改更新的代码也放到仓库一份。好像我们机械的备份一样的工作方式</p>
+</blockquote>
+</li>
+</ol>
+<pre><code class="prism language-shell">	-这时就可以直接在你自己的空间编写你要的模块,在你没有合并主线之前这里的代码不会污染到主线
+	-如果你要保存分支的内容你要commit你的文件
+	<span class="token function">git</span> checkout login
+	存盘点在login 分支上
+	<span class="token function">git</span> commit -m <span class="token string">'我所更新的内容'</span>
+</code></pre>
+<ol start="3">
+<li>切换工作空间到主线 <mark>master</mark></li>
+</ol>
+<pre><code class="prism language-shell">	-开发测试结束,合并分支到主线内容 <span class="token function">git</span> merge <span class="token punctuation">(</span>你所要合并的分支模块名称<span class="token punctuation">)</span>
+	<span class="token function">git</span> merge login
+</code></pre>
+<pre><code class="prism language-shell">	-开发测试结束,讲主支代码与当前分支部分合并, 处理掉分支中部分bug,合并到当前分支,当前分支的代码和master的代码就一样了 ,新增部分作为冲突提示出来。逻辑如下
+	<span class="token function">git</span> merge master
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190415112804562.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+merge还可以修复bug.</p>
+<ol start="4">
+<li>提交到远程仓库
+<ol>
+<li>远程服务器安装git</li>
+<li>连接进入远程仓库,比如xhell 登陆linux 或者直接登陆windows 系统的服务器（student用户登陆： <code>ssh student@服务器ip</code>,后面输入密码登陆进去）</li>
+<li>在远程仓库创建.git 后缀的目录 mkdir  mytest.git  （shell命令创建）</li>
+<li><code>git init --bare</code>  创建裸仓库	（仓库中创建很多git初始化文件就可以了）</li>
+<li><code>git push student@服务器ip: home/student/mytest.git （文件创建物理路径）</code>  回车提交</li>
+<li><code>git pull student@服务器ip: home/student/mytest.git （文件创建物理路径）</code> 其他成员只需要在本地就可以把拉取到当前文件夹</li>
+</ol>
+</li>
+</ol>
+<p><img src="https://img-blog.csdnimg.cn/20190415141312330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<pre><code class="prism language-shell">	github 提交远程仓库
+	1. 登陆github
+	2. 第一次在github上创建项目空间  运行2.命令选择项目空间。把本地仓库更新到远程仓库中
+	3. 后期更新到远程仓库直接使用命令 <span class="token function">git</span> push 后续更新和分支更新
+	4. 分支更新直接切换分支空间后,合并不合并都可以更新到远程仓库中。
+	5. 远程克隆文件直接在所选项目空间中运行 <span class="token function">git</span> clone
+	1.
+	<span class="token function">git</span> init
+	<span class="token function">git</span> add README.md
+	<span class="token function">git</span> commit -m <span class="token string">"first commit"</span>
+	<span class="token function">git</span> remote add origin https://github.com/账号/项目.git
+	<span class="token function">git</span> push -u origin master
+
+	…or 2.
+	<span class="token function">git</span> remote add origin https://github.com/账号/项目.git
+	<span class="token function">git</span> push -u origin master
+
+</code></pre>
+<h5><a id="3_98"></a>3.常用命令行操作</h5>
+
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>使用命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>git init</td>
+<td>初始化本地git仓库</td>
+</tr>
+<tr>
+<td>1</td>
+<td>git add  &lt; file &gt; \ -A</td>
+<td>添加文件（file文件名）(-A所有文件)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>git status</td>
+<td>查看状态</td>
+</tr>
+<tr>
+<td>3</td>
+<td>git log</td>
+<td>查看操作日志</td>
+</tr>
+<tr>
+<td>4</td>
+<td>git commit</td>
+<td>提交  -m备注</td>
+</tr>
+<tr>
+<td>5</td>
+<td>git checkout</td>
+<td>切换分支和主线</td>
+</tr>
+<tr>
+<td>6</td>
+<td>git reset</td>
+<td>回退到历史的某个版本</td>
+</tr>
+<tr>
+<td>7</td>
+<td>git push</td>
+<td>推送到仓库</td>
+</tr>
+<tr>
+<td>8</td>
+<td>git pull</td>
+<td>远程仓库拉取数据</td>
+</tr>
+<tr>
+<td>9</td>
+<td>git clone  &lt; url &gt;</td>
+<td>远程仓库拷贝数据</td>
+</tr>
+<tr>
+<td>10</td>
+<td>git config --list</td>
+<td>列出所有 Git 当时能找到的配置</td>
+</tr>
+<tr>
+<td>11</td>
+<td>git help &lt; verb &gt;</td>
+<td>Git 命令的使用手册</td>
+</tr>
+<tr>
+<td>12</td>
+<td>git diff &lt; params &gt;</td>
+<td>查看尚未暂存的文件更新了</td>
+</tr>
+<tr>
+<td>13</td>
+<td>git rm &lt; file &gt;</td>
+<td>已跟踪文件清单中移除</td>
+</tr>
+<tr>
+<td>14</td>
+<td>git mv &lt; file &gt;</td>
+<td>移动文件</td>
+</tr>
+<tr>
+<td>15</td>
+<td>git log &lt; params &gt;</td>
+<td>查看提交历史</td>
+</tr>
+<tr>
+<td>16</td>
+<td>git remote &lt; url &gt;  (git remote show origin)</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>git remote add &lt; shortname &gt; &lt; url &gt;</td>
+<td>添加远程仓库</td>
+</tr>
+<tr>
+<td>18</td>
+<td>git fetch [remote-name]</td>
+<td>从远程仓库中抓取与拉取</td>
+</tr>
+<tr>
+<td>19</td>
+<td>git remote rename</td>
+<td>远程仓库的移除与重命名</td>
+</tr>
+<tr>
+<td>20</td>
+<td>git tag</td>
+<td>列出标签</td>
+</tr>
+<tr>
+<td>21</td>
+<td>git tag -a v1.0	-m ‘备注信息’	附注标签（annotated）</td>
+<td>创建附注标签</td>
+</tr>
+<tr>
+<td>22</td>
+<td>git tag v1.2-lv</td>
+<td>创建轻量标签</td>
+</tr>
+<tr>
+<td>23</td>
+<td>git tag -d -v1.0</td>
+<td>删除标签</td>
+</tr>
+<tr>
+<td>24</td>
+<td>git checkout 2.0.0</td>
+<td>检出标签</td>
+</tr>
+<tr>
+<td>25</td>
+<td>git branch （testing）</td>
+<td>创建分支</td>
+</tr>
+<tr>
+<td>26</td>
+<td>git checkout （testing）</td>
+<td>分支切换</td>
+</tr>
+<tr>
+<td>27</td>
+<td>git merge （testing）</td>
+<td>合并分支</td>
+</tr>
+<tr>
+<td>28</td>
+<td>git mergetool</td>
+<td>启动一个合适的可视化合并工具</td>
+</tr>
+<tr>
+<td>29</td>
+<td>git branch -v</td>
+<td>查看每一个分支的最后一次提交</td>
+</tr>
+<tr>
+<td>30</td>
+<td>git branch --merged</td>
+<td>查看哪些分支已经合并到当前分支</td>
+</tr>
+<tr>
+<td>31</td>
+<td>git branch --no-merged</td>
+<td>查看所有包含未合并工作的分支</td>
+</tr>
+<tr>
+<td>32</td>
+<td>git branch -d  （testing）</td>
+<td>普通删除分支  -D强行删除分支并丢掉那些工作</td>
+</tr>
+<tr>
+<td>33</td>
+<td>git ls-remote (remote)</td>
+<td>显式地获得远程引用的完整列表</td>
+</tr>
+<tr>
+<td>34</td>
+<td>git remote show (remote)</td>
+<td>获得远程分支的更多信息</td>
+</tr>
+<tr>
+<td>35</td>
+<td>git rebase --onto master server client</td>
+<td>取出 client 分支，找出处于 client 分支和 server 分支的共同祖先之后的修改，然后把它们在 master 分支上重放一遍</td>
+</tr>
+<tr>
+<td>36</td>
+<td>git remote add local_proj /opt/git/project.git</td>
+<td>增加一个本地版本库到现有的 Git 项目</td>
+</tr>
+<tr>
+<td>37</td>
+<td>git reset --hard HEAD^</td>
+<td>^ 表示回到上一个版本，如果需要回退到上上个版本的话，将HEAD<sup>改成HEAD</sup>^, 以此类推。那如果要回退到前100个版本，这种方法肯定不方便，我们可以使用简便命令操作：git reset –hard HEAD~100</td>
+</tr>
+<tr>
+<td>38</td>
+<td>git reset –hard 版本号</td>
+<td>版本回退,可以通过如下命令获取到版本号： git reflog 	。	例如：git reset –hard e12928c</td>
+</tr>
+</tbody>
+</table><h5><a id="4_github__140"></a>4 github 部署网站</h5>
+<ol>
+<li>Create a new repository 创建项目空间</li>
+<li><a href="http://Owner.github.io">Owner.github.io</a> 创建自己的 <a href="http://github.io">github.io</a> ,必须跟Owner一致</li>
+<li>Public 创建</li>
+<li>在 Desktop github 登陆账号,选择Owner.github.io空间右键 Show in Explorer 打开本地空间,并且为本地空间添加项目文件并且commit到远程空间,点击push origin 在点击Fetch origin 同步.查看远程空间内容情况。 如果通过 <a href="http://Owner.github.io">Owner.github.io</a> 可以访问到说明网站正常</li>
+<li>自定义域名访问,首先在你的本地空间创建CNAME文件写上你的自定义域名。然后通过解析记录类型CNAME,记录值 <a href="http://Owner.github.io">Owner.github.io</a> 等几分钟通过自定义域名访问</li>
+</ol>
+</div>
+</body>
+
+</html>

@@ -1,13 +1,341 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>git </title>
-    <link rel="stylesheet" href="index.css">
+    <meta charset="utf-8">
+    <title>666God-About Me</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/m.css" rel="stylesheet">
+    <style>
+        .back-image-one {
+            background: url("images/t01.jpg") no-repeat center/150%;
+        }
+
+        .pics ul .back-image-one:hover {
+            background: url("images/t01.jpg") no-repeat center/100%;
+            transition: all 1s;
+        }
+
+        .back-image-two {
+            background: url("images/t04.jpg") no-repeat center/150%;
+        }
+
+        .pics ul .back-image-two:hover {
+            background: url("images/t04.jpg") no-repeat center/100%;
+            transition: all 1s;
+        }
+
+        .back-image-three {
+            background: url("images/t03.jpg") no-repeat center/150%;
+        }
+
+        .pics ul .back-image-three:hover {
+            background: url("images/t03.jpg") no-repeat center/100%;
+            transition: all 1s;
+        }
+
+        .line-height-content {
+            line-height: 40px;
+        }
+
+        .min-show-div {
+            display: none;
+        }
+
+        .set-project-font ul li {
+            font-size: 13px;
+            line-height: 26px;
+            color: #666;
+        }
+
+        @media screen and (max-width: 959px) {
+            .min-show-div {
+                display: block;
+            }
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
 </head>
 <body>
-    git
+<header>
+    <div id="mnav">
+        <div class="logo"><a href="list_web.html">666God</a></div>
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <ul id="starlist">
 
-    这是在login空间的内容
+            <!--<li><a href="share.html">模板分享</a></li>-->
+            <li><a href="list_web.html">BLOG</a></li>
+            <li><a href="index.html">About Me</a></li>
+            <!--<li><a href="info.html">慢生活</a></li>-->
+            <!--<li><a href="shareinfo.html">模板内容页</a></li>-->
+            <!--<li><a href="gbook.html">留言</a></li>-->
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            var oH2 = document.getElementById("mnavh");
+            var oUl = document.getElementById("starlist");
+            oH2.onclick = function () {
+                var style = oUl.style;
+                style.display = style.display == "block" ? "none" : "block";
+                oH2.className = style.display == "block" ? "open" : ""
+            }
+        }
+    </script>
+</header>
+<div class="line46"></div>
+<div class="min-show-div">
+    <div class="aboutme">
+        <h2 class="ab_title">关于我</h2>
+        <div class="avatar"><img src="images/b04.jpg"/></div>
+        <div class="ab_con">
+            <p>姓名：吕佳兴</p>
+            <p>职业：WEB前端开发、PHP开发工程师 </p>
+            <p>籍贯：内蒙古―赤峰市</p>
+            <p>发邮件：<a href="mailto:188586771@qq.com">188586771@qq.com</a></p>
+        </div>
+    </div>
+    <div class="blank"></div>
+    <div class="paihang">
+        <h2 class="ab_title"><a href="#">求职意向</a></h2>
+
+        <ul>
+            <li>
+                <span class="l" data-en-name="Work type:">工作性质：</span>
+                <span class="r">全职</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Location:">工作地点：</span>
+                <span class="r ms">北京</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Expected Salaty:">期望薪资：</span>
+                <span class="r">10001-15000元/月</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Position:">职位类别：</span>
+                <span class="r ms">WEB前端开发、PHP开发工程师</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Industry:">行业类别：</span>
+                <span class="r ms">互联网/电子商务、计算机软件</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Status:">工作状态：</span>
+                <span class="r ms">我目前处于离职状态，可立即上岗</span>
+            </li>
+
+        </ul>
+    </div>
+    <div class="paihang">
+        <h2 class="ab_title"><a href="#">教育背景</a></h2>
+        <ul>
+            <li>
+                <span class="l" data-en-name="School Name:">学校名称：</span>
+                <span class="r">南昌学院</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Major:">专业名称：</span>
+                <span class="r">建筑工程技术</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Degree:">学历/学位：</span>
+                <span class="r">大专</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="Full-time School">是否统招：</span>
+                <span class="r">统招</span>
+            </li>
+
+            <li>
+                <span class="l" data-en-name="Start Time:">入学时间：</span>
+                <span class="r">2009-09</span>
+            </li>
+            <li>
+                <span class="l" data-en-name="End Time:">毕业时间：</span>
+                <span class="r" data-en-name="2012-07">2012-07</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<article>
+    <div class="pics">
+        <ul>
+            <li class="back-image-one"><i><a href="#"></a></i><span>数据平台</span></li>
+            <li class="back-image-two"><i><a href="#"></a></i><span>物联网App</span></li>
+            <li class="back-image-three"><i><a href="#"></a></i><span>直播App</span></li>
+        </ul>
+    </div>
+    <div class="blank"></div>
+    <div class="leftbox">
+        <div class="set-project-font">
+            <h2 class="hometitle"><span><a href="list_web.html">Blog</a><a href="#">学无止境</a><a href="#">慢生活</a></span>工作经验
+            </h2>
+            <ul>
+                <li style="border-bottom: 1px solid #333;padding-bottom: 40px">
+                    <h4 class="line-height-content">内蒙古联业农业科技有限公司：</h4>
+                    <p class="line-height-content">任职时间 ：2017 . 5 ~ 2019 . 5</p>
+                    <p class="line-height-content">职位名称 ：网站全栈开发，服务端开发, 项目基础架构</p>
+                    <p><span class="l text" data-en-name="Job Description:">工作描述：</span>
+                        <span class="depict" style="word-wrap: break-word;">
+                    <p>1. 后端主要工作开发平台数据分析管理后台和农业物联网自控系统的服务端开发，对接客户端（pc,app两端消息推送）使用php的websocket协议。</p></span>
+                    <span class="depict" style="word-wrap: break-word;"><p>2.  擅长开发模块化开发web端，移动端，对用户体验、交互操作流程及用户需求有一定的见解；精通 XHML / HTML /CSS,移动 web 开发，熟悉 w3c 的 DOM 模型，能使 用 js 实现 json，xml 格式的数据发送与数据解析和 web 前端开发技术; jQuery包也是信手拈来； 对页面架构和布局/表现与数据分离/web 语义化有一定的见解，熟悉 css 预处理器 less进行前端开发；善用Vue.js,熟悉React的JSX语法</p></span>
+                    <span class="depict" style="word-wrap: break-word;"><p>3.  微信小程序更是具备实战经验。在工作中全局把握比如：项目分析方案制定，进度跟踪，测试上线。工作汇报安排，组织团建娱乐活动</p></span>
+                    <span class="depict" style="word-wrap: break-word;"><p>4.  了解React-Native的手机应用程序开发  </p></span>
+                    </p>
+                </li>
+
+                <li>
+                    <h4 class="line-height-content">赤峰云联科技有限公司：</h4>
+                    <p class="line-height-content">任职时间 ：2016 . 9 ~ 2017 . 4</p>
+                    <p class="line-height-content">职位名称 ：网站全栈开发工程师</p>
+                    <p><span class="l text" data-en-name="Job Description:">工作描述：</span>
+                        <span class="depict" style="word-wrap: break-word;">
+                    <p> 社区公众号管理后台的全栈开发，主要功能公众号用户数据统计，用户信息管理，布局主要使用bootstrap的栅格系统，数据分析统计使用百度echarts插件</p></span>
+                </li>
+
+            </ul>
+        </div>
+        <div class="newblogs set-project-font">
+            <h2 class="hometitle">项目经验</h2>
+            <ul id="list" style="">
+                <li>
+                    <h3 class="blogtitle"><a href="/" target="_blank">数据管理平台</a></h3>
+                    <div class="bloginfo"><span class="blogpic"><a href="#" title=""><img
+                            src="images/t01.jpg"/></a></span>
+
+                        <p><span class="l text" data-en-name="Project Description:">项目描述：主要使用Vue和echarts对项目所有数据的运行状态管理分析。vue使用vue-router管理页面路由,vuex管理数据状态,使用promise封装axios进行数据请求</span>
+                        </p>
+                    </div>
+
+                </li>
+                <li>
+                    <h3 class="blogtitle"><a href="#" target="_blank">家电维修即时聊天小程序</a></h3>
+                    <div class="bloginfo"><span class="blogpic"><a href="#" title=""><img
+                            src="images/xiaocengxu.png"/></a></span>
+                        <p><span class="l text" data-en-name="Project Description:">项目描述：</span>
+                            <span class="depict">独立开发的多对多聊天小程序作为商铺后台客户服务管理的小程序，是一个即时聊天小程序，服务端依旧websoket协议，包括用户的支付系统</span>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <h3 class="blogtitle"><a href="#" target="_blank">互动直播app服务端开发</a></h3>
+                    <div class="bloginfo"><span class="blogpic"><a href="#" title=""><img
+                            src="images/t03.jpg"/></a></span>
+                        <p><span class="l text" data-en-name="Project Description:">项目描述：</span>
+                            <span class="depict">本项目是物联网专家在线服务系统的一部分,功能点在用户系统分为专家和普通用户,专家有直播权限。专家可以和任意在线的观众进行连线交流,用户数据直播数据采集记录</span>
+                        </p>
+                    </div>
+                </li>
+                <li>
+                    <h3 class="blogtitle"><a href="#" target="_blank">物联网智能灌溉控制系统app</a></h3>
+                    <div class="bloginfo"><span class="blogpic"><a href="#" title=""><img
+                            src="images/t04.jpg"/></a></span>
+                        <p>主要工作开发平台数据分析管理后台和物联网自控系统的服务端开发，对接客户端（pc,app两端消息推送）使用php的websocket协议。 </p>
+                        <p>灌溉App实时监测泵房设备阀门的运行状态,采集灌溉数据。设置灌溉任务进行流程,展示App将气象数据、土壤数据、水肥灌溉数据、设备的故障状态统一展示</p></div>
+
+                </li>
+
+            </ul>
+            <ul id="list2">
+            </ul>
+            <script src="js/page2.js"></script>
+        </div>
+        <div class="weixin min-show-div">
+            <h2 class="ab_title">微信</h2>
+            <ul>
+                <img src="images/wechat_info.jpg">
+            </ul>
+        </div>
+    </div>
+    <div class="rightbox">
+        <div class="aboutme">
+            <h2 class="ab_title">关于我</h2>
+            <div class="avatar"><img src="images/b04.jpg"/></div>
+            <div class="ab_con">
+                <p>姓名：吕佳兴</p>
+                <p>职业：WEB前端开发、PHP开发工程师 </p>
+                <p>籍贯：内蒙古―赤峰市</p>
+                <p>发邮件：<a href="mailto:188586771@qq.com">188586771@qq.com</a></p>
+            </div>
+        </div>
+        <div class="blank"></div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">求职意向</a></h2>
+
+            <ul>
+                <li>
+                    <span class="l" data-en-name="Work type:">工作性质：</span>
+                    <span class="r">全职</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Location:">工作地点：</span>
+                    <span class="r ms">北京</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Expected Salaty:">期望薪资：</span>
+                    <span class="r">10001-15000元/月</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Position:">职位类别：</span>
+                    <span class="r ms">WEB前端开发、PHP开发工程师</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Industry:">行业类别：</span>
+                    <span class="r ms">互联网/电子商务、计算机软件</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Status:">工作状态：</span>
+                    <span class="r ms">我目前处于离职状态，可立即上岗</span>
+                </li>
+
+            </ul>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">教育背景</a></h2>
+            <ul>
+                <li>
+                    <span class="l" data-en-name="School Name:">学校名称：</span>
+                    <span class="r">南昌学院</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Major:">专业名称：</span>
+                    <span class="r">建筑工程技术</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Degree:">学历/学位：</span>
+                    <span class="r">大专</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="Full-time School">是否统招：</span>
+                    <span class="r">统招</span>
+                </li>
+
+                <li>
+                    <span class="l" data-en-name="Start Time:">入学时间：</span>
+                    <span class="r">2009-09</span>
+                </li>
+                <li>
+                    <span class="l" data-en-name="End Time:">毕业时间：</span>
+                    <span class="r" data-en-name="2012-07">2012-07</span>
+                </li>
+            </ul>
+        </div>
+        <div class="weixin">
+            <h2 class="ab_title">微信</h2>
+            <ul>
+                <img src="images/wechat_info.jpg">
+            </ul>
+        </div>
+    </div>
+</article>
+<footer>
+    <p>Design by <a href="#">666God</a></p>
+</footer>
 </body>
 </html>

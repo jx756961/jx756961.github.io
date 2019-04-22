@@ -1,0 +1,212 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>666God-Blog</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/m.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header>
+    <div id="mnav">
+        <div class="logo"><a href="list_web.html">666God</a></div>
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <ul id="starlist">
+
+            <!--<li><a href="share.html">模板分享</a></li>-->
+            <li><a href="list.html">BLOG</a></li>
+            <li><a href="index.html">About Me</a></li>
+            <!--<li><a href="info.html">慢生活</a></li>-->
+            <!--<li><a href="shareinfo.html">模板内容页</a></li>-->
+            <!--<li><a href="gbook.html">留言</a></li>-->
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            var oH2 = document.getElementById("mnavh");
+            var oUl = document.getElementById("starlist");
+            oH2.onclick = function () {
+                var style = oUl.style;
+                style.display = style.display == "block" ? "none" : "block";
+                oH2.className = style.display == "block" ? "open" : ""
+            }
+        }
+    </script>
+</header>
+<div class="line46"></div>
+<article>
+    <div class="leftbox">
+        <div class="newblogs">
+            <h2 class="hometitle"><span><a href="#">心得笔记</a><a href="#"></a><a
+                    href="#">php</a></span>学无止境</h2>
+            <ul>
+                <li>
+                    <a href="php_info/php_classtype_trait.html" target="_blank">
+                        <h3 class="blogtitle">php类对象拷贝、类型约束、Trait</h3>
+                        <div class="bloginfo">
+                            <p>1.对象拷贝 浅拷贝这样比较省空间。php默认是浅拷贝 //浅拷贝这样$b与$a共用一个内存空间。 class ObjCopy { public $age = 0; public $username = ''; // 对象属性 public $...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_getto.html" target="_blank">
+                        <h3 class="blogtitle">php引用传递</h3>
+                        <div class="bloginfo">
+                            <p> 引用传递：将一个变量通过引用传递给函数，这样该函数就可以修改其参数的值。被调函数的形式参数虽然也作为局部变量在堆栈中开辟了内存空间，但是这时存放的是由主调函数放进来的实参变量的地址 注：在函数调用时没有引用符号——只有函数定义中有。 主要是实参和形参的相互影响性。引用传递：形参的改变会影响实参 ... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_getset.html" target="_blank">
+                        <h3 class="blogtitle">php类的__set()、__get()、__isset()、__unset()、__call()、__callStatic()、__invoke()</h3>
+                        <div class="bloginfo">
+                            <p> 1.__set()、__get() 应用 通过类中定义__set()、__get()魔术方法可以避免多个成员变量重复去定义get、set方法。 使用原理当外部设置 $UserAppIndex-&gt;username=‘华山论剑’; 时调用 __set() 。 当 $UserAppI... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_autoload.html" target="_blank">
+                        <h3 class="blogtitle">php __autoload()和spl_autoload_register()</h3>
+                        <div class="bloginfo">
+                            <p> 一、__autoload（） 这是一个自动加载函数，在PHP5中，当我们实例化一个未定义的类时，就会触发此函数。看下面例子： AutoLoad.php： &lt;?php class AutoLoad { function getAoto() { echo 'hell... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_namespace.html" target="_blank">
+                        <h3 class="blogtitle">php命名空间namespace应用</h3>
+                        <div class="bloginfo">
+                            <p> 命名空间的实现跟我们系统目录文件的组织结构形式类似 , 一个目录下只能存在一个db.php文件。namespace关键字就是来定义类的空间区分。 受命名空间影响的类型：类、接口、函数、常量 , 当然define()定义的常量是全局的,不受空间影响。如果使用命名空间定义常量要用 const 注： ... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_namespace2.html" target="_blank">
+                        <h3 class="blogtitle">PHP命名空间(Namespace)的使用详解</h3>
+                        <div class="bloginfo">
+                            <p> 注明：本文提到的常量：PHP5.3开始const关键字可以用在类的外部。const和define都是用来声明常量的（它们的区别不详述），但是在命名空间里，define的作用是全局的，而const则作用于当前空间。我在文中提到的常量是指使用const声明的常量。 基础 命名空间将代码划分出不同的... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_pdo.html" target="_blank">
+                        <h3 class="blogtitle">php封装PDO类</h3>
+                        <div class="bloginfo">
+                            <p> class pdoManager { private $conn = null; /** * 创建数据库链接对象 */ public function __construct($host,$user,$pwd){ try... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="php_info/php_file_upload.html" target="_blank">
+                        <h3 class="blogtitle">php文件上传简单封装</h3>
+                        <div class="bloginfo">
+                            <p> 下面贴上php文件上传的示例, /** * Class getFiles 文件上传 */ class getFiles { private $file; private $thisType; function __construct($file)... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="pagelist">&nbsp;&nbsp;
+                <a href="list_web.html">web基础</a>&nbsp;
+                <a href="list_basejs.html">js基础</a>&nbsp;
+                <a href="list_node.html">node.js</a>&nbsp;
+                <a href="list_vue.html">Vue</a>&nbsp;
+                <a href="list.html">小程序</a>&nbsp;
+                <a href="list_php.html">php</a>&nbsp;
+                <a href="list_highjs.html">js高级</a>&nbsp;
+                <a href="list_otherweb.html">web其他</a>&nbsp;
+                <a href="list_server.html">后端其他</a>
+            </div>
+        </div>
+    </div>
+    <div class="rightbox">
+        <div class="blank"></div>
+        <div class="search">
+            <form action="" method="post" name="searchform" id="searchform">
+                <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字"
+                       style="color: rgb(153, 153, 153);"
+                       onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+                       onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+                <input name="show" value="title" type="hidden">
+                <input name="tempid" value="1" type="hidden">
+                <input name="tbname" value="news" type="hidden">
+                <input name="Submit" class="input_submit" value="搜索" type="submit">
+            </form>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">栏目推荐</a></h2>
+            <ul>
+                <li><b><a href="list_vue.html" target="_blank">Vue知识掌握</a></b>
+                    <p>Vue.js 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件...</p>
+                </li>
+                <li><b><a href="list_otherweb.html" target="_blank">React知识学习</a></b>
+                    <p>React 起源于 Facebook 的内部项目，因为该公司对市场上所有 JavaScript MVC 框架...</p>
+                </li>
+                <li><b><a href="list.html" target="_blank">微信小程序开发相关</a></b>
+                    <p>小程序是一种新的开放能力，开发者可以快速地开发一个小程序...</p>
+                </li>
+                <li><b><a href="list_node.html" target="_blank">Node.js 全面了解</a></b>
+                    <p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。
+                        Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。</p>
+                </li>
+                <li><b><a href="list_web.html" target="_blank">web基础学习</a></b>
+                    <p>通过HTML，CSS及JavaScript以及衍生出来的各种技术、框架、解决方案，来实现互联网产品的用户界面交互 ...</p>
+                </li>
+            </ul>
+            <div class="ad"><img src="images/ad01.jpg"></div>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">进阶排行</a></h2>
+            <ul>
+                <li><b><a href="list_highjs.html" target="_blank">JavaScript高级</a></b>
+                    <p>在JavaScript基础后学习将更好的理解作用域、面向对象等</p>
+                </li>
+                <li><b><a href="list_php.html" target="_blank">服务端语言php整理</a></b>
+                    <p>一种通用开源脚本语言。语法吸收了C语言、Java和Perl的特点，利于学习，使用广泛，主要适用于Web开发领域...</p>
+                </li>
+            </ul>
+
+        </div>
+        <div class="weixin">
+            <h2 class="ab_title">微信鼓励</h2>
+            <ul>
+                <img src="images/wx.jpg">
+            </ul>
+        </div>
+    </div>
+</article>
+<footer>
+    <p>Design by <a href="#">666God</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js学习 （四） 服务端渲染</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Node.js学习 （四） 服务端渲染</h2>
+  <div class="stackedit__html"><blockquote>
+<p>art-template 不仅可以在浏览器使用，也可以在 node 中使用</p>
+</blockquote>
+<h5><a id="_2"></a>安装</h5>
+<blockquote>
+<p>该命令在哪执行就会把包下载到哪里。默认会下载到 node_modules 目录中<br>
+node_modules 不要改，也不支持改。</p>
+</blockquote>
+<blockquote>
+<p>在 Node 中使用 art-template 模板引擎<br>
+模板引起最早就是诞生于服务器领域，后来才发展到了前端。</p>
+</blockquote>
+<ol>
+<li>安装 npm install art-template</li>
+<li>在需要使用的文件模块中加载 art-template
+<blockquote>
+<p>只需要使用 <code>require</code> 方法加载就可以了：<code>require('art-template')</code><br>
+参数中的 <code>art-template</code> 就是你下载的包的名字<br>
+也就是说你 <code>install</code> 的名字是什么，则你 require 中的就是什么</p>
+</blockquote>
+</li>
+<li>查文档，使用模板引擎的 API</li>
+</ol>
+<h5><a id="_15"></a>服务端应用</h5>
+<ol>
+<li><code>template.render(source, data,options)</code><br>
+<code>source</code>: 资源数据包也就是页面含变量,<br>
+<code>data</code> :需要替换的变量值<br>
+<code>options</code>：可选项</li>
+</ol>
+<pre><code class="prism language-html"><span class="token comment">&lt;!-- tpl.html --&gt;</span>
+<span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>{{title}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>大家好，我叫：{{ name }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>我今年 {{ age }} 岁了<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span>我来自 {{ province }}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+  <span class="token comment">&lt;!-- each 遍历数组 $value为数据--&gt;</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span><span class="token punctuation">&gt;</span></span>我喜欢：{{each hobbies}} {{ $value }} {{/each}}<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+	<span class="token comment">//模版引擎不关心语法,只关心标记位置</span>
+	<span class="token keyword">var</span> title <span class="token operator">=</span><span class="token string">'{{title}}'</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<pre><code class="prism language-javascript"><span class="token comment">// 这里不是浏览器</span>
+<span class="token comment">// template('script 标签 id', {对象})</span>
+
+<span class="token comment">// var tplStr = `</span>
+<span class="token comment">// &lt;!DOCTYPE html&gt;</span>
+<span class="token comment">// &lt;html lang="en"&gt;</span>
+<span class="token comment">// &lt;head&gt;</span>
+<span class="token comment">//   &lt;meta charset="UTF-8"&gt;</span>
+<span class="token comment">//   &lt;title&gt;Document&lt;/title&gt;</span>
+<span class="token comment">// &lt;/head&gt;</span>
+<span class="token comment">// &lt;body&gt;</span>
+<span class="token comment">//   &lt;p&gt;大家好，我叫：{{ name }}&lt;/p&gt;</span>
+<span class="token comment">//   &lt;p&gt;我今年 {{ age }} 岁了&lt;/p&gt;</span>
+<span class="token comment">//   &lt;h1&gt;我来自 {{ province }}&lt;/h1&gt;</span>
+<span class="token comment">//   &lt;p&gt;我喜欢：{{each hobbies}} {{ $value }} {{/each}}&lt;/p&gt;</span>
+<span class="token comment">// &lt;/body&gt;</span>
+<span class="token comment">// &lt;/html&gt;</span>
+<span class="token comment">// `</span>
+
+fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./tpl.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'读取文件失败,需要显示的页面'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+  <span class="token comment">// 默认读取到的 data 是二进制数据, 而模板引擎的 render 方法需要接收的是字符串</span>
+  <span class="token comment">// 所以我们在这里需要把 data 二进制数据转为 字符串 才可以给模板引擎使用</span>
+  <span class="token keyword">var</span> ret <span class="token operator">=</span> template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> <span class="token string">'Jack'</span><span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+    province<span class="token punctuation">:</span> <span class="token string">'北京市'</span><span class="token punctuation">,</span>
+    hobbies<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+      <span class="token string">'写代码'</span><span class="token punctuation">,</span>
+      <span class="token string">'唱歌'</span><span class="token punctuation">,</span>
+      <span class="token string">'打游戏'</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    title<span class="token punctuation">:</span> <span class="token string">'个人信息'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>ret<span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>服务端渲染和客户端渲染区别：</p>
+<blockquote>
+<p>比如京东的商品列表是服务端渲染,网页有页面数据的源代码。评论系统则看不到源代码就是客户端渲染。那么为什么这么做有什么优缺点?</p>
+</blockquote>
+<p>其实,服务端渲染相当于拉取所有页面数据到浏览器的时候具有完整的数据信息,爬虫可以爬取到页面数据信息。优势在于可以在SEO搜索优化方面更好,缺点就是页面拉取数据量繁多导致页面加载比较慢,用户体验相对差 。<br>
+相反,客户端渲染优势在于异步操作数据无需更多刷新就展示到客户端,用户体验非常好。那么搜索引擎就比较差了。</p>
+</div>
+</body>
+
+</html>

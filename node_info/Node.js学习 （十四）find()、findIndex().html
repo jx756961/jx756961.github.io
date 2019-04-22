@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js学习 （十四）find()、findIndex()</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Node.js学习 （十四）find()、findIndex()</h2>
+  <div class="stackedit__html"><blockquote>
+<p>EcmaScript 6 新增方法,获取数据对象</p>
+</blockquote>
+<ol>
+<li><code>find()</code> 接收一个方法作为参数，方法内部返回一个条件</li>
+<li><code>find()</code> 会遍历所有的元素，执行你给定的带有条件返回值的函数</li>
+<li>符合该条件的元素会作为 <code>find()</code> 的返回值</li>
+<li>如果遍历结束还没有符合该条件的元素，则返回 <code>undefined</code></li>
+<li><code>findIndex()</code> 原理一致,返回数据索引位置</li>
+</ol>
+<p>示例演示：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+
+ <span class="token keyword">var</span> getData<span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> nums<span class="token punctuation">.</span>id <span class="token operator">==</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>getData<span class="token punctuation">)</span> <span class="token comment">//输出 ：  {id: 2, name: '张三'}</span>
+
+<span class="token keyword">var</span> getIndex<span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">findIndex</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> nums<span class="token punctuation">.</span>id <span class="token operator">==</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>getIndex<span class="token punctuation">)</span> <span class="token comment">//输出 ： 1</span>
+</code></pre>
+<p>原理解析：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> users <span class="token operator">=</span> <span class="token punctuation">[</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span>id<span class="token punctuation">:</span> <span class="token number">4</span><span class="token punctuation">,</span> name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+<span class="token comment">// 1. 给数组原型添加一个myFind方法 ,传入一个条件方法 conditionFunc</span>
+Array<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">myFind</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>conditionFunc<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">//2. 遍历当前数组</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token keyword">this</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  	<span class="token comment">//3. 执行条件方法符合条件方法的判断条件（其实就是这个 item.id === 2）</span>
+  	<span class="token comment">//下面定义了条件方法  ,i 可用可不用</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">conditionFunc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">//4. 返回当前数据 this[i]</span>
+      <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 5. 这里来定义条件方法是什么</span>
+<span class="token keyword">var</span> ret <span class="token operator">=</span> users<span class="token punctuation">.</span><span class="token function">myFind</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>item<span class="token punctuation">,</span> index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> item<span class="token punctuation">.</span>id <span class="token operator">===</span> <span class="token number">2</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>ret<span class="token punctuation">)</span>   <span class="token comment">//输出 ：  {id: 2, name: '张三'}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,174 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript学习（四）String、parseInt()、parseFloat、isNaN() 、toFixed()</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">JavaScript学习（四）String、parseInt()、parseFloat、isNaN() 、toFixed()</h2>
+  <div class="stackedit__html"><h5><a id="1__0"></a>1. 特殊字符</h5>
+<blockquote>
+<p>反斜杠是一个转义字符。 转义字符将特殊字符转换为字符串字符：<br>
+转义字符 (<code>\</code>) 可以用于转义撇号，换行，引号，等其他特殊字符。<br>
+下表中列举了在字符串中可以使用转义字符转义的特殊字符<img src="https://img-blog.csdnimg.cn/20190403144153976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token comment">// 反斜杠是转义字符 可用于引号,括号,反斜线等特殊字符的转义</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hell\"o\"\n world"</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">//输出 hell"o" world</span>
+</code></pre>
+<h5><a id="2_String_10"></a>2. 创建String对象</h5>
+<pre><code class="prism language-javascript">	<span class="token comment">// 创建字符串</span>
+    <span class="token comment">//注意 str3 是一个字符串对象 而str、str2是一字符串</span>
+    <span class="token comment">//str 不等于 str1、str2</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello world"</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> str2 <span class="token operator">=</span> <span class="token string">'hello world'</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> str3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">"hello world"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// string</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token keyword">typeof</span><span class="token punctuation">(</span>str3<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// object</span>
+</code></pre>
+<h5><a id="3_String_21"></a>3. String属性</h5>
+<p><a href="http://www.runoob.com/jsref/jsref-obj-string.html">全部属性手册</a><br>
+<img src="https://img-blog.csdnimg.cn/2019040314421950.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>示例讲解:</li>
+</ul>
+<pre><code class="prism language-javascript"><span class="token comment">// str.length 字符串长度</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"今天是双十一购物节!"</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> str<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出 10</span>
+
+    <span class="token comment">//返回在指定位置的字符。</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"今天是双十一购物节df!"</span><span class="token punctuation">;</span>
+    <span class="token comment">// 0 1 2 3 4 5 6 7 8 9</span>
+    <span class="token keyword">var</span> a <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">charAt</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// 输出 d</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+
+    <span class="token comment">//indexOf 	检索字符串</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello world"</span><span class="token punctuation">;</span>
+    <span class="token comment">//012345678910</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">"l"</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出 3</span>
+    <span class="token comment">//查找 变量 str 里字符串中 l 从第四个索引向后查找 第一次出现的l 所对应的索引</span>
+
+
+    <span class="token comment">//lastIndexOf() 从后向前搜索字符串</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello world"</span><span class="token punctuation">;</span>
+    <span class="token comment">//012345678910</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">lastIndexOf</span><span class="token punctuation">(</span><span class="token string">"l"</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出 3</span>
+
+
+    <span class="token comment">//subsrtring() 提取字符串中两个指定的索引号之间的字符,截取字符串</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"今天是双十一购物节，也是光棍儿节！"</span><span class="token punctuation">;</span>
+    <span class="token comment">//0 1 23 4 5 6 78 9 10111213141516</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">substring</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出：  天</span>
+    <span class="token comment">//substring(起始索引,结束索引)</span>
+    <span class="token comment">//返回位于指定索引index1和index2之间的字符串，</span>
+    <span class="token comment">//包含小的索引对应的字符，</span>
+    <span class="token comment">//不包含大的索引对应的字符</span>
+
+
+    <span class="token comment">//substr() 从起始索引号提取字符串中指定数目的字符,截取字符串</span>
+    <span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"今天是双十一购物节，也是光棍儿节！"</span><span class="token punctuation">;</span>
+    <span class="token comment">// 0 1 2 3 4 5 6 7 8</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//双十一购物节</span>
+    <span class="token comment">//substr(起始索引,指定数目)</span>
+    <span class="token comment">//从起始索引号提取字符串中指定数目的字符</span>
+    <span class="token comment">//从指定的索引开始向后截取指定数目的字符（包含起始索引）</span>
+</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20190403144317866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+示例讲解：</p>
+<pre><code class="prism language-javascript">	<span class="token comment">//toUpperCase 把字符串转换为大写</span>
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello world!"</span><span class="token punctuation">;</span> 
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">toUpperCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出：HELLO WORLD!</span>
+	
+	
+	<span class="token comment">//toLowerCase 把字符串转换为小写</span>
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"HELLO WORLD!"</span><span class="token punctuation">;</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">toLowerCase</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出：hello world!</span>
+
+	
+	<span class="token comment">//split("分割符") 将字符串转换为数组</span>
+	<span class="token comment">// 分割符可以为任意符号</span>
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"昨天+今天+明天+后天+大后天+老外后天"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> str2 <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">"+"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str2<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出： 明天</span>
+
+
+	<span class="token comment">/*
+	replace("查找的字符","要替换的字符")
+	用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。
+	*/</span>
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"有人在广场上练法轮功！法轮功害人害己！"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> str2 <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token string">"法轮功"</span><span class="token punctuation">,</span><span class="token string">"***"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出： 有人在广场上练***！法轮功害人害己！</span>
+
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"有人在广场上练法轮功！法轮功害人害己！"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> str2 <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/法轮功/g</span><span class="token punctuation">,</span><span class="token string">"***"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//这里使用正则方式全局过滤</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出： 有人在广场上练***！***害人害己！</span>
+
+	<span class="token keyword">var</span> str3 <span class="token operator">=</span> <span class="token string">"hello WORLD world! w----"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> str4 <span class="token operator">=</span> str3<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span><span class="token regex">/world/gi</span><span class="token punctuation">,</span><span class="token string">"kitty"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//全局过滤不分大小写</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str4<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出： hello kitty kitty! w</span>
+
+	
+	<span class="token comment">//concat() 连接字符串 括号中可能通过","拼接n个字符串</span>
+	<span class="token keyword">var</span> str1 <span class="token operator">=</span><span class="token string">"今天"</span><span class="token punctuation">;</span> 
+	<span class="token keyword">var</span> str2 <span class="token operator">=</span><span class="token string">"明天"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> str3 <span class="token operator">=</span><span class="token string">"后天"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> strn <span class="token operator">=</span> str1<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>str2<span class="token punctuation">,</span>str3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>strn<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出：今天明天后天</span>
+
+	
+	<span class="token comment">//trim() 移除字符串首尾空白</span>
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">" hello "</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> str2 <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">trim</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span>str2<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//输出(去掉空白的)：hello</span>
+</code></pre>
+<h5><a id="4_parseIntparseFloat_119"></a>4. parseInt()、parseFloat</h5>
+<blockquote>
+<p><code>parseInt()</code> 函数可解析一个字符串，并返回一个<code>整数</code><br>
+示例：</p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token comment">// NaN not a number</span>
+	<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">;</span>  <span class="token comment">//  parseInt 结果是 10</span>
+	<span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token string">"10.6"</span><span class="token punctuation">;</span><span class="token comment">//  parseInt 结果是 10</span>
+	<span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token string">"10a"</span><span class="token punctuation">;</span> <span class="token comment">//  parseInt 结果是 10</span>
+	<span class="token keyword">var</span> d <span class="token operator">=</span> <span class="token string">"a10"</span><span class="token punctuation">;</span> <span class="token comment">//  parseInt 结果是 NaN</span>
+	<span class="token keyword">var</span> e <span class="token operator">=</span> <span class="token string">" 10 "</span><span class="token punctuation">;</span><span class="token comment">//  parseInt 结果是 10</span>
+</code></pre>
+<blockquote>
+<p><code>parseFloat()</code> 函数可解析一个字符串，并返回一个<code>浮点数</code></p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">"10"</span><span class="token punctuation">;</span>    <span class="token comment">//  parseInt 结果是  10</span>
+	<span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token string">"10.6"</span><span class="token punctuation">;</span>  <span class="token comment">//  parseInt 结果是  10.6</span>
+	<span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token string">"10.6a"</span><span class="token punctuation">;</span> <span class="token comment">//  parseInt 结果是  10.6 </span>
+	<span class="token keyword">var</span> d <span class="token operator">=</span> <span class="token string">"a10.6"</span><span class="token punctuation">;</span> <span class="token comment">//  parseInt 结果是  NaN</span>
+	<span class="token keyword">var</span> e <span class="token operator">=</span> <span class="token string">" 10.6 "</span><span class="token punctuation">;</span><span class="token comment">//  parseInt 结果是  10.6</span>
+</code></pre>
+<h5><a id="5_isNaN_toFixed_138"></a>5. isNaN() 、toFixed()</h5>
+<blockquote>
+<p><code>isNaN()</code> 用于检测参数是否是非数字。非数字 只比较值 不比较数据类型（isNaN  is not a number）</p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token comment">// 非（不）是数字  真 true</span>
+	<span class="token comment">// 是数字		  假  false</span>
+	<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">"10.6"</span><span class="token punctuation">;</span>    <span class="token comment">//isNaN() 结果是 false</span>
+	<span class="token keyword">var</span> b <span class="token operator">=</span>   <span class="token number">10.6</span><span class="token punctuation">;</span>    <span class="token comment">//isNaN() 结果是 false</span>
+	<span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token string">"10.6a"</span><span class="token punctuation">;</span>   <span class="token comment">//isNaN() 结果是 true </span>
+	<span class="token keyword">var</span> str <span class="token operator">=</span> <span class="token string">"hello"</span><span class="token punctuation">;</span> <span class="token comment">//isNaN() 结果是 true</span>
+</code></pre>
+<blockquote>
+<p><code>toFixed(保留几位小数)</code> 函数 可以处理js计算的精度问题</p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token string">"0.11"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> b <span class="token operator">=</span> <span class="token string">"0.2801"</span><span class="token punctuation">;</span>
+	<span class="token keyword">var</span> c <span class="token operator">=</span> <span class="token string">"1.002"</span><span class="token punctuation">;</span>
+	document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token function">parseFloat</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">parseFloat</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token operator">+</span><span class="token function">parseFloat</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toFixed</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//输出： 1.392 </span>
+</code></pre>
+</div>
+</body>
+
+</html>

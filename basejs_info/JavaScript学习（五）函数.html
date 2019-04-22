@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript学习（五）函数</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">JavaScript学习（五）函数</h2>
+  <div class="stackedit__html"><h5><a id="1_0"></a>1.函数概念</h5>
+<blockquote>
+<p>函数是由<code>事件驱动</code>的或者当它被调用时执行的<code>可重复</code>使用的<code>代码块</code></p>
+</blockquote>
+<h5><a id="2_2"></a>2.函数语法</h5>
+<blockquote>
+<p>函数就是包裹在花括号中的代码块，前面使用了关键词 function：</p>
+</blockquote>
+<ul>
+<li>语法：</li>
+</ul>
+<blockquote>
+<p><code>function functionname(){ 这里是要执行的代码 }</code><br>
+<img src="https://img-blog.csdnimg.cn/20190403160917163.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+<h5><a id="3__8"></a>3. 自定义函数类型</h5>
+<ol>
+<li>无参数 无返回值 函数</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">//定义函数</span>
+	<span class="token keyword">function</span> <span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"hello world!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//调用函数</span>
+	<span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol start="2">
+<li>有参数 无返回值 函数
+<blockquote>
+<p>形参:  函数定义时填写的参数<br>
+实参:  函数调用时传入的参数<br>
+注意：</p>
+<blockquote>
+<p>参数在传递时，其<code>顺序必须一致</code>,参数的个数可以为<code>任意多</code>，每个参数通过<code>逗号</code>隔开<br>
+通过传递参数的个数以及参数的类型不同完成不同的功能</p>
+</blockquote>
+</blockquote>
+</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">//定义函数</span>
+	<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">)</span><span class="token punctuation">{</span><span class="token comment">//形参</span>
+		<span class="token function">alert</span><span class="token punctuation">(</span>x<span class="token operator">+</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//调用函数</span>
+	<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol start="3">
+<li>无参数 有返回值 函数
+<blockquote>
+<p><code>return</code> 的作用<br>
+1. 返回值 到函数体<br>
+2. 终止代码<br>
+3. 只是返回值 并没有输出的功能</p>
+</blockquote>
+</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">//定义函数</span>
+	<span class="token keyword">function</span> <span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token keyword">var</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+ 		<span class="token keyword">return</span> a<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//调用函数</span>
+	 <span class="token function">sayHi</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol start="4">
+<li>有参数 有返回值 函数</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">//定义函数</span>
+	<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token keyword">return</span> i<span class="token operator">+</span>j<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//调用函数</span>
+	<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<ol start="5">
+<li>匿名函数（通过表达式定义的函数）
+<blockquote>
+<p>函数存储在变量中不需要名字，通常通过变量来调用</p>
+</blockquote>
+</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">//匿名函数</span>
+	<span class="token keyword">var</span> <span class="token function-variable function">x</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>a<span class="token punctuation">,</span>b<span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token keyword">return</span> a<span class="token operator">*</span>b<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token keyword">var</span> y <span class="token operator">=</span> <span class="token function">x</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token function">alert</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+</code></pre>
+<h5><a id="4_67"></a>4.函数调用</h5>
+<ul>
+<li>除<code>自调用匿名函数外,</code>函数定义好之后不能自动执行,  需要<code>调用</code>后执行。</li>
+</ul>
+<blockquote>
+<p>可以再<code>&lt;script&gt;</code>标签内调用<br>
+也可以在<code>HTML</code>文件中调用</p>
+</blockquote>
+<ul>
+<li>html中调用示例</li>
+</ul>
+<pre><code class="prism language-html">	<span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+		<span class="token comment">&lt;!--这里定义一个 onclick时间 点击按钮时发送一个事件 其中person这里就是下面js的方法体--&gt;</span>
+		 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>person(<span class="token punctuation">'</span>王强<span class="token punctuation">'</span>,20,<span class="token punctuation">'</span>男<span class="token punctuation">'</span>)<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>按钮<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+	
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+			<span class="token comment">// + 号在这里就是前面所说的连接符的作用</span>
+			<span class="token comment">//接受上面传过来的三个参数</span>
+			<span class="token keyword">function</span> <span class="token function">person</span><span class="token punctuation">(</span>name<span class="token punctuation">,</span>age<span class="token punctuation">,</span>sex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'用户名：'</span><span class="token operator">+</span>name<span class="token punctuation">)</span><span class="token comment">// 用户名：王强</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'用户年龄：'</span><span class="token operator">+</span>age<span class="token punctuation">)</span> <span class="token comment">// 用户年龄：20</span>
+				console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'用户性别：'</span><span class="token operator">+</span>sex<span class="token punctuation">)</span><span class="token comment">// 用户性别：男</span>
+	        <span class="token punctuation">}</span>
+		</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<ul>
+<li><code>script</code>	中调用函数比较简单</li>
+</ul>
+<pre><code class="prism language-javascript">	<span class="token comment">//定义函数</span>
+	<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token keyword">return</span> i<span class="token operator">+</span>j<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//调用函数</span>
+	<span class="token function">sum</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h5><a id="5_105"></a>5.局部变量、全局变量</h5>
+<blockquote>
+<p>在函数体内声明的变量，只能在当前函数中使用</p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span>x<span class="token punctuation">,</span>y<span class="token punctuation">)</span><span class="token punctuation">{</span>
+		<span class="token comment">//这个就是局部变量</span>
+		<span class="token keyword">var</span> z <span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">;</span>
+		<span class="token keyword">return</span> x<span class="token operator">+</span>y<span class="token operator">+</span>z<span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//外面不能调用 z</span>
+	<span class="token comment">//如果外面也定义 var z 那么那是一个新的数据</span>
+</code></pre>
+<blockquote>
+<p>全局变量在任何地方都可以使用</p>
+<blockquote>
+<p>全局变量声明方式：<br>
+在<code>函数外</code>直接写 a = 10;<br>
+在<code>函数内</code>直接写 a = 10;</p>
+</blockquote>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token comment">//函数内: 声明全局变量需要调用后才能使用</span>
+	<span class="token keyword">function</span> <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token comment">//1. 不使用关键字定义</span>
+		a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+		<span class="token comment">//2. 使用window关键字定义,这种方式放在那里都是全局变量</span>
+		window<span class="token punctuation">.</span>b <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// *必须调用函数</span>
+    <span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>b<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">//函数外: 像普通变量一样定义</span>
+	<span class="token keyword">var</span> a <span class="token operator">=</span><span class="token number">10</span><span class="token punctuation">;</span>
+	<span class="token keyword">function</span> <span class="token function">sum2</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+		<span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// *必须调用函数</span>
+    <span class="token function">sum2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mysql查询原理、计算属性理解</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Mysql查询原理、计算属性理解</h2>
+  <div class="stackedit__html"><p>例如下面的是<code>user</code>表：如果执行		<code>SELECT username,age FROM user WHERE uid=2</code></p>
+<blockquote>
+<p>mysql的查询原理应该是什么样的呢?</p>
+</blockquote>
+<pre><code class="prism language-sql"><span class="token operator">|</span>   uid	  <span class="token operator">|</span> username<span class="token operator">|</span>   age	  <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token comment">---------|-------- |-------- |</span>
+<span class="token operator">|</span>    <span class="token number">1</span>    <span class="token operator">|</span>   张三 	<span class="token operator">|</span>	<span class="token number">62</span>	  <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token comment">---------|-------- |-------- |</span>
+<span class="token operator">|</span>    <span class="token number">2</span>    <span class="token operator">|</span>   李四 	<span class="token operator">|</span>	<span class="token number">34</span>	  <span class="token operator">|</span>
+<span class="token operator">|</span><span class="token comment">---------|-------- |-------- |</span>
+<span class="token operator">|</span>    <span class="token number">3</span>    <span class="token operator">|</span>   王五 	<span class="token operator">|</span>	<span class="token number">23</span>	  <span class="token operator">|</span>
+</code></pre>
+<blockquote>
+<p>查询把列当做变量 例子中使用变量<code>uid</code> 操作查询, 结果为真取出表内数据</p>
+</blockquote>
+<p>mysql的查询过程原理：</p>
+<ul>
+<li>列是变量,变量可以计算。 WHERE是表达式,值为真假。</li>
+</ul>
+<p>同样如果执行   <code>SELECT * FROM user WHERE 1</code> 是什么结果呢?</p>
+<blockquote>
+<p>根据以上原理把所有列作为变量传入结果都为真,因为<code>1</code> 的结果恒为真所以取出所有数据</p>
+</blockquote>
+<p>所以   <code>SELECT * FROM user WHERE 0</code> 的结果为为假无数据取出</p>
+<p>变量计算如何操作呢?</p>
+<ul>
+<li>执行以下sql<br>
+<code>SELECT username,age+1 FROM user</code><br>
+结果为：</li>
+</ul>
+<pre><code class="prism language-sql">	<span class="token operator">|</span>   uid	  <span class="token operator">|</span> username<span class="token operator">|</span>   age	  <span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |-------- |</span>
+	<span class="token operator">|</span>    <span class="token number">1</span>    <span class="token operator">|</span>   张三 	<span class="token operator">|</span>	<span class="token number">63</span>	  <span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |-------- |</span>
+	<span class="token operator">|</span>    <span class="token number">2</span>    <span class="token operator">|</span>   李四 	<span class="token operator">|</span>	<span class="token number">35</span>	  <span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |-------- |</span>
+	<span class="token operator">|</span>    <span class="token number">3</span>    <span class="token operator">|</span>   王五 	<span class="token operator">|</span>	<span class="token number">24</span>	  <span class="token operator">|</span>
+</code></pre>
+<p>得出结果所有的<code>age</code>列数据都<code>+1</code></p>
+<p>比如：如下<code>goods</code>表,我想知道我们店铺手机销售价比市场价低多少?  下面我用<code>计算方式</code>查询数据。</p>
+<pre><code class="prism language-sql">	<span class="token operator">|</span>   gid	  <span class="token operator">|</span> g_name	<span class="token operator">|</span>shop_price<span class="token operator">|</span>market_price<span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |----------|------------|</span>
+	<span class="token operator">|</span>    <span class="token number">1</span>    <span class="token operator">|</span> 三星<span class="token number">2019</span> <span class="token operator">|</span>	<span class="token number">11112</span>  <span class="token operator">|</span>   <span class="token number">12111</span>	<span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |----------|------------|</span>
+	<span class="token operator">|</span>    <span class="token number">2</span>    <span class="token operator">|</span>  ipone8 <span class="token operator">|</span>	<span class="token number">6668</span>   <span class="token operator">|</span>   <span class="token number">6999</span>		<span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |----------|------------|</span>
+	<span class="token operator">|</span>    <span class="token number">3</span>    <span class="token operator">|</span> 华为Note <span class="token operator">|</span>	<span class="token number">6666</span>   <span class="token operator">|</span>   <span class="token number">7100</span>		<span class="token operator">|</span>
+</code></pre>
+<p>执行<code>sql</code> ：</p>
+<pre><code class="prism language-sql">   <span class="token keyword">SELECT</span> gid<span class="token punctuation">,</span>g_name<span class="token punctuation">,</span>market_price<span class="token punctuation">,</span>shop_price<span class="token punctuation">,</span>market_price<span class="token operator">-</span>shop_price <span class="token keyword">FROM</span> goods
+</code></pre>
+<p>查询结果如下：</p>
+<pre><code class="prism language-sql">	<span class="token operator">|</span>   gid	  <span class="token operator">|</span> g_name	<span class="token operator">|</span>shop_price<span class="token operator">|</span>market_price<span class="token operator">|</span>market_price<span class="token operator">-</span>shop_price<span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |----------|------------|-----------------------|</span>
+	<span class="token operator">|</span>    <span class="token number">1</span>    <span class="token operator">|</span> 三星<span class="token number">2019</span> <span class="token operator">|</span>	<span class="token number">11112</span>  <span class="token operator">|</span>   <span class="token number">12111</span>	<span class="token operator">|</span>		<span class="token number">999</span>				<span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |----------|------------|-----------------------|	</span>
+	<span class="token operator">|</span>    <span class="token number">2</span>    <span class="token operator">|</span>  ipone8 <span class="token operator">|</span>	<span class="token number">6668</span>   <span class="token operator">|</span>   <span class="token number">6999</span>		<span class="token operator">|</span>		<span class="token number">331</span>				<span class="token operator">|</span>
+	<span class="token operator">|</span><span class="token comment">---------|-------- |----------|------------|-----------------------|</span>
+	<span class="token operator">|</span>    <span class="token number">3</span>    <span class="token operator">|</span> 华为Note <span class="token operator">|</span>	<span class="token number">6666</span>   <span class="token operator">|</span>   <span class="token number">7100</span>		<span class="token operator">|</span>		<span class="token number">434</span>				<span class="token operator">|</span>
+</code></pre>
+</div>
+</body>
+
+</html>

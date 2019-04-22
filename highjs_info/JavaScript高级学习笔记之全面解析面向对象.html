@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript高级学习笔记之全面解析面向对象</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">JavaScript高级学习笔记之全面解析面向对象</h2>
+  <div class="stackedit__html"><h4><a id="_1"></a>什么是面向对象</h4>
+<blockquote>
+<p>面向对象不是新的东西，它只是过程式代码的一种高度封装，目的在于提高代码的开发效率和可维护性。</p>
+</blockquote>
+<p>面向对象编程 —— Object Oriented Programming，简称 OOP ，是一种编程开发思想。<br>
+它将真实世界各种复杂的关系，抽象为一个个对象，然后由对象之间的分工与合作，完成对真实世界的模拟。</p>
+<p>在面向对象程序开发思想中，每一个对象都是功能中心，具有明确分工，可以完成接受信息、处理数据、发出信息等任务。<br>
+因此，面向对象编程具有灵活、代码可复用、高度模块化等特点，容易维护和开发，比起由一系列函数或指令组成的传统的过程式编程（procedural programming），更适合多人合作的大型软件项目。</p>
+<p>面向对象与面向过程：</p>
+<ul>
+<li>面向过程就是亲力亲为，事无巨细，面面俱到，步步紧跟，有条不紊</li>
+<li>面向对象就是找一个对象，指挥得结果</li>
+<li>面向对象将执行者转变成指挥者</li>
+<li>面向对象不是面向过程的替代，而是面向过程的封装</li>
+</ul>
+<p>面向对象的特性：</p>
+<ul>
+<li>封装性</li>
+<li>继承性</li>
+<li>[多态性]</li>
+</ul>
+<p>扩展阅读：</p>
+<ul>
+<li><a href="https://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1">维基百科 - 面向对象程序设计</a></li>
+<li><a href="https://www.zhihu.com/question/19854505">知乎：如何用一句话说明什么是面向对象思想？</a></li>
+<li><a href="https://www.zhihu.com/question/31021366">知乎：什么是面向对象编程思想？</a></li>
+</ul>
+<h4><a id="_31"></a>程序中面向对象的基本体现</h4>
+<p>在 JavaScript 中，所有数据类型都可以视为对象，当然也可以自定义对象。<br>
+自定义的对象数据类型就是面向对象中的类（ Class ）的概念。</p>
+<p>我们以一个例子来说明面向过程和面向对象在程序流程上的不同之处。</p>
+<p>假设我们要处理学生的成绩表，为了表示一个学生的成绩，面向过程的程序可以用一个对象表示：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> std1 <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Michael'</span><span class="token punctuation">,</span> score<span class="token punctuation">:</span> <span class="token number">98</span> <span class="token punctuation">}</span>
+<span class="token keyword">var</span> std2 <span class="token operator">=</span> <span class="token punctuation">{</span> name<span class="token punctuation">:</span> <span class="token string">'Bob'</span><span class="token punctuation">,</span> score<span class="token punctuation">:</span> <span class="token number">81</span> <span class="token punctuation">}</span>
+</code></pre>
+<p>而处理学生成绩可以通过函数实现，比如打印学生的成绩：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function">printScore</span> <span class="token punctuation">(</span>student<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'姓名：'</span> <span class="token operator">+</span> student<span class="token punctuation">.</span>name <span class="token operator">+</span> <span class="token string">'  '</span> <span class="token operator">+</span> <span class="token string">'成绩：'</span> <span class="token operator">+</span> student<span class="token punctuation">.</span>score<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>如果采用面向对象的程序设计思想，我们首选思考的不是程序的执行流程，<br>
+而是 <code>Student</code> 这种数据类型应该被视为一个对象，这个对象拥有 <code>name</code> 和 <code>score</code> 这两个属性（Property）。<br>
+如果要打印一个学生的成绩，首先必须创建出这个学生对应的对象，然后，给对象发一个 <code>printScore</code> 消息，让对象自己把自己的数据打印出来。</p>
+<p>抽象数据行为模板（Class）：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function">Student</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> score<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+  <span class="token keyword">this</span><span class="token punctuation">.</span>score <span class="token operator">=</span> score
+<span class="token punctuation">}</span>
+
+Student<span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function-variable function">printScore</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'姓名：'</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">+</span> <span class="token string">'  '</span> <span class="token operator">+</span> <span class="token string">'成绩：'</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>score<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>根据模板创建具体实例对象（Instance）：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> std1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">'Michael'</span><span class="token punctuation">,</span> <span class="token number">98</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> std2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Student</span><span class="token punctuation">(</span><span class="token string">'Bob'</span><span class="token punctuation">,</span> <span class="token number">81</span><span class="token punctuation">)</span>
+</code></pre>
+<p>实例对象具有自己的具体行为（给对象发消息）：</p>
+<pre><code class="prism language-javascript">std1<span class="token punctuation">.</span><span class="token function">printScore</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// =&gt; 姓名：Michael  成绩：98</span>
+std2<span class="token punctuation">.</span><span class="token function">printScore</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// =&gt; 姓名：Bob  成绩 81</span>
+</code></pre>
+<p>面向对象的设计思想是从自然界中来的，因为在自然界中，类（Class）和实例（Instance）的概念是很自然的。<br>
+Class 是一种抽象概念，比如我们定义的 Class——Student ，是指学生这个概念，<br>
+而实例（Instance）则是一个个具体的 Student ，比如， Michael 和 Bob 是两个具体的 Student 。</p>
+<p>所以，面向对象的设计思想是：</p>
+<ul>
+<li>抽象出 Class</li>
+<li>根据 Class 创建 Instance</li>
+<li>指挥 Instance 得结果</li>
+</ul>
+<p>面向对象的抽象程度又比函数要高，因为一个 Class 既包含数据，又包含操作数据的方法。</p>
+<h3><a id="_95"></a>创建对象</h3>
+<h4><a id="_97"></a>简单方式</h4>
+<p>我们可以直接通过 <code>new Object()</code> 创建：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> person <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+person<span class="token punctuation">.</span>name <span class="token operator">=</span> <span class="token string">'Jack'</span>
+person<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">18</span>
+
+person<span class="token punctuation">.</span><span class="token function-variable function">sayName</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>每次创建通过 <code>new Object()</code> 比较麻烦，所以可以通过它的简写形式对象字面量来创建：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> person <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Jack'</span><span class="token punctuation">,</span>
+  age<span class="token punctuation">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+  sayName<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>对于上面的写法固然没有问题，但是假如我们要生成两个 <code>person</code> 实例对象呢？</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> person1 <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Jack'</span><span class="token punctuation">,</span>
+  age<span class="token punctuation">:</span> <span class="token number">18</span><span class="token punctuation">,</span>
+  sayName<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> person2 <span class="token operator">=</span> <span class="token punctuation">{</span>
+  name<span class="token punctuation">:</span> <span class="token string">'Mike'</span><span class="token punctuation">,</span>
+  age<span class="token punctuation">:</span> <span class="token number">16</span><span class="token punctuation">,</span>
+  sayName<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>通过上面的代码我们不难看出，这样写的代码太过冗余，重复性太高。</p>
+<h4><a id="_145"></a>简单方式的改进：工厂函数</h4>
+<p>我们可以写一个函数，解决代码重复问题：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function">createPerson</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    name<span class="token punctuation">:</span> name<span class="token punctuation">,</span>
+    age<span class="token punctuation">:</span> age<span class="token punctuation">,</span>
+    sayName<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>然后生成实例对象：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> p1 <span class="token operator">=</span> <span class="token function">createPerson</span><span class="token punctuation">(</span><span class="token string">'Jack'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> p2 <span class="token operator">=</span> <span class="token function">createPerson</span><span class="token punctuation">(</span><span class="token string">'Mike'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span>
+</code></pre>
+<p>这样封装确实爽多了，通过工厂模式我们解决了创建多个相似对象代码冗余的问题，<br>
+但却没有解决对象识别的问题（即怎样知道一个对象的类型）。</p>
+<h3><a id="_171"></a>构造函数</h3>
+<p>内容引导：</p>
+<ul>
+<li>构造函数语法</li>
+<li>分析构造函数</li>
+<li>构造函数和实例对象的关系
+<ul>
+<li>实例的 constructor 属性</li>
+<li>instanceof 操作符</li>
+</ul>
+</li>
+<li>普通函数调用和构造函数调用的区别</li>
+<li>构造函数的返回值</li>
+<li>构造函数的静态成员和实例成员
+<ul>
+<li>函数也是对象</li>
+<li>实例成员</li>
+<li>静态成员</li>
+</ul>
+</li>
+<li>构造函数的问题</li>
+</ul>
+<h4><a id="_188"></a>更优雅的工厂函数：构造函数</h4>
+<p>一种更优雅的工厂函数就是下面这样，构造函数：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function">Person</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function-variable function">sayName</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> p1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'Jack'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span>
+p1<span class="token punctuation">.</span><span class="token function">sayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// =&gt; Jack</span>
+
+<span class="token keyword">var</span> p2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'Mike'</span><span class="token punctuation">,</span> <span class="token number">23</span><span class="token punctuation">)</span>
+p2<span class="token punctuation">.</span><span class="token function">sayName</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// =&gt; Mike</span>
+</code></pre>
+<h4><a id="_208"></a>解析构造函数代码的执行</h4>
+<p>在上面的示例中，<code>Person()</code> 函数取代了 <code>createPerson()</code> 函数，但是实现效果是一样的。<br>
+这是为什么呢？</p>
+<p>我们注意到，<code>Person()</code> 中的代码与 <code>createPerson()</code> 有以下几点不同之处：</p>
+<ul>
+<li>没有显示的创建对象</li>
+<li>直接将属性和方法赋给了 <code>this</code> 对象</li>
+<li>没有 <code>return</code> 语句</li>
+<li>函数名使用的是大写的 <code>Person</code></li>
+</ul>
+<p>而要创建 <code>Person</code> 实例，则必须使用 <code>new</code> 操作符。<br>
+以这种方式调用构造函数会经历以下 4 个步骤：</p>
+<ol>
+<li>创建一个新对象</li>
+<li>将构造函数的作用域赋给新对象（因此 this 就指向了这个新对象）</li>
+<li>执行构造函数中的代码</li>
+<li>返回新对象</li>
+</ol>
+<p>下面是具体的伪代码：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function">Person</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 当使用 new 操作符调用 Person() 的时候，实际上这里会先创建一个对象</span>
+  <span class="token comment">// var instance = {}</span>
+  <span class="token comment">// 然后让内部的 this 指向 instance 对象</span>
+  <span class="token comment">// this = instance</span>
+  <span class="token comment">// 接下来所有针对 this 的操作实际上操作的就是 instance</span>
+
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function-variable function">sayName</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 在函数的结尾处会将 this 返回，也就是 instance</span>
+  <span class="token comment">// return this</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h4><a id="_249"></a>构造函数和实例对象的关系</h4>
+<p>使用构造函数的好处不仅仅在于代码的简洁性，更重要的是我们可以识别对象的具体类型了。<br>
+在每一个实例对象中的__proto__中同时有一个 <code>constructor</code> 属性，该属性指向创建该实例的构造函数：</p>
+<pre><code class="prism language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>constructor <span class="token operator">===</span> Person<span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p2<span class="token punctuation">.</span>constructor <span class="token operator">===</span> Person<span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>constructor <span class="token operator">===</span> p2<span class="token punctuation">.</span>constructor<span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+</code></pre>
+<p>对象的 <code>constructor</code> 属性最初是用来标识对象类型的，<br>
+但是，如果要检测对象的类型，还是使用 <code>instanceof</code> 操作符更可靠一些：</p>
+<pre><code class="prism language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1 <span class="token keyword">instanceof</span> <span class="token class-name">Person</span><span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p2 <span class="token keyword">instanceof</span> <span class="token class-name">Person</span><span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+</code></pre>
+<p>总结：</p>
+<ul>
+<li>构造函数是根据具体的事物抽象出来的抽象模板</li>
+<li>实例对象是根据抽象的构造函数模板得到的具体实例对象</li>
+<li>每一个实例对象都具有一个 <code>constructor</code> 属性，指向创建该实例的构造函数
+<ul>
+<li>注意： <code>constructor</code> 是实例的属性的说法不严谨，具体后面的原型会讲到</li>
+</ul>
+</li>
+<li>可以通过实例的 <code>constructor</code> 属性判断实例和构造函数之间的关系
+<ul>
+<li>注意：这种方式不严谨，推荐使用 <code>instanceof</code> 操作符，后面学原型会解释为什么</li>
+</ul>
+</li>
+</ul>
+<h4><a id="_277"></a>构造函数的问题</h4>
+<p>使用构造函数带来的最大的好处就是创建对象更方便了，但是其本身也存在一个浪费内存的问题：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function">Person</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age
+  <span class="token keyword">this</span><span class="token punctuation">.</span>type <span class="token operator">=</span> <span class="token string">'human'</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function-variable function">sayHello</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'hello '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> p1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'lpz'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> p2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'Jack'</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+</code></pre>
+<p>在该示例中，从表面上好像没什么问题，但是实际上这样做，有一个很大的弊端。<br>
+那就是对于每一个实例对象，<code>type</code> 和 <code>sayHello</code> 都是一模一样的内容，<br>
+每一次生成一个实例，都必须为重复的内容，多占用一些内存，如果实例对象很多，会造成极大的内存浪费。</p>
+<pre><code class="prism language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>sayHello <span class="token operator">===</span> p2<span class="token punctuation">.</span>sayHello<span class="token punctuation">)</span> <span class="token comment">// =&gt; false</span>
+</code></pre>
+<p>对于这种问题我们可以把需要共享的函数定义到构造函数外部：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">function</span> <span class="token function-variable function">sayHello</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'hello '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">Person</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age
+  <span class="token keyword">this</span><span class="token punctuation">.</span>type <span class="token operator">=</span> <span class="token string">'human'</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>sayHello <span class="token operator">=</span> sayHello
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> p1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'lpz'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> p2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'Jack'</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>sayHello <span class="token operator">===</span> p2<span class="token punctuation">.</span>sayHello<span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+</code></pre>
+<p>这样确实可以了，但是如果有多个需要共享的函数的话就会造成全局命名空间冲突的问题。</p>
+<p>你肯定想到了可以把多个函数放到一个对象中用来避免全局命名空间冲突的问题：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> fns <span class="token operator">=</span> <span class="token punctuation">{</span>
+  sayHello<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'hello '</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  sayAge<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>age<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">Person</span> <span class="token punctuation">(</span>name<span class="token punctuation">,</span> age<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name
+  <span class="token keyword">this</span><span class="token punctuation">.</span>age <span class="token operator">=</span> age
+  <span class="token keyword">this</span><span class="token punctuation">.</span>type <span class="token operator">=</span> <span class="token string">'human'</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>sayHello <span class="token operator">=</span> fns<span class="token punctuation">.</span>sayHello
+  <span class="token keyword">this</span><span class="token punctuation">.</span>sayAge <span class="token operator">=</span> fns<span class="token punctuation">.</span>sayAge
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> p1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'lpz'</span><span class="token punctuation">,</span> <span class="token number">18</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> p2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token string">'Jack'</span><span class="token punctuation">,</span> <span class="token number">16</span><span class="token punctuation">)</span>
+
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>sayHello <span class="token operator">===</span> p2<span class="token punctuation">.</span>sayHello<span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>p1<span class="token punctuation">.</span>sayAge <span class="token operator">===</span> p2<span class="token punctuation">.</span>sayAge<span class="token punctuation">)</span> <span class="token comment">// =&gt; true</span>
+</code></pre>
+<p>至此，我们利用自己的方式基本上解决了构造函数的内存浪费问题。<br>
+但是代码看起来还是那么的格格不入，那有没有更好的方式呢？</p>
+<h4><a id="_355"></a>小结</h4>
+<ul>
+<li>构造函数语法</li>
+<li>分析构造函数</li>
+<li>构造函数和实例对象的关系
+<ul>
+<li>实例的 constructor 属性</li>
+<li>instanceof 操作符</li>
+</ul>
+</li>
+<li>构造函数的问题</li>
+</ul>
+</div>
+</body>
+
+</html>

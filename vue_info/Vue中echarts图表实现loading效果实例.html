@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue中echarts图表实现loading效果实例</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Vue中echarts图表实现loading效果实例</h2>
+  <div class="stackedit__html"><ol>
+<li>data() 初始化数据调用数据</li>
+<li>mounted() 周期函数内获取画布节点,并且调用加载loading和图表渲染</li>
+<li>computed计算属性内定义echarts渲染内容以及数据请求</li>
+<li>当服务器返回数据 hideLoading()</li>
+</ol>
+<p>注意：loading方法要定义在计算属性的get方法中,set可以不做任何定义。这样图表于loading样式在画布上不会冲突</p>
+<pre><code class="prism language-javascript">	<span class="token operator">&lt;</span>template<span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+	        <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"echarts-wrap"</span><span class="token operator">&gt;</span>
+	            <span class="token operator">&lt;</span>div id<span class="token operator">=</span><span class="token string">"dev-echarts"</span><span class="token operator">&gt;</span><span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	        <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">&gt;</span>
+	
+	<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+	    <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+	        name<span class="token punctuation">:</span> <span class="token string">"echarts"</span><span class="token punctuation">,</span>
+	        <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+	                one<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	                two<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	                three<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+	                four<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+	            <span class="token punctuation">}</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	        <span class="token function">mounted</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">this</span><span class="token punctuation">.</span>echartsG <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$echarts<span class="token punctuation">.</span><span class="token function">init</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'dev-echarts'</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'dark'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	            <span class="token keyword">this</span><span class="token punctuation">.</span>loading
+	            <span class="token keyword">this</span><span class="token punctuation">.</span>initDrawDevEchart
+	        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	        computed<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	            <span class="token function">initDrawDevEchart</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                <span class="token keyword">this</span><span class="token punctuation">.</span>$axios<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">"getEchartsUrl"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+	                    params<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                        id<span class="token punctuation">:</span> <span class="token number">1</span>
+	                    <span class="token punctuation">}</span>
+	                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>one<span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>one
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>two<span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>two
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>three<span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>three
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>xAxis<span class="token operator">=</span> response<span class="token punctuation">.</span>data<span class="token punctuation">.</span>xaxis
+	
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>echartsG<span class="token punctuation">.</span><span class="token function">hideLoading</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	                    <span class="token keyword">let</span> optionG <span class="token operator">=</span> <span class="token punctuation">{</span>
+	                        backgroundColor<span class="token punctuation">:</span> <span class="token string">'rgba(128, 128, 128, 0)'</span><span class="token punctuation">,</span>
+	                        title<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            text<span class="token punctuation">:</span> <span class="token string">'loading效果演示'</span><span class="token punctuation">,</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        dataZoom<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        tooltip<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            trigger<span class="token punctuation">:</span> <span class="token string">'axis'</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        legend<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'一'</span><span class="token punctuation">,</span> <span class="token string">'二'</span><span class="token punctuation">,</span> <span class="token string">'三'</span><span class="token punctuation">]</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        xAxis<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            type<span class="token punctuation">:</span> <span class="token string">'category'</span><span class="token punctuation">,</span>
+	                            <span class="token comment">// 调整柱状图位置</span>
+	                            boundaryGap<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+	                            data<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>xAxis
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        yAxis<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            type<span class="token punctuation">:</span> <span class="token string">'value'</span><span class="token punctuation">,</span>
+	                            axisLabel<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                                formatter<span class="token punctuation">:</span> <span class="token string">'{value}'</span>
+	                            <span class="token punctuation">}</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        series<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+	                            <span class="token punctuation">{</span>
+	                                name<span class="token punctuation">:</span> <span class="token string">'一'</span><span class="token punctuation">,</span>
+	                                type<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+	                                data<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>one<span class="token punctuation">,</span>
+	                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                            <span class="token punctuation">{</span>
+	                                name<span class="token punctuation">:</span> <span class="token string">'二'</span><span class="token punctuation">,</span>
+	                                type<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+	                                data<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>two
+	                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                            <span class="token punctuation">{</span>
+	                                name<span class="token punctuation">:</span> <span class="token string">'三'</span><span class="token punctuation">,</span>
+	                                type<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+	                                data<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>three
+	                            <span class="token punctuation">}</span>
+	                        <span class="token punctuation">]</span>
+	                    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>echartsG<span class="token punctuation">.</span><span class="token function">setOption</span><span class="token punctuation">(</span>optionG<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token keyword">catch</span><span class="token punctuation">(</span><span class="token punctuation">(</span>err <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	                    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>err<span class="token punctuation">)</span>
+	                <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	
+	            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	            loading<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                <span class="token keyword">get</span><span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>echartsG<span class="token punctuation">.</span><span class="token function">setOption</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	                        backgroundColor<span class="token punctuation">:</span> <span class="token string">'rgba(128, 128, 128, 0)'</span><span class="token punctuation">,</span>
+	                        legend<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'一'</span><span class="token punctuation">,</span> <span class="token string">'二'</span><span class="token punctuation">,</span> <span class="token string">'三'</span><span class="token punctuation">]</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        xAxis<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            type<span class="token punctuation">:</span> <span class="token string">'category'</span><span class="token punctuation">,</span>
+	                            boundaryGap<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+	                            data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        yAxis<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                            type<span class="token punctuation">:</span> <span class="token string">'value'</span><span class="token punctuation">,</span>
+	                            axisLabel<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	                                formatter<span class="token punctuation">:</span> <span class="token string">'{value}'</span>
+	                            <span class="token punctuation">}</span>
+	                        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                        series<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+	                            <span class="token punctuation">{</span>
+	                                name<span class="token punctuation">:</span> <span class="token string">'一'</span><span class="token punctuation">,</span>
+	                                type<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+	                                data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+	                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                            <span class="token punctuation">{</span>
+	                                name<span class="token punctuation">:</span> <span class="token string">'二'</span><span class="token punctuation">,</span>
+	                                type<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+	                                data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+	                            <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	
+	                            <span class="token punctuation">{</span>
+	                                name<span class="token punctuation">:</span> <span class="token string">'三'</span><span class="token punctuation">,</span>
+	                                type<span class="token punctuation">:</span> <span class="token string">'bar'</span><span class="token punctuation">,</span>
+	                                data<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+	                            <span class="token punctuation">}</span>
+	                        <span class="token punctuation">]</span>
+	
+	                    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                    <span class="token keyword">this</span><span class="token punctuation">.</span>echartsG<span class="token punctuation">.</span><span class="token function">showLoading</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	                        text<span class="token punctuation">:</span> <span class="token string">'统计中，请稍候...'</span>
+	                        <span class="token punctuation">,</span> maskColor<span class="token punctuation">:</span> <span class="token string">'rgba(3,3,8,0.5)'</span><span class="token punctuation">,</span>
+	                        textColor<span class="token punctuation">:</span> <span class="token string">'#fff600'</span>
+	                    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	                <span class="token keyword">set</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                <span class="token punctuation">}</span>
+	            <span class="token punctuation">}</span>
+	        <span class="token punctuation">}</span>
+	    <span class="token punctuation">}</span>
+<span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>	
+</code></pre>
+</div>
+</body>
+
+</html>

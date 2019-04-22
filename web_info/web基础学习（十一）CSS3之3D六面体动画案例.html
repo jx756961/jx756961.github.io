@@ -1,0 +1,256 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web基础学习（十一）CSS3之3D六面体动画案例</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">web基础学习（十一）CSS3之3D六面体动画案例</h2>
+  <div class="stackedit__html"><p><a href="https://blog.csdn.net/qq_39043923/article/details/88962900">上一节：CSS3之 @keyframes</a>——————<a href="https://blog.csdn.net/qq_39043923/article/details/88968703">下一节：CSS3之动画过渡实用案例</a></p>
+<blockquote>
+<p>3D动画中两个知识点：<code>perspective</code>、<code>transform-style</code></p>
+</blockquote>
+<h5><a id="perspective_2"></a>perspective</h5>
+<blockquote>
+<p><code>perspective</code> 属性定义 3D 元素<code>距视图的距离</code>，以像素计。该属性允许您改变 3D 元素查看 3D 元素的视图。<br>
+当为元素定义 perspective 属性时，其<code>子元素会获得透视效果</code>，而不是元素本身。</p>
+</blockquote>
+<ul>
+<li>注释：perspective 属性只影响 3D 转换元素。</li>
+</ul>
+<h5><a id="transformstyle_7"></a>transform-style</h5>
+<blockquote>
+<p><code>transform-style</code> 属性规定如何在 3D 空间中显示被嵌套的元素。</p>
+<blockquote>
+<p><code>flat</code> ：默认,子元素不显示3D位置, 看不到子元素<br>
+<code>preserve-3d</code>:子元素显示3D位置</p>
+</blockquote>
+</blockquote>
+<p>示例展示：<br>
+<img src="https://img-blog.csdnimg.cn/20190402104208931.gif" alt="在这里插入图片描述"></p>
+<pre><code class="prism language-html"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token style language-css">
+        <span class="token selector">html, body</span> <span class="token punctuation">{</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">body</span> <span class="token punctuation">{</span>
+            <span class="token property">background</span><span class="token punctuation">:</span> <span class="token function">linear-gradient</span><span class="token punctuation">(</span>orange, wheat<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.wrap</span> <span class="token punctuation">{</span>
+            <span class="token property">padding-top</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token comment">/*设置透视距离,不要太近*/</span>
+            <span class="token property">perspective</span><span class="token punctuation">:</span> 1000px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.cube</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 200px<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 0 auto<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+            <span class="token comment">/*3D效果下显示下面所有的元素*/</span>
+            <span class="token property">-webkit-transform-style</span><span class="token punctuation">:</span> preserve-3d<span class="token punctuation">;</span>
+            <span class="token property">-moz-transform-style</span><span class="token punctuation">:</span> preserve-3d<span class="token punctuation">;</span>
+            <span class="token property">-ms-transform-style</span><span class="token punctuation">:</span> preserve-3d<span class="token punctuation">;</span>
+            <span class="token property">transform-style</span><span class="token punctuation">:</span> preserve-3d<span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-30deg<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-70deg<span class="token punctuation">)</span> <span class="token function">rotateZ</span><span class="token punctuation">(</span>0deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">animation</span><span class="token punctuation">:</span> cubeRotate 10s linear infinite alternate<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*定义包裹元素旋转浏览器兼容模式 Safari 和 Chrome*/</span>
+        <span class="token atrule"><span class="token rule">@-webkit-keyframes</span> cubeRotate</span> <span class="token punctuation">{</span>
+            <span class="token selector">from</span> <span class="token punctuation">{</span>
+                <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>0deg<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>0deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token selector">to</span> <span class="token punctuation">{</span>
+                <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>360deg<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>360deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*定义包裹元素旋转*/</span>
+        <span class="token atrule"><span class="token rule">@keyframes</span> cubeRotate</span> <span class="token punctuation">{</span>
+            <span class="token selector">from</span> <span class="token punctuation">{</span>
+                <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>0deg<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>0deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token selector">to</span> <span class="token punctuation">{</span>
+                <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>360deg<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>360deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*定义外层元素综合属性*/</span>
+        <span class="token selector">.cube &gt; div</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 198px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 198px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> <span class="token function">rgba</span><span class="token punctuation">(</span>0, 0, 0, 0.3<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 1px solid #ccc<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 40px<span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">line-height</span><span class="token punctuation">:</span> 198px<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">transition</span><span class="token punctuation">:</span> all 0.3s ease<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/* 外层 元素位置定义,前后左右上下。*/</span>
+        <span class="token selector">.out-front</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.out-back</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.out-left</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.out-right</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.out-top</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.out-bottom</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>100px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*鼠标经过元素移动位置,前后左右上下*/</span>
+        <span class="token selector">.cube:hover .out-front</span> <span class="token punctuation">{</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>200px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.cube:hover .out-back</span> <span class="token punctuation">{</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-200px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.cube:hover .out-left</span> <span class="token punctuation">{</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-200px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.cube:hover .out-right</span> <span class="token punctuation">{</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>200px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.cube:hover .out-top</span> <span class="token punctuation">{</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-200px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.cube:hover .out-bottom</span> <span class="token punctuation">{</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>200px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*定义内层元素综合属性*/</span>
+        <span class="token selector">.cube span</span> <span class="token punctuation">{</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 98px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 98px<span class="token punctuation">;</span>
+            <span class="token property">opacity</span><span class="token punctuation">:</span> 0.5<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> pink<span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 1px solid orange<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/* 内层元素定义位置,前后左右上下 */</span>
+        <span class="token selector">.in-front</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.in-back</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateZ</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>180deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.in-left</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.in-right</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateX</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateY</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.in-top</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.in-bottom</span> <span class="token punctuation">{</span>
+            <span class="token property">-webkit-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-ms-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">-o-transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>50px<span class="token punctuation">)</span> <span class="token function">rotateX</span><span class="token punctuation">(</span>-90deg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">/*同样可以同时定义内层的鼠标经过属性这里大家自行发挥吧*/</span>
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>wrap<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>cube<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>out-front<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>前<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>out-back<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>后<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>out-left<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>左<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>out-right<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>右<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>out-top<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>顶<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>out-bottom<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>底<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>in-front<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>in-back<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>in-left<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>in-right<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>in-top<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>in-bottom<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div>
+</body>
+
+</html>

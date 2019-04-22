@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript学习（九） BOM浏览器对象</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">JavaScript学习（九） BOM浏览器对象</h2>
+  <div class="stackedit__html"><h5><a id="1_Window_0"></a>1. Window对象</h5>
+<blockquote>
+<p>window对象是BOM的核心，window对象指当前的浏览窗口所	有javaScript全局对象<br>
+函数外变量均自动成为window对象成员<br>
+全局变量是window对象的属性<br>
+全局函数是window对象的方法<br>
+甚至HTML DOM的document也是window对象的属性之一</p>
+</blockquote>
+<ol>
+<li><strong>尺寸及坐标</strong></li>
+</ol>
+<blockquote>
+<p>可视区尺寸<br>
+<code>document.documentElement.clientWidth</code><br>
+<code>document.documentElement.clientHeight</code></p>
+</blockquote>
+<pre><code class="prism language-javascript"><span class="token comment">//一、可视区宽度和高度</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>clientHeight<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>clientWidth<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>滚动距离<br>
+<code>document.body.scrollTop</code>  //chrome<br>
+<code>document.documentElement.scrolltop</code> //只兼容 IE</p>
+</blockquote>
+<pre><code class="prism language-javascript"><span class="token comment">// 二、滚动距离</span>
+window<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// alert(document.documentElement.scrollTop);</span>
+<span class="token punctuation">}</span>
+<span class="token comment">// 兼容写法</span>
+window<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token function">alert</span><span class="token punctuation">(</span>document<span class="token punctuation">.</span>body<span class="token punctuation">.</span>scrollTop <span class="token operator">||</span> document<span class="token punctuation">.</span>documentElement<span class="token punctuation">.</span>scrollTop<span class="token punctuation">)</span><span class="token punctuation">;</span>	
+<span class="token punctuation">}</span>
+</code></pre>
+<blockquote>
+<p>火狐<br>
+<code>onscroll 事件</code><br>
+<code>onresize 事件</code></p>
+</blockquote>
+<ol start="2">
+<li>window尺寸：
+<blockquote>
+<p><code>window.innerHeight</code>-浏览器窗口的内部高度<br>
+<code>window.innerWidth</code>-浏览器窗口的内部宽度<br>
+<code>window.outerHeight</code>-浏览器窗口的外部高度<br>
+<code>window.outerWidth</code>-浏览器窗口的外部宽度</p>
+</blockquote>
+</li>
+<li>window方法：
+<blockquote>
+<p><code>window.open()</code>-打开新的窗口<br>
+<code>window.close()</code>-关闭当前窗口<br>
+<code>window.print()</code>-打印当前窗口</p>
+</blockquote>
+</li>
+</ol>
+<pre><code class="prism language-html"><span class="token comment">&lt;!--通过点击事件打开新页面--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>open1()<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>打开<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>clos()<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>关闭<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--需连接设备--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">onclick</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>prin()<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>打印<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+    <span class="token keyword">var</span> iw <span class="token operator">=</span> window<span class="token punctuation">.</span>innerWidth<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> ih <span class="token operator">=</span> window<span class="token punctuation">.</span>innerHeight<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> ow <span class="token operator">=</span> window<span class="token punctuation">.</span>outerWidth<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> oh <span class="token operator">=</span> window<span class="token punctuation">.</span>outerHeight<span class="token punctuation">;</span>
+    document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"内部宽度"</span> <span class="token operator">+</span> iw <span class="token operator">+</span> <span class="token string">"内部高度："</span> <span class="token operator">+</span> ih <span class="token operator">+</span> <span class="token string">"外部宽度："</span> <span class="token operator">+</span> ow <span class="token operator">+</span> <span class="token string">"外部高度："</span> <span class="token operator">+</span> oh<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+    <span class="token keyword">function</span> <span class="token function">open1</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   		 <span class="token comment">//打开新页面</span>
+        window<span class="token punctuation">.</span><span class="token function">open</span><span class="token punctuation">(</span><span class="token string">"demo01.html"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">function</span> <span class="token function">clos</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    	<span class="token comment">//关闭新页面</span>
+        window<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+   	<span class="token keyword">function</span> <span class="token function">prin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+   		<span class="token comment">//打印当前页面</span>
+		window<span class="token punctuation">.</span><span class="token function">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<ol start="4">
+<li>window弹框</li>
+</ol>
+<pre><code class="prism language-javascript">window<span class="token punctuation">.</span><span class="token function">alert</span><span class="token punctuation">(</span><span class="token string">"hello"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span><span class="token function">confirm</span><span class="token punctuation">(</span><span class="token string">"你确认吗?"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+window<span class="token punctuation">.</span><span class="token function">prompt</span><span class="token punctuation">(</span><span class="token string">"name"</span><span class="token punctuation">,</span><span class="token string">"admin"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h5><a id="2screen_74"></a>2.screen对象</h5>
+<blockquote>
+<p>screen对象包含有关用户<code>客户端显示屏幕</code>的信息<br>
+<code>window.screen</code>对象在编写时<code>可以不使用</code>window这个前缀</p>
+</blockquote>
+<ol>
+<li>screen.availWidth 可用的屏幕宽度（不包括任务栏）</li>
+<li>screen.availHeight可用的屏幕高度（不包括任务栏）</li>
+<li>screen.width 屏幕总宽度</li>
+<li>screen.heigh 屏幕总高度</li>
+</ol>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> sw <span class="token operator">=</span> screen<span class="token punctuation">.</span>availWidth<span class="token punctuation">;</span><span class="token comment">// 可以这么用：screen.availWidth</span>
+<span class="token keyword">var</span> sh <span class="token operator">=</span> window<span class="token punctuation">.</span>screen<span class="token punctuation">.</span>availHeight<span class="token punctuation">;</span><span class="token comment">// 可以这么用：screen.availHeight</span>
+<span class="token keyword">var</span> zw <span class="token operator">=</span> window<span class="token punctuation">.</span>screen<span class="token punctuation">.</span>width<span class="token punctuation">;</span><span class="token comment">// 可以这么用：screen.width</span>
+<span class="token keyword">var</span> zh <span class="token operator">=</span> window<span class="token punctuation">.</span>screen<span class="token punctuation">.</span>height<span class="token punctuation">;</span><span class="token comment">// 可以这么用：screen.height</span>
+document<span class="token punctuation">.</span><span class="token function">write</span><span class="token punctuation">(</span><span class="token string">"屏幕宽度："</span><span class="token operator">+</span>sw<span class="token operator">+</span><span class="token string">"屏幕高度："</span><span class="token operator">+</span>sh<span class="token operator">+</span><span class="token string">"屏幕总宽度："</span><span class="token operator">+</span>zw<span class="token operator">+</span><span class="token string">"屏幕总高："</span><span class="token operator">+</span>zh<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h5><a id="3location_89"></a>3.location对象</h5>
+<blockquote>
+<p>Location对象包含有关当前浏览器<code>URL的信息</code></p>
+</blockquote>
+<ul>
+<li>Location对象的属性
+<ol>
+<li>location.href: 返回完整的URL</li>
+<li>location.host: 返回一个URL的主机名和端口</li>
+<li>location.hostname: 返回URL的主机名</li>
+<li>location.port: 返回WEB主机的端口（80或443）</li>
+<li>location.protocol: 返回所使用的WEB协议</li>
+</ol>
+</li>
+<li>Location对象方法：
+<ol>
+<li>location.assign(url) 载入一个新的文档（打开新页面）</li>
+<li>location.reload() 重新载入当前文档(页面刷新)</li>
+<li>location.replace(url) 用新的文档替换当前文档（替换当前页面）</li>
+</ol>
+</li>
+</ul>
+<h5><a id="4history_102"></a>4.history对象</h5>
+<blockquote>
+<p>window.history对象包含浏览器的历史</p>
+</blockquote>
+<ul>
+<li>history对象的属性：
+<blockquote>
+<p><code>length</code>返回历史列表中的网址数</p>
+</blockquote>
+</li>
+<li>history对象的方法：
+<blockquote>
+<p><code>back()</code>: 回退到history列表中的前一个URL <code>上一页</code><br>
+<code>forward()</code>: 加载history列表中的下一个URL <code>下一页</code><br>
+<code>go()</code>: 跳转到history列表中某个具体页面 <code>历史页面跳转</code> <code>history.go(-1)</code> 跳回上一页</p>
+</blockquote>
+</li>
+</ul>
+<h5><a id="5navigator_110"></a>5.navigator对象</h5>
+<blockquote>
+<p>navigator对象包含有关浏览器的信息 (小写调用)</p>
+</blockquote>
+<ol>
+<li>appCodeName: 浏览器的代码名</li>
+<li>appName: 浏览器的名称</li>
+<li>appVersion: 浏览器的平台及版本信息</li>
+<li>cookieEnabled: 浏览器是否启用cookie</li>
+<li>platform: 运行浏览器的操作系统平台</li>
+<li>userAgent: 返回由客户机发送服务器的user-agent头部的值</li>
+</ol>
+<h5><a id="6_118"></a>6.弹窗</h5>
+<blockquote>
+<p>JavaScript提供三种消息框：警告框、确认框、提示框<br>
+<code>alert()</code> 警告框<br>
+<code>confirm()</code> 确认框<br>
+<code>prompt()</code> 提示框</p>
+</blockquote>
+</div>
+</body>
+
+</html>

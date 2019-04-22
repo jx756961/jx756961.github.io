@@ -1,0 +1,315 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PHP命名空间(Namespace)的使用详解</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">PHP命名空间(Namespace)的使用详解</h2>
+  <div class="stackedit__html"><blockquote>
+<p>注明：本文提到的常量：PHP5.3开始const关键字可以用在类的外部。const和define都是用来声明常量的（它们的区别不详述），但是在命名空间里，define的作用是全局的，而const则作用于当前空间。我在文中提到的常量是指使用const声明的常量。</p>
+</blockquote>
+<h5><a id="_4"></a>基础</h5>
+<blockquote>
+<p>命名空间将代码划分出不同的空间（区域），每个空间的常量、函数、类（为了偷懒，我下边都将它们称为元素）的名字互不影响， 这个有点类似我们常常提到的’封装’的概念。</p>
+</blockquote>
+<p>创建一个命名空间需要使用namespace关键字，这样：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token comment">//创建一个名为'Article'的命名空间</span>
+	<span class="token keyword">namespace</span> <span class="token package">Article</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>要注意的是，当前脚本文件的第一个命名空间前面不能有任何代码，下面的写法都是错误的：</p>
+<p>例一</p>
+<pre><code class="prism language-php">	<span class="token comment">//在脚本前面写了一些逻辑代码</span>
+	<span class="token delimiter important">&lt;?php</span>
+	<span class="token variable">$path</span> <span class="token operator">=</span> <span class="token double-quoted-string string">"/"</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	<span class="token keyword">namespace</span> <span class="token package">Article</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>例二</p>
+<pre><code class="prism language-php">	<span class="token operator">&lt;</span><span class="token operator">/</span>html<span class="token operator">&gt;</span>
+	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Article</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>为什么要说第一个命名空间呢？因为同一脚本文件中可以创建多个命名空间。</p>
+<p>下面我创建了两个命名空间，顺便为这两个空间各自添加了一个Comment类元素：</p>
+<pre><code class="prism language-php">
+	<span class="token delimiter important">&lt;?php</span>
+	<span class="token comment">//创建一个名为'Article'的命名空间</span>
+	<span class="token keyword">namespace</span> <span class="token package">Article</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//此Comment属于Article空间的元素</span>
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token comment">//创建一个名为'MessageBoard'的命名空间</span>
+	<span class="token keyword">namespace</span> <span class="token package">MessageBoard</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//此Comment属于MessageBoard空间的元素</span>
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	<span class="token delimiter important">?&gt;</span>
+	
+</code></pre>
+<p>在不同空间之间不可以直接调用其它元素，需要使用命名空间的语法：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Article</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token keyword">namespace</span> <span class="token package">MessageBoard</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token comment">//调用当前空间（MessageBoard）的Comment类</span>
+	<span class="token variable">$comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//调用Article空间的Comment类</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>可以看到，在MessageBoard空间中调用article空间里的Comment类时，使用了一种像文件路径的语法： \空间名\元素名</p>
+<p>除了类之外，对函数和常量的用法是一样的，下面我为两个空间创建了新的元素，并在MessageBoard空间中输出了它们的值。</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">const</span> <span class="token constant">PATH</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'/article'</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">function</span> <span class="token function">getCommentTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token keyword">return</span> <span class="token number">100</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token keyword">namespace</span> <span class="token package">MessageBoard</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">const</span> <span class="token constant">PATH</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'/message_board'</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">function</span> <span class="token function">getCommentTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token keyword">return</span> <span class="token number">300</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token comment">//调用当前空间的常量、函数和类</span>
+	<span class="token keyword">echo</span> <span class="token constant">PATH</span><span class="token punctuation">;</span> <span class="token comment">///message_board</span>
+	<span class="token keyword">echo</span> <span class="token function">getCommentTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//300</span>
+	<span class="token variable">$comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//调用Article空间的常量、函数和类</span>
+	<span class="token keyword">echo</span> \<span class="token package">Article<span class="token punctuation">\</span>PATH</span><span class="token punctuation">;</span> <span class="token comment">///article</span>
+	<span class="token keyword">echo</span> \<span class="token package">Article<span class="token punctuation">\</span>getCommentTotal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//100</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>然后我的确得到了Article空间的元素数据。</p>
+<p>子空间<br>
+命名空间的调用语法像文件路径一样是有道理的，它允许我们自定义子空间来描述各个空间之间的关系。</p>
+<p>抱歉我忘了说，article和message board这两个模块其实都是处于同一个blog项目内。如果用命名空间来表达它们的关系，是这样：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token comment">//我用这样的命名空间表示处于blog下的article模块</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token comment">//我用这样的命名空间表示处于blog下的message board模块</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>MessageBoard</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token comment">//调用当前空间的类</span>
+	<span class="token variable">$comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//调用Blog\Article空间的类</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>而且，子空间还可以定义很多层次，比如说 Blog\Article\Archives\Date</p>
+<p>公共空间<br>
+我有一个common_inc.php脚本文件，里面有一些好用的函数和类：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">function</span> <span class="token function">getIP</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	<span class="token keyword">class</span> <span class="token class-name">FilterXSS</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>在一个命名空间里引入这个脚本，脚本里的元素不会归属到这个命名空间。如果这个脚本里没有定义其它命名空间，它的元素就始终处于公共空间中：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//引入脚本文件</span>
+	<span class="token keyword">include</span> <span class="token single-quoted-string string">'./common_inc.php'</span><span class="token punctuation">;</span>
+	<span class="token variable">$filter_XSS</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FilterXSS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//出现致命错误：找不到Blog\Article\FilterXSS类</span>
+	<span class="token variable">$filter_XSS</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>FilterXSS</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//正确</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>调用公共空间的方式是直接在元素名称前加 \ 就可以了，否则PHP解析器会认为我想调用当前空间下的元素。除了自定义的元素，还包括PHP自带的元素，都属于公共空间。</p>
+<p>要提一下，其实公共空间的函数和常量不用加 \ 也可以正常调用（不明白PHP为什么要这样做），但是为了正确区分元素，还是建议调用函数的时候加上 \</p>
+<p>名称术语<br>
+在说别名和导入之前，需要知道关于空间三种名称的术语，以及PHP是怎样解析它们的。官方文档说得非常好，我就直接拿来套了。</p>
+<blockquote>
+<p>1.非限定名称，或不包含前缀的类名称，例如 $comment = new Comment();。如果当前命名空间是Blog\Article，Comment将被解析为Blog\Article\Comment。如果使用Comment的代码不包含在任何命名空间中的代码（全局空间中），则Comment会被解析为Comment。<br>
+2.限定名称，或包含前缀的名称，例如 $comment = new Article\Comment();。如果当前的命名空间是Blog，则Comment会被解析为Blog\Article\Comment。如果使用Comment的代码不包含在任何命名空间中的代码（全局空间中），则Comment会被解析为Comment。<br>
+3.完全限定名称，或包含了全局前缀操作符的名称，例如 $comment = new \Article\Comment();。在这种情况下，Comment总是被解析为代码中的文字名(literal name)Article\Comment。<br>
+其实可以把这三种名称类比为文件名（例如 comment.php）、相对路径名（例如 ./article/comment.php）、绝对路径名（例如 /blog/article/comment.php），这样可能会更容易理解。</p>
+</blockquote>
+<p>我用了几个示例来表示它们：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token comment">//创建空间Blog</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token comment">//非限定名称，表示当前Blog空间</span>
+	<span class="token comment">//这个调用将被解析成 Blog\Comment();</span>
+	<span class="token variable">$blog_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//限定名称，表示相对于Blog空间</span>
+	<span class="token comment">//这个调用将被解析成 Blog\Article\Comment();</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//类前面没有反斜杆\</span>
+	
+	<span class="token comment">//完全限定名称，表示绝对于Blog空间</span>
+	<span class="token comment">//这个调用将被解析成 Blog\Comment();</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>Blog<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//类前面有反斜杆\</span>
+	
+	<span class="token comment">//完全限定名称，表示绝对于Blog空间</span>
+	<span class="token comment">//这个调用将被解析成 Blog\Article\Comment();</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//类前面有反斜杆\</span>
+	
+	
+	<span class="token comment">//创建Blog的子空间Article</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>其实之前我就一直在使用非限定名称和完全限定名称，现在它们终于可以叫出它们的名称了。</p>
+<p>别名和导入<br>
+别名和导入可以看作是调用命名空间元素的一种快捷方式。PHP并不支持导入函数或常量。</p>
+<p>它们都是通过使用use操作符来实现：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token comment">//创建一个BBS空间（我有打算开个论坛）</span>
+	<span class="token keyword">namespace</span> <span class="token package">BBS</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//导入一个命名空间</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	<span class="token comment">//导入命名空间后可使用限定名称调用元素</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//为命名空间使用别名</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span> <span class="token keyword">as</span> Arte<span class="token punctuation">;</span>
+	<span class="token comment">//使用别名代替空间名</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Arte<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//导入一个类</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">;</span>
+	<span class="token comment">//导入类后可使用非限定名称调用元素</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//为类使用别名</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span> <span class="token keyword">as</span> Comt<span class="token punctuation">;</span>
+	<span class="token comment">//使用别名代替空间名</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>我注意到，如果导入元素的时候，当前空间有相同的名字元素将会怎样？显然结果会发生致命错误。</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token keyword">namespace</span> <span class="token package">BBS</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token keyword">Class</span> <span class="token class-name">Comt</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token comment">//导入一个类</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span><span class="token punctuation">;</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//与当前空间的Comment发生冲突，程序产生致命错误</span>
+	
+	<span class="token comment">//为类使用别名</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Comment</span> <span class="token keyword">as</span> Comt<span class="token punctuation">;</span>
+	<span class="token variable">$article_comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Comt</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//与当前空间的Comt发生冲突，程序产生致命错误</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>动态调用<br>
+PHP提供了namespace关键字和__NAMESPACE__魔法常量动态的访问元素，__NAMESPACE__可以通过组合字符串的形式来动态访问：</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">const</span> <span class="token constant">PATH</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'/Blog/article'</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Comment</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	
+	<span class="token comment">//namespace关键字表示当前空间</span>
+	<span class="token keyword">echo</span> <span class="token keyword">namespace</span>\<span class="token package">PATH</span><span class="token punctuation">;</span> <span class="token comment">///Blog/article</span>
+	<span class="token variable">$comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">namespace<span class="token punctuation">\</span>Comment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//魔法常量__NAMESPACE__的值是当前空间名称</span>
+	<span class="token keyword">echo</span> <span class="token constant">__NAMESPACE__</span><span class="token punctuation">;</span> <span class="token comment">//Blog\Article</span>
+	<span class="token comment">//可以组合成字符串并调用</span>
+	<span class="token variable">$comment_class_name</span> <span class="token operator">=</span> <span class="token constant">__NAMESPACE__</span> <span class="token punctuation">.</span> <span class="token single-quoted-string string">'\Comment'</span><span class="token punctuation">;</span>
+	<span class="token variable">$comment</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token variable">$comment_class_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>字符串形式调用问题<br>
+上面的动态调用的例子中，我们看到了字符串形式的动态调用方式，如果要使用这种方式要注意两个问题。</p>
+<ol>
+<li>使用双引号的时候特殊字符可能被转义</li>
+</ol>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">name</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	
+	<span class="token comment">//我是想调用Blog\Article\name</span>
+	<span class="token variable">$class_name</span> <span class="token operator">=</span> <span class="token constant">__NAMESPACE__</span> <span class="token punctuation">.</span> <span class="token double-quoted-string string">"\name"</span><span class="token punctuation">;</span> <span class="token comment">//但是\n将被转义为换行符</span>
+	
+	<span class="token variable">$name</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token variable">$class_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//发生致命错误</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<ol start="2">
+<li>不会认为是限定名称</li>
+</ol>
+<p>PHP在编译脚本的时候就确定了元素所在的空间，以及导入的情况。而在解析脚本时字符串形式调用只能认为是非限定名称和完全限定名称，而永远不可能是限定名称。</p>
+<pre><code class="prism language-php">	<span class="token delimiter important">&lt;?php</span>
+	<span class="token keyword">namespace</span> <span class="token package">Blog</span><span class="token punctuation">;</span>
+	
+	<span class="token comment">//导入Common类</span>
+	<span class="token keyword">use</span> <span class="token package">Blog<span class="token punctuation">\</span>Article<span class="token punctuation">\</span>Common</span><span class="token punctuation">;</span>
+	<span class="token comment">//我想使用非限定名称调用Blog\Article\Common</span>
+	<span class="token variable">$common_class_name</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'Common'</span><span class="token punctuation">;</span>
+	<span class="token comment">//实际会被当作非限定名称，也就表示当前空间的Common类，但我当前类没有创建Common类</span>
+	<span class="token variable">$common</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token variable">$common_class_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//发生致命错误：Common类不存在</span>
+	
+	<span class="token comment">//我想使用限定名称调用Blog\Article\Common</span>
+	<span class="token variable">$common_class_name</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'Article\Common'</span><span class="token punctuation">;</span>
+	<span class="token comment">//实际会被当作完全限定名称，也就表示Article空间下的Common类，但我下面只定义了Blog\Article空间而不是Article空间</span>
+	<span class="token variable">$common</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token variable">$common_class_name</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//发生致命错误：Article\Common类不存在</span>
+	
+	
+	<span class="token keyword">namespace</span> <span class="token package">Blog<span class="token punctuation">\</span>Article</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">Common</span> <span class="token punctuation">{</span> <span class="token punctuation">}</span>
+	<span class="token delimiter important">?&gt;</span>
+</code></pre>
+<p>总结<br>
+我对PHP的命名空间刚刚接触，也不能随便给一些没有实践的建议。我个人认为命名空间的作用和功能都很强大，如果要写插件或者通用库的时候再也不用担心重名问题。不过如果项目进行到一定程度，要通过增加命名空间去解决重名问题，我觉得工作量不会比重构名字少。也不得不承认它的语法会对项目增加一定的复杂度，因此从项目一开始的时候就应该很好的规划它，并制定一个命名规范。</p>
+</div>
+</body>
+
+</html>

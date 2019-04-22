@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>666God-Blog</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/m.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header>
+    <div id="mnav">
+        <div class="logo"><a href="list_web.html">666God</a></div>
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <ul id="starlist">
+
+            <!--<li><a href="share.html">模板分享</a></li>-->
+            <li><a href="list.html">BLOG</a></li>
+            <li><a href="index.html">About Me</a></li>
+            <!--<li><a href="info.html">慢生活</a></li>-->
+            <!--<li><a href="shareinfo.html">模板内容页</a></li>-->
+            <!--<li><a href="gbook.html">留言</a></li>-->
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            var oH2 = document.getElementById("mnavh");
+            var oUl = document.getElementById("starlist");
+            oH2.onclick = function () {
+                var style = oUl.style;
+                style.display = style.display == "block" ? "none" : "block";
+                oH2.className = style.display == "block" ? "open" : ""
+            }
+        }
+    </script>
+</header>
+<div class="line46"></div>
+<article>
+    <div class="leftbox">
+        <div class="newblogs">
+            <h2 class="hometitle"><span><a href="#">心得笔记</a><a href="#"></a><a
+                    href="#">后端其他</a></span>学无止境</h2>
+            <ul>
+                <li>
+                    <a href="server_info/server_having.html" target="_blank">
+                        <h3 class="blogtitle">mysql如何使用having筛选结果集</h3>
+                        <div class="bloginfo">
+                            <p> mysql的数据通过WHERE查询只能操作mysql数据库存储上的sql数据。当查询结果本身是筛选过的结果集,那么我们就不能用where继续操作结果集上的一些别名查询
+                                所以mysql 有一个处理结果集的关键字 having 继续处理结果集数据 如下goods表,我想知道我们店铺手机销售价比市场价... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="server_info/server_null.html" target="_blank">
+                        <h3 class="blogtitle">mysql查询 NULL</h3>
+                        <div class="bloginfo">
+                            <p> NULL 是一种比较特殊的情况,如果直接通过sql语句查询NULL是查询不到的结果都是0条 用NULL=NULL和NULL!=NULL判断结果都为NULL.
+                                因为NULL没有值是没有办法比较的 接下来我们通过示例说明 user表内容如下： | uid | username| age ... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="server_info/server_monted.html" target="_blank">
+                        <h3 class="blogtitle">Mysql查询原理、计算属性理解</h3>
+                        <div class="bloginfo">
+                            <p> 例如下面的是user表：如果执行 SELECT username,age FROM user WHERE uid=2 mysql的查询原理应该是什么样的呢? | uid |
+                                username| age | |---------|-------- |-------- | | ... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="server_info/server_function.html" target="_blank">
+                        <h3 class="blogtitle">MySql常用函数整理</h3>
+                        <div class="bloginfo">
+                            <p> 一、数学函数 abs(x) 返回x的绝对值 bin(x) 返回x的二进制（oct返回八进制，hex返回十六进制） ceiling(x) 返回大于x的最小整数值 exp(x)
+                                返回值e（自然对数的底）的x次方 floor(x) 返回小于x的最大整数值 greatest(x1,x... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="server_info/server_datatype.html" target="_blank">
+                        <h3 class="blogtitle">MySql数据类型表</h3>
+                        <div class="bloginfo">
+                            <p> MySQL 数据类型 MySQL中定义数据字段的类型对你数据库的优化是非常重要的。 MySQL支持多种类型，大致可以分为三类：数值、日期/时间和字符串(字符)类型。 数值类型
+                                MySQL支持所有标准SQL数值数据类型。 这些类型包括严格数值数据类型(INTEGER、SMALLINT、DECI... </p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+
+            </ul>
+            <div class="pagelist">&nbsp;&nbsp;
+                <a href="list_web.html">web基础</a>&nbsp;
+                <a href="list_basejs.html">js基础</a>&nbsp;
+                <a href="list_node.html">node.js</a>&nbsp;
+                <a href="list_vue.html">Vue</a>&nbsp;
+                <a href="list.html">小程序</a>&nbsp;
+                <a href="list_php.html">php</a>&nbsp;
+                <a href="list_highjs.html">js高级</a>&nbsp;
+                <a href="list_otherweb.html">web其他</a>&nbsp;
+                <a href="list_server.html">后端其他</a>
+            </div>
+        </div>
+    </div>
+    <div class="rightbox">
+        <div class="blank"></div>
+        <div class="search">
+            <form action="" method="post" name="searchform" id="searchform">
+                <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字"
+                       style="color: rgb(153, 153, 153);"
+                       onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+                       onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+                <input name="show" value="title" type="hidden">
+                <input name="tempid" value="1" type="hidden">
+                <input name="tbname" value="news" type="hidden">
+                <input name="Submit" class="input_submit" value="搜索" type="submit">
+            </form>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">栏目推荐</a></h2>
+            <ul>
+                <li><b><a href="list_vue.html" target="_blank">Vue知识掌握</a></b>
+                    <p>Vue.js 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件...</p>
+                </li>
+                <li><b><a href="list_otherweb.html" target="_blank">React知识学习</a></b>
+                    <p>React 起源于 Facebook 的内部项目，因为该公司对市场上所有 JavaScript MVC 框架...</p>
+                </li>
+                <li><b><a href="list.html" target="_blank">微信小程序开发相关</a></b>
+                    <p>小程序是一种新的开放能力，开发者可以快速地开发一个小程序...</p>
+                </li>
+                <li><b><a href="list_node.html" target="_blank">Node.js 全面了解</a></b>
+                    <p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。
+                        Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。</p>
+                </li>
+                <li><b><a href="list_web.html" target="_blank">web基础学习</a></b>
+                    <p>通过HTML，CSS及JavaScript以及衍生出来的各种技术、框架、解决方案，来实现互联网产品的用户界面交互 ...</p>
+                </li>
+            </ul>
+            <div class="ad"><img src="images/ad01.jpg"></div>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">进阶排行</a></h2>
+            <ul>
+                <li><b><a href="list_highjs.html" target="_blank">JavaScript高级</a></b>
+                    <p>在JavaScript基础后学习将更好的理解作用域、面向对象等</p>
+                </li>
+                <li><b><a href="list_php.html" target="_blank">服务端语言php整理</a></b>
+                    <p>一种通用开源脚本语言。语法吸收了C语言、Java和Perl的特点，利于学习，使用广泛，主要适用于Web开发领域...</p>
+                </li>
+            </ul>
+
+        </div>
+        <div class="weixin">
+            <h2 class="ab_title">微信鼓励</h2>
+            <ul>
+                <img src="images/wx.jpg">
+            </ul>
+        </div>
+    </div>
+</article>
+<footer>
+    <p>Design by <a href="#">666God</a></p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js学习 （十二）JavaScript模块化问题</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Node.js学习 （十二）JavaScript模块化问题</h2>
+  <div class="stackedit__html"><h5><a id="JavaScript__0"></a>JavaScript 模块化</h5>
+<blockquote>
+<p>JavaScript 天生不支持模块化</p>
+</blockquote>
+<p>注意：但是虽然标准已经发布了，但是很多 JavaScript 运行环境还不支持。 <code>Node v8.5</code> 版本之后才对 EcmaScript 6 module 进行了支持</p>
+<ul>
+<li>Node.js 里有<code>exports</code>、<code>require</code>
+<ul>
+<li>模块独立作用域</li>
+<li>可以使用 API 来进行文件与文件之间的依赖加载</li>
+<li>在 Node 这个环境中对 JavaScript 进行了特殊的模块化支持 CommonJS</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>在浏览器中也可以像在 Node 中的模块一样来进行编程
+<ul>
+<li><code>&lt;script&gt;</code> 标签来引用加载，而且你还必须考虑加载的顺序问题</li>
+<li><code>require.js</code> 第三方库 AMD</li>
+<li><code>sea.js</code>     第三方库 CMD</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>
+<p>发布 EcmaScript 6 Modules 官方规范</p>
+<ul>
+<li>其中就包含了官方对 JavaScript 模块化的支持 ,官方看民间都在乱搞，开发人员为了在不同的环境使用不同的 JavaScript 模块化解决方案。也就是说语言天生就支持了</li>
+</ul>
+</li>
+<li>
+<p>无论是 CommonJS、AMD、CMD、UMD、EcmaScript 6 Modules 官方规范</p>
+<ul>
+<li>都是为了解决 JavaScript 的模块化问题</li>
+<li>CommonJS、AMD、CMD 都是民间搞出来的</li>
+</ul>
+</li>
+</ul>
+<h5><a id="PHP__requireinclude__20"></a>PHP 中为什么就可以直接 <code>require</code>、<code>include</code> ?</h5>
+<ul>
+<li>因为 PHP 当初在设计的时候就加入了这个功能</li>
+<li>PHP 这门语言天生就支持</li>
+</ul>
+</div>
+</body>
+
+</html>

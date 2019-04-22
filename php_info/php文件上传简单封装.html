@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>php文件上传简单封装</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">php文件上传简单封装</h2>
+  <div class="stackedit__html"><p>下面贴上php文件上传的示例</p>
+<pre><code class="prism language-php">	<span class="token comment">/**
+	 * Class getFiles 文件上传
+	 */</span>
+	<span class="token keyword">class</span> <span class="token class-name">getFiles</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">private</span> <span class="token variable">$file</span><span class="token punctuation">;</span>
+	    <span class="token keyword">private</span> <span class="token variable">$thisType</span><span class="token punctuation">;</span>
+	
+	
+	    <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token variable">$file</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">file</span> <span class="token operator">=</span> <span class="token variable">$file</span><span class="token punctuation">;</span>
+	        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">thisType</span> <span class="token operator">=</span> <span class="token keyword">NULL</span><span class="token punctuation">;</span>
+	        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">verifyFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">moveFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	
+	
+	    <span class="token comment">/**
+	     *  验证文件
+	     */</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">verifyFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+	            <span class="token variable">$maxSize</span> <span class="token operator">=</span> <span class="token number">2</span> <span class="token operator">*</span> <span class="token number">1024</span> <span class="token operator">*</span> <span class="token number">1024</span><span class="token punctuation">;</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$maxSize</span> <span class="token operator">&lt;</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">file</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'size'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                <span class="token keyword">die</span><span class="token punctuation">(</span><span class="token single-quoted-string string">'文件大于上传限制，请选择小于2M的文件重新尝试上传'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	            <span class="token punctuation">}</span>
+	
+	            <span class="token variable">$type</span> <span class="token operator">=</span> <span class="token keyword">array</span><span class="token punctuation">(</span>
+	                <span class="token single-quoted-string string">'.png'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'image/png'</span><span class="token punctuation">,</span>
+	                <span class="token single-quoted-string string">'.jpg'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'image/jpg'</span><span class="token punctuation">,</span>
+	                <span class="token single-quoted-string string">'.jpeg'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'image/jpeg'</span><span class="token punctuation">,</span>
+	                <span class="token single-quoted-string string">'.gif'</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token single-quoted-string string">'image/gif'</span>
+	            <span class="token punctuation">)</span><span class="token punctuation">;</span>
+	
+	
+	            <span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$type</span> <span class="token keyword">as</span> <span class="token variable">$key</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token variable">$value</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	
+	                <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$value</span> <span class="token operator">==</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">file</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'type'</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                    <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">thisType</span> <span class="token operator">=</span> <span class="token variable">$key</span><span class="token punctuation">;</span>
+	                    <span class="token keyword">break</span><span class="token punctuation">;</span>
+	                <span class="token punctuation">}</span>
+	            <span class="token punctuation">}</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">thisType</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                <span class="token keyword">echo</span> <span class="token single-quoted-string string">'File type not supported'</span><span class="token punctuation">;</span>
+	                <span class="token keyword">return</span><span class="token punctuation">;</span>
+	            <span class="token punctuation">}</span>
+	        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token punctuation">}</span>
+	    <span class="token punctuation">}</span>
+		<span class="token comment">/**
+	     *  移动文件返回路径
+	     */</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">moveFile</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+	
+	            <span class="token variable">$filename</span> <span class="token operator">=</span> <span class="token single-quoted-string string">'uploadimage/'</span> <span class="token punctuation">.</span> <span class="token function">time</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">.</span> <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">thisType</span><span class="token punctuation">;</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token function">file_exists</span><span class="token punctuation">(</span><span class="token variable">$filename</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                <span class="token keyword">echo</span> <span class="token double-quoted-string string">"File Exist"</span><span class="token punctuation">;</span>
+	                <span class="token keyword">return</span><span class="token punctuation">;</span>
+	            <span class="token punctuation">}</span>
+	
+	           <span class="token variable">$res</span><span class="token operator">=</span> <span class="token function">move_uploaded_file</span><span class="token punctuation">(</span><span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">file</span><span class="token punctuation">[</span><span class="token single-quoted-string string">'tmp_name'</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token variable">$filename</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	            <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token variable">$res</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	                <span class="token keyword">echo</span> <span class="token function">json_encode</span><span class="token punctuation">(</span><span class="token variable">$filename</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	                <span class="token keyword">return</span><span class="token punctuation">;</span>
+	            <span class="token punctuation">}</span>
+	            <span class="token keyword">echo</span> <span class="token single-quoted-string string">'Move File Error'</span><span class="token punctuation">;</span>
+	        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> <span class="token variable">$e</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">echo</span> <span class="token variable">$e</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token function">getMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        <span class="token punctuation">}</span>
+	
+	    <span class="token punctuation">}</span>
+	    <span class="token comment">/**
+	     * 释放资源
+	     */</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__destruct</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">file</span><span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+	        <span class="token variable">$this</span><span class="token operator">-</span><span class="token operator">&gt;</span><span class="token property">thisType</span><span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+    	<span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+
+</code></pre>
+</div>
+</body>
+
+</html>

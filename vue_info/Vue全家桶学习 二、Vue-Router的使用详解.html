@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue全家桶学习 二、Vue-Router的使用详解</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Vue全家桶学习 二、Vue-Router的使用详解</h2>
+  <div class="stackedit__html"><h5><a id="1_vuerouter_0"></a>1. vue-router安装</h5>
+<ul>
+<li>如果在vue-cli 构建项目中没有安装vue-router ,可以由npm自行安装。安装命令 ：npm install vue-router --save</li>
+</ul>
+<h5><a id="2__2"></a>2. 模块化开发配置路由器</h5>
+<ul>
+<li>引入路由模块和组件页面
+<ul>
+<li>import VueRouter from ‘vue-router’</li>
+<li>import PageOne from ‘…/pages/page1/Page’</li>
+<li>import PageTwo from ‘…/pages/page2/Page’</li>
+<li>import PageThree from ‘…/pages/page3/Page’</li>
+</ul>
+</li>
+<li>路由配置以及路由属性
+<ul>
+<li>
+<p>path:指定路由路径</p>
+</li>
+<li>
+<p>name:指定路由名称</p>
+</li>
+<li>
+<p>component:指定路由组件</p>
+</li>
+<li>
+<p>redirect:	 路由重定向</p>
+</li>
+<li>
+<p>children:子路由配置</p>
+<p><em>例 ：如图页面初始化进入PageOne页面</em><br>
+<img src="https://img-blog.csdnimg.cn/20190311134958392.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+</li>
+<li>动态路由配置如图
+<ul>
+<li>动态路径参数 以冒号开头   <mark>/:</mark> <img src="https://img-blog.csdnimg.cn/20190312084525602.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt=""></li>
+<li>多个参数后面加斜杠  <mark>/:</mark> params 如图<img src="https://img-blog.csdnimg.cn/20190312085817900.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+<li>动态路由页面操作
+<ul>
+<li>案例组件page1跳转到page2并且携带id,name两个参数
+<ol>
+<li>router-link 路由跳转标签</li>
+<li>表示目标路由的链接。当被点击后，内部会立刻把 to 的值传到 router.push()，所以这个值可以是一个字符串或者是描述目标位置的对象。其中name是路由配置中的name,params是参数。</li>
+<li>router-view路由渲染</li>
+<li>这里在state里面定义了curid为<strong>12</strong> , curname为<strong>jack</strong>截图部分看不到<img src="https://img-blog.csdnimg.cn/20190312091930360.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ol>
+</li>
+<li>page2参数接收
+<ul>
+<li>通过 <strong>$route.params.参数名</strong>来接收页面传递的参数<img src="https://img-blog.csdnimg.cn/20190312093255454.png" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实现效果如图</li>
+</ul>
+<p><img src="https://img-blog.csdnimg.cn/20190312094015595.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190312093959207.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li>嵌套路由配置及使用
+<ul>
+<li>嵌套路由配置
+<ul>
+<li>children：配置page3的子路由subpage,subpage2</li>
+<li>redirect：路由重定向到subpage页面 <img src="https://img-blog.csdnimg.cn/20190312101211654.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+<li>页面实现也非常简单
+<ul>
+<li>直接使用router-link跳转,router-view选软渲染组件上面都讲过了<img src="https://img-blog.csdnimg.cn/20190312101839586.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h6><a id="CSDN__39"></a>@本文原创发布于CSDN ，转载请注明出处</h6>
+</div>
+</body>
+
+</html>

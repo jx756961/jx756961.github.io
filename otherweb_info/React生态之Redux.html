@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React生态之Redux</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">React生态之Redux</h2>
+  <div class="stackedit__html"><h5><a id="Redux__0"></a>Redux 基本介绍</h5>
+<blockquote>
+<p><strong><code>State</code>：React中的状态是制度对象,不可直接修改</strong><br>
+<strong><code>Reducer</code>:基本函数,用于对State的业务处理</strong><br>
+<strong><code>Action</code>:普通对象,用于描述事件行为,改变State</strong><br>
+Redux 解决单项数据流的问题 , 项目中共享全局数据</p>
+</blockquote>
+<h5><a id="Redux__5"></a>Redux 工作流</h5>
+<p><img src="https://img-blog.csdnimg.cn/20190327130604963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h5><a id="Redux__7"></a>Redux 安装</h5>
+<ul>
+<li>
+<p>npm 安装</p>
+<blockquote>
+<p>npm install redux --save<br>
+npm install  react-redux  --save</p>
+</blockquote>
+</li>
+<li>
+<p>yran 安装</p>
+<blockquote>
+<p>yarn add redux<br>
+yarn add react-redux</p>
+</blockquote>
+</li>
+</ul>
+<h5><a id="Redux__16"></a>Redux 调试工具安装</h5>
+<ul>
+<li>浏览器安装<code>Redux Devtools</code>扩展</li>
+<li>npm install redux-devtools-extension --save</li>
+<li>yarn add redux-devtools-extension</li>
+</ul>
+<h5><a id="Redex__20"></a>Redex 集成</h5>
+<blockquote>
+<p><strong>创建<code>Action</code>模块</strong><br>
+<strong>创建<code>Reducer</code>模块</strong><br>
+<strong>创建<code>Store</code>模块</strong><br>
+<strong>通过<code>connect</code>方法将React组件和Redux连接起来</strong><br>
+<strong>添加<code>Provider</code>作为项目的跟组件,用于数据的存储</strong></p>
+</blockquote>
+<h5><a id="Redux__27"></a>Redux 集成具体操作步骤</h5>
+<ol>
+<li>在Action中定义index.js</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">/**
+	 * Action 类型
+	 */</span>
+	<span class="token comment">//定义类型名</span>
+	<span class="token comment">//第2种方式.这里可以在外部定义type的所有内容 例如：import { SWITCH_MENU } from "./type";</span>
+	<span class="token keyword">export</span> <span class="token keyword">const</span> type<span class="token operator">=</span><span class="token punctuation">{</span>
+	    <span class="token constant">SWITCH_MENU</span><span class="token punctuation">:</span><span class="token string">'SWITCH_MENU'</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//触发操作方法就像Vuex的mutations的方法,menuName就是修改的名称 type.类型名称固定定义方式</span>
+	<span class="token keyword">export</span> <span class="token keyword">function</span> <span class="token function">switchMenu</span><span class="token punctuation">(</span>menuName<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token keyword">return</span><span class="token punctuation">{</span>
+	        type<span class="token punctuation">:</span>type<span class="token punctuation">.</span><span class="token constant">SWITCH_MENU</span><span class="token punctuation">,</span> <span class="token comment">//第2种方式 ： type:SWITCH_MENU,</span>
+	        menuName
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+<ol start="2">
+<li>Reducer 中定义index.js</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">/**
+	 * Reducer 数据处理
+	 */</span>
+	 
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>type<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">"./../action"</span><span class="token punctuation">;</span>
+	<span class="token comment">//初始化常量状态</span>
+	<span class="token keyword">const</span> initialState <span class="token operator">=</span> <span class="token punctuation">{</span>
+	    menuName<span class="token punctuation">:</span> <span class="token string">'首页'</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//值的修改操作在这里进行</span>
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span>state <span class="token operator">=</span> initialState<span class="token punctuation">,</span> action<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+		<span class="token comment">//这里可以做类型判断可以进行多个值的操作</span>
+	    <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    	<span class="token comment">//判断传入值的类型,如果时候menu则赋值action.menuName</span>
+	        <span class="token keyword">case</span> type<span class="token punctuation">.</span><span class="token constant">SWITCH_MENU</span><span class="token punctuation">:</span>
+	            <span class="token keyword">return</span><span class="token punctuation">{</span>
+	                <span class="token operator">...</span>state<span class="token punctuation">,</span><span class="token comment">//原来的值,不能清空原有的值。因为数据内可能还有别的数据以免误操</span>
+	                menuName<span class="token punctuation">:</span> action<span class="token punctuation">.</span>menuName<span class="token comment">//新的值</span>
+	            <span class="token punctuation">}</span>
+	            <span class="token keyword">break</span><span class="token punctuation">;</span>
+	        <span class="token keyword">default</span><span class="token punctuation">:</span>
+	        	<span class="token keyword">return</span> state<span class="token punctuation">;</span><span class="token comment">//没有任何设置的数据的时候这里要返回state的默认值,否则系统找不到初始数据报错。也可以在mapStateToProps 内部做初始化数据定义,但一定要有初始化的数据</span>
+	            <span class="token keyword">break</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+<ol start="3">
+<li>store中定义index.js</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">/**
+	 *  引入creatStore 创建store
+	 */</span>
+	 <span class="token comment">//创建store工厂</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>createStore<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux'</span>
+	<span class="token comment">//引入reducer 业务处理方法</span>
+	<span class="token keyword">import</span> reducer <span class="token keyword">from</span> <span class="token string">'../reducer'</span>
+	<span class="token comment">//devtools 调试工具使用</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>composeWithDevTools<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'redux-devtools-extension'</span>
+	<span class="token comment">//导出新创建的数据源（第一个参数是reducer方法,4.0以后版本不能使用第二个参数可以是调试工具的插件方法）</span>
+	<span class="token comment">//export default ()=&gt;createStore(reducer,composeWithDevTools())</span>
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token function">createStore</span><span class="token punctuation">(</span>reducer<span class="token punctuation">)</span>
+</code></pre>
+<ol start="4">
+<li>入口文件index.js 中创建根组件</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span><span class="token punctuation">;</span>
+	<span class="token keyword">import</span> ReactDOM <span class="token keyword">from</span> <span class="token string">'react-dom'</span><span class="token punctuation">;</span>
+	<span class="token keyword">import</span> <span class="token string">'./index.css'</span><span class="token punctuation">;</span>
+	<span class="token keyword">import</span> Route <span class="token keyword">from</span> <span class="token string">'./router'</span>
+	<span class="token comment">//提供数据源</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>Provider<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
+	<span class="token keyword">import</span> configStore <span class="token keyword">from</span> <span class="token string">'./redux/store'</span>
+	<span class="token keyword">import</span> <span class="token operator">*</span> <span class="token keyword">as</span> serviceWorker <span class="token keyword">from</span> <span class="token string">'./serviceWorker'</span><span class="token punctuation">;</span>
+	
+	<span class="token keyword">const</span> store<span class="token operator">=</span><span class="token function">configStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	ReactDOM<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+		<span class="token comment">//Provider组件包裹根组件,并且传入store数据源对象,也可以在组建中包裹</span>
+	    <span class="token operator">&lt;</span>Provider store<span class="token operator">=</span><span class="token punctuation">{</span>store<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+	        <span class="token operator">&lt;</span>Route<span class="token operator">/</span><span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span><span class="token operator">/</span>Provider<span class="token operator">&gt;</span>
+	    <span class="token punctuation">,</span>document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span>
+	<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	serviceWorker<span class="token punctuation">.</span><span class="token function">unregister</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+</code></pre>
+<ol start="5">
+<li>组件页面连接Redux,修改数据</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+	<span class="token keyword">import</span> <span class="token string">'./index.less'</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>Menu<span class="token punctuation">,</span> Icon<span class="token punctuation">,</span> Switch<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span><span class="token punctuation">;</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>NavLink<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-router-dom'</span>
+	<span class="token comment">//导入连接方法和action方法</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>connect<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>switchMenu<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'./../../redux/action'</span>
+	
+	<span class="token keyword">import</span> MenuConfig <span class="token keyword">from</span> <span class="token string">'../../config/menuConfig'</span>
+	
+	<span class="token keyword">const</span> <span class="token punctuation">{</span>SubMenu<span class="token punctuation">}</span> <span class="token operator">=</span> Menu<span class="token punctuation">;</span>
+	
+	<span class="token keyword">class</span> <span class="token class-name">NavLeft</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+	    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+	            theme<span class="token punctuation">:</span> <span class="token string">'dark'</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+	
+	    <span class="token function">componentWillMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">const</span> menuTreeNode <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">renderMenu</span><span class="token punctuation">(</span>MenuConfig<span class="token punctuation">)</span>
+	        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	            menuTreeNode
+	        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+		
+	    <span class="token function-variable function">handleClick</span> <span class="token operator">=</span> <span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	    	<span class="token comment">//使用dispatch 修改数据</span>
+	        <span class="token keyword">const</span> <span class="token punctuation">{</span>dispatch<span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props
+	        <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">switchMenu</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>item<span class="token punctuation">.</span>props<span class="token punctuation">.</span>title<span class="token punctuation">)</span><span class="token punctuation">)</span>
+	
+	        <span class="token comment">// console.log(item.item.props.title)</span>
+	    <span class="token punctuation">}</span>
+	
+	    <span class="token function-variable function">renderMenu</span> <span class="token operator">=</span> <span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>data<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span>
+	        <span class="token keyword">return</span> data<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span>item<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">if</span> <span class="token punctuation">(</span>item<span class="token punctuation">.</span>children<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	                <span class="token keyword">return</span> <span class="token punctuation">(</span>
+	                    <span class="token operator">&lt;</span>SubMenu title<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>title<span class="token punctuation">}</span> key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>key<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+	                        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">renderMenu</span><span class="token punctuation">(</span>item<span class="token punctuation">.</span>children<span class="token punctuation">)</span><span class="token punctuation">}</span>
+	                    <span class="token operator">&lt;</span><span class="token operator">/</span>SubMenu<span class="token operator">&gt;</span>
+	                <span class="token punctuation">)</span>
+	            <span class="token punctuation">}</span>
+	            <span class="token keyword">return</span> <span class="token punctuation">(</span>
+	                <span class="token operator">&lt;</span>Menu<span class="token punctuation">.</span>Item title<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>title<span class="token punctuation">}</span> key<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>key<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span>NavLink to<span class="token operator">=</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>key<span class="token punctuation">}</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>item<span class="token punctuation">.</span>title<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>NavLink<span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span><span class="token operator">/</span>Menu<span class="token punctuation">.</span>Item<span class="token operator">&gt;</span>
+	            <span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+	
+	    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+	            <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"nav-left-wrap"</span><span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"left-logo"</span><span class="token operator">&gt;</span>
+	                    这是logo
+	                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span>Menu
+	                        onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>handleClick<span class="token punctuation">}</span>
+	                        <span class="token comment">// mode={this.state.mode}</span>
+	                        theme<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>theme<span class="token punctuation">}</span>
+	                    <span class="token operator">&gt;</span>
+	                        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>menuTreeNode<span class="token punctuation">}</span>
+	                    <span class="token operator">&lt;</span><span class="token operator">/</span>Menu<span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	        <span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//这里把Redux和组件连接起来导出</span>
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">(</span>NavLeft<span class="token punctuation">)</span>
+</code></pre>
+<ol start="6">
+<li>调用数据</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token keyword">import</span> React <span class="token keyword">from</span> <span class="token string">'react'</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>Row<span class="token punctuation">,</span> Col<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'antd'</span>
+	<span class="token keyword">import</span> <span class="token string">'./index.less'</span>
+	<span class="token keyword">import</span> Utils <span class="token keyword">from</span> <span class="token string">'../../utils/utils'</span>
+	<span class="token keyword">import</span> axios <span class="token keyword">from</span> <span class="token string">'../../axios'</span>
+	<span class="token keyword">import</span> <span class="token punctuation">{</span>connect<span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-redux'</span>
+	
+	 <span class="token keyword">class</span> <span class="token class-name">Header</span> <span class="token keyword">extends</span> <span class="token class-name">React<span class="token punctuation">.</span>Component</span> <span class="token punctuation">{</span>
+	    <span class="token function">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	        <span class="token keyword">this</span><span class="token punctuation">.</span>state <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span>
+	            username<span class="token punctuation">:</span> <span class="token string">'在水一方'</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+	
+	    <span class="token function">componentWillMount</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token function">setInterval</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">let</span> sysTime <span class="token operator">=</span> Utils<span class="token punctuation">.</span><span class="token function">formateDate</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+	            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	                sysTime<span class="token punctuation">:</span> sysTime
+	            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span>
+	        <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getWeatherApiData</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	
+	    <span class="token function">getWeatherApiData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">let</span> city <span class="token operator">=</span> <span class="token string">'北京'</span>
+	        <span class="token keyword">let</span> url <span class="token operator">=</span> <span class="token string">"http://api.map.baidu.com/telematics/v3/weather?location="</span> <span class="token operator">+</span> <span class="token function">encodeURIComponent</span><span class="token punctuation">(</span>city<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"&amp;output=json&amp;ak=UjymBYD3091SXF9ZW5FwpDlG"</span>
+	        axios<span class="token punctuation">.</span><span class="token function">jsonp</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	            url<span class="token punctuation">:</span> url
+	        <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	            <span class="token keyword">let</span> weather <span class="token operator">=</span> res<span class="token punctuation">.</span>results<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>weather_data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+	            console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>weather<span class="token punctuation">)</span>
+	            <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	                dayPictureUrl<span class="token punctuation">:</span> weather<span class="token punctuation">.</span>dayPictureUrl<span class="token punctuation">,</span>
+	                weather<span class="token punctuation">:</span> weather<span class="token punctuation">.</span>weather
+	            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+	
+	    <span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	        <span class="token keyword">return</span> <span class="token punctuation">(</span>
+	            <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token string">"header-wrap"</span><span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span>Row className<span class="token operator">=</span><span class="token string">"header-top"</span><span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span>Col span<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">24</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>
+	                        <span class="token operator">&lt;</span>span<span class="token operator">&gt;</span>欢迎<span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>username<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span>
+	                        <span class="token operator">&lt;</span>a href<span class="token operator">=</span><span class="token string">"#"</span><span class="token operator">&gt;</span> 退出<span class="token operator">&lt;</span><span class="token operator">/</span>a<span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span><span class="token operator">/</span>Col<span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span><span class="token operator">/</span>Row<span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span>Row className<span class="token operator">=</span><span class="token string">"breadcrumb"</span><span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span>Col className<span class="token operator">=</span><span class="token string">"bread-title"</span> span<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">4</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>
+	                        <span class="token punctuation">{</span><span class="token comment">/*调用数据*/</span><span class="token punctuation">}</span>
+	                        <span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>menuName<span class="token punctuation">}</span>
+	                    <span class="token operator">&lt;</span><span class="token operator">/</span>Col<span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span>Col className<span class="token operator">=</span><span class="token string">"bread-weather"</span> span<span class="token operator">=</span><span class="token punctuation">{</span><span class="token number">20</span><span class="token punctuation">}</span><span class="token operator">&gt;</span>
+	                        <span class="token operator">&lt;</span>span<span class="token operator">&gt;</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>sysTime<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span>
+	                        <span class="token operator">&lt;</span>span<span class="token operator">&gt;</span>
+	                            <span class="token operator">&lt;</span>img src<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>dayPictureUrl<span class="token punctuation">}</span> alt<span class="token operator">=</span><span class="token string">""</span><span class="token operator">/</span><span class="token operator">&gt;</span>
+	                            <span class="token operator">&lt;</span>span<span class="token operator">&gt;</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>weather<span class="token punctuation">}</span><span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span>
+	                        <span class="token operator">&lt;</span><span class="token operator">/</span>span<span class="token operator">&gt;</span>
+	                    <span class="token operator">&lt;</span><span class="token operator">/</span>Col<span class="token operator">&gt;</span>
+	                <span class="token operator">&lt;</span><span class="token operator">/</span>Row<span class="token operator">&gt;</span>
+	            <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	        <span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">// 导出数据导到组件中</span>
+	<span class="token keyword">const</span> <span class="token function-variable function">mapStateToProps</span> <span class="token operator">=</span> state <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+		console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>state<span class="token punctuation">)</span><span class="token comment">//这里是返回的{menuName:内容对象} </span>
+	    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+	        menuName<span class="token punctuation">:</span> state<span class="token punctuation">.</span>menuName
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token function">connect</span><span class="token punctuation">(</span>mapStateToProps<span class="token punctuation">)</span><span class="token punctuation">(</span>Header<span class="token punctuation">)</span>
+</code></pre>
+</div>
+</body>
+
+</html>

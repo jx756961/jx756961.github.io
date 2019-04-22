@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js学习 （一） node.js 安装</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center"> Node.js学习 （一） node.js 安装</h2>
+  <div class="stackedit__html"><h5><a id="_Nodejs_2"></a>一、 认识Node.js</h5>
+<ul>
+<li>Node.js 是什么</li>
+</ul>
+<blockquote>
+<p>JavaScript 运行时<br>
+既不是语言，也不是框架，它是一个平台。 是JavaScript语言的运行环境</p>
+</blockquote>
+<ul>
+<li>Node.js 中的 JavaScript</li>
+</ul>
+<blockquote>
+<p>没有 BOM、DOM<br>
+EcmaScript 基本的 JavaScript 语言部分</p>
+</blockquote>
+<blockquote>
+<p>在 Node 中为 JavaScript 提供了一些服务器级别的 API<br>
+<code>文件操作</code>的能力<br>
+<code>http 服务</code>的能力</p>
+</blockquote>
+<h5><a id="_nodejs_15"></a>二、 安装node.js</h5>
+<ol>
+<li>
+<p>windows<br>
+<a href="https://nodejs.org/en/">下载node</a>  官网两个版本,一个是LTS（稳定版：项目中） 。一个current（最新版：学习）</p>
+<blockquote>
+<p>安装直接<code>next</code>就可以<br>
+打开cmd命令工具。输入：<code>node --version</code>  or <code>node -v</code><br>
+出现版本号就说明安装成功</p>
+</blockquote>
+</li>
+<li>
+<p>Linux 上安装 Node.js</p>
+</li>
+</ol>
+<blockquote>
+<p>直接使用已编译好的包<br>
+Node 官网已经把 linux 下载版本更改为已编译好的版本了，我们可以直接下载解压后使用：</p>
+</blockquote>
+<pre><code class="prism language-cmd"> wget https://nodejs.org/dist/v10.9.0/node-v10.9.0-linux-x64.tar.xz    // 下载
+ tar xf  node-v10.9.0-linux-x64.tar.xz       // 解压
+ cd node-v10.9.0-linux-x64/                  // 进入解压目录
+ ./bin/node -v                               // 执行node命令 查看版本
+v10.9.0
+</code></pre>
+<h5><a id="__32"></a>三、 使用</h5>
+<blockquote>
+<p>首先进入项目文件夹。命令行输入  <code>node 文件名.js</code> 。即是运行此文件</p>
+</blockquote>
+<p>示例文件：</p>
+<pre><code class="prism language-javascript"><span class="token comment">//helloword.js </span>
+<span class="token keyword">var</span> foo <span class="token operator">=</span> <span class="token string">'hello nodejs'</span>
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>foo<span class="token punctuation">)</span>
+</code></pre>
+<p>运行示例：</p>
+<pre><code class="prism language-cmd">运行：
+node helloword.js 
+输出：
+hello nodejs
+</code></pre>
+<blockquote>
+<p>在 Node 中，采用 EcmaScript 进行编码<br>
+没有 BOM、DOM , 和浏览器中的 JavaScript 不一样</p>
+</blockquote>
+<p>下面使用window、document<code>会报错</code>。属于未定义</p>
+<pre><code class="prism language-javascript">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>window<span class="token punctuation">)</span> 
+console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>document<span class="token punctuation">)</span>
+</code></pre>
+<h5><a id="__56"></a>四、 模块系统</h5>
+<blockquote>
+<p>在 Node 中没有全局作用域的概念<br>
+在 Node 中，只能通过 require 方法来加载执行多个 JavaScript 脚本文件</p>
+</blockquote>
+<ol>
+<li>require 加载只能是执行其中的代码，文件与文件之间由于是模块作用域，所以不会有污染的问题<br>
+- 模块完全是封闭的<br>
+- 外部无法访问内部<br>
+- 内部也无法访问外部】</li>
+<li>模块作用域固然带来了一些好处，可以加载执行多个文件，可以完全避免变量命名冲突污染的问题</li>
+<li>但是某些情况下，模块与模块是需要进行通信的</li>
+<li>在每个模块中，都提供了一个对象：<code>exports</code></li>
+<li>该对象默认是一个空对象</li>
+<li>你要做的就是把需要被外部访问使用的成员手动的挂载到 <code>exports</code> 接口对象中</li>
+<li>然后谁来 <code>require</code> 这个模块，谁就可以得到模块内部的 <code>exports</code> 接口对象</li>
+<li>还有其它的一些规则，具体后面讲，以及如何在项目中去使用这种编程方式，会通过后面的案例来处理</li>
+</ol>
+<h5><a id="_71"></a>五、核心模块</h5>
+<ol>
+<li>核心模块是由 Node 提供的一个个的具名的模块，它们都有自己特殊的名称标识，例如
+<ul>
+<li>fs 文件操作模块</li>
+<li>http 网络服务构建模块</li>
+<li>os 操作系统信息模块</li>
+<li>path 路径处理模块</li>
+<li>…</li>
+</ul>
+</li>
+<li>所有核心模块在使用的时候都必须手动的先使用 <code>require</code> 方法来加载，然后才可以使用，例如：
+<ul>
+<li><code>var fs = require('fs')</code></li>
+</ul>
+</li>
+</ol>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js学习 （六） 静态资源处理、url模块</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Node.js学习 （六） 静态资源处理、url模块 </h2>
+  <div class="stackedit__html"><h5><a id="_0"></a>静态资源处理</h5>
+<blockquote>
+<p>浏览器收到 HTML 响应内容之后，就要开始从上到下依次解析，<br>
+当在解析的过程中，如果发现：<br>
+link<br>
+script<br>
+img<br>
+iframe<br>
+video<br>
+audio<br>
+等带有 src 或者 href（link） 属性标签（具有外链的资源）的时候，浏览器会自动对这些资源发起新的请求。</p>
+</blockquote>
+<p>注意：在服务端中，文件中的路径就不要去写<code>相对路径</code> 静态资源获取不到。因为这个时候所有的资源都是通过 url 标识来获取的 , 我的服务器开放了 <code>/public/</code> 目录<br>
+所以这里的请求路径都写成：<code>/public/xxx</code><br>
+<code>/</code> 在这里就是 url 根路径的意思。<br>
+浏览器在真正发请求的时候会最终把 <code>http://127.0.0.1:3000</code> 拼上</p>
+<blockquote>
+<p>不要再想文件路径了，把所有的路径都想象成 url 地址, 如下例：</p>
+</blockquote>
+<pre><code>  &lt;link rel="stylesheet" href="/public/lib/bootstrap/dist/css/bootstrap.css"&gt;
+</code></pre>
+<p>示例：</p>
+<pre><code class="prism language-javascript"><span class="token comment">// 为了让目录结构保持统一清晰，所以我们约定，把所有的 HTML 文件都放到 views（视图） 目录中</span>
+<span class="token comment">// 我们为了方便的统一处理这些静态资源，所以我们约定把所有的静态资源都存放在 public 目录中</span>
+<span class="token comment">// / index.html</span>
+<span class="token comment">// /public 整个 public 目录中的资源都允许被访问</span>
+
+<span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> url <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'url'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> template <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'art-template'</span><span class="token punctuation">)</span>
+
+
+http
+  <span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token comment">// 简写方式，该函数会直接被注册为 server 的 request 请求事件处理函数</span>
+    <span class="token comment">// 使用 url.parse 方法将路径解析为一个方便操作的对象，第二个参数为 true 表示直接将查询字符串转为一个对象（通过 query 属性来访问）</span>
+    <span class="token keyword">var</span> parseObj <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>url<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// 单独获取不包含查询字符串的路径部分（该路径不包含 ? 之后的内容）</span>
+    <span class="token keyword">var</span> pathname <span class="token operator">=</span> parseObj<span class="token punctuation">.</span>pathname
+
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname <span class="token operator">===</span> <span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./views/index.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">var</span> htmlStr <span class="token operator">=</span> template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+          comments<span class="token punctuation">:</span> comments
+        <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>htmlStr<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname <span class="token operator">===</span> <span class="token string">'/post'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 其它的都处理成 404 找不到</span>
+      fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./views/post.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token comment">//处理静态资源 我们设定的规则就是把所有的静态资源放在 /public/</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'/public/'</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// /public/css/main.css</span>
+      <span class="token comment">// /public/js/main.js</span>
+      <span class="token comment">// /public/lib/jquery.js</span>
+      <span class="token comment">// 统一处理：</span>
+      <span class="token comment">//    如果请求路径是以 /public/ 开头的，则我认为你要获取 public 中的某个资源</span>
+      <span class="token comment">//    所以我们就直接可以把请求路径当作文件路径来直接进行读取</span>
+      fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'.'</span> <span class="token operator">+</span> pathname<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 其它的都处理成 404 找不到</span>
+      fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./views/404.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+        res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'running...'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<h5><a id="url_87"></a>url模块</h5>
+<ol>
+<li>核心模块引入<br>
+<code>var url = require('url')</code></li>
+<li>解析访问路径
+<blockquote>
+<p>使用 <code>url.parse</code> 方法将路径解析为一个方便操作的对象，第二个参数为 true 表示直接将查询字符串转为一个对象（通过 query 属性来访问）<br>
+<code>url.parse(url, true)</code></p>
+</blockquote>
+</li>
+<li>url.parse(url) 属性</li>
+</ol>
+<pre><code class="prism language-cmd">Url {
+	 protocol: 'https:',  				//传输协议
+	 slashes: true,
+	 auth: null,
+	 host: 'www.baidu.com',  			//主机
+	 port: null, 						//端口号
+	 hostname: 'www.baidu.com', 		//主机名
+	 hash: null, 						//哈希 #
+	 search: '?lian=123&amp;name=234', 	    //查询字符串 带 ?
+	 query: 'lian=123&amp;name=234', 		//查询字符串不带 ?
+	 pathname: '/', 					//访问路径不包含查询字符串
+	 path: '/?lian=123&amp;name=234',		//路径和查询字符串
+	 href: 'https://www.baidu.com/?lian=123&amp;name=234' //整个url地址
+}
+</code></pre>
+<p>完整示例：</p>
+<pre><code class="prism language-javascript"><span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> url <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'url'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> template <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'art-template'</span><span class="token punctuation">)</span>
+
+<span class="token keyword">var</span> comments <span class="token operator">=</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'张三'</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'今天天气不错！'</span><span class="token punctuation">,</span>
+        dateTime<span class="token punctuation">:</span> <span class="token string">'2015-10-16'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'张三2'</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'今天天气不错！'</span><span class="token punctuation">,</span>
+        dateTime<span class="token punctuation">:</span> <span class="token string">'2015-10-16'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'张三3'</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'今天天气不错！'</span><span class="token punctuation">,</span>
+        dateTime<span class="token punctuation">:</span> <span class="token string">'2015-10-16'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'张三4'</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'今天天气不错！'</span><span class="token punctuation">,</span>
+        dateTime<span class="token punctuation">:</span> <span class="token string">'2015-10-16'</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'张三5'</span><span class="token punctuation">,</span>
+        message<span class="token punctuation">:</span> <span class="token string">'今天天气不错！'</span><span class="token punctuation">,</span>
+        dateTime<span class="token punctuation">:</span> <span class="token string">'2015-10-16'</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">]</span>
+
+<span class="token comment">// /pinglun?name=的撒的撒&amp;message=的撒的撒的撒</span>
+<span class="token comment">// 对于这种表单提交的请求路径，由于其中具有用户动态填写的内容</span>
+<span class="token comment">// 所以你不可能通过去判断完整的 url 路径来处理这个请求</span>
+<span class="token comment">//</span>
+<span class="token comment">// 结论：对于我们来讲，其实只需要判定，如果你的请求路径是 /pinglun 的时候，那我就认为你提交表单的请求过来了</span>
+
+http
+    <span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//使用  url.parse()</span>
+        <span class="token keyword">var</span> parseObj <span class="token operator">=</span> url<span class="token punctuation">.</span><span class="token function">parse</span><span class="token punctuation">(</span>req<span class="token punctuation">.</span>url<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span>
+
+        <span class="token keyword">var</span> pathname <span class="token operator">=</span> parseObj<span class="token punctuation">.</span>pathname
+
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname <span class="token operator">===</span> <span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./views/index.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+                <span class="token keyword">var</span> htmlStr <span class="token operator">=</span> template<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+                    comments<span class="token punctuation">:</span> comments
+                <span class="token punctuation">}</span><span class="token punctuation">)</span>
+                res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>htmlStr<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname <span class="token operator">===</span> <span class="token string">'/post'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./views/post.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+                res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname<span class="token punctuation">.</span><span class="token function">indexOf</span><span class="token punctuation">(</span><span class="token string">'/public/'</span><span class="token punctuation">)</span> <span class="token operator">===</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+            fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'.'</span> <span class="token operator">+</span> pathname<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+                res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span> <span class="token punctuation">(</span>pathname <span class="token operator">===</span> <span class="token string">'/pinglun'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 注意：这个时候无论 /pinglun?xxx 之后是什么，我都不用担心了，因为我的 pathname 是不包含 ? 之后的那个路径</span>
+            <span class="token comment">// 一次请求对应一次响应，响应结束这次请求也就结束了</span>
+            <span class="token comment">// res.end(JSON.stringify(parseObj.query))</span>
+
+            <span class="token comment">// 我们已经使用 url 模块的 parse 方法把请求路径中的查询字符串给解析成一个对象了</span>
+            <span class="token comment">// 所以接下来要做的就是：</span>
+            <span class="token comment">//    1. 获取表单提交的数据 parseObj.query</span>
+            <span class="token comment">//    2. 将当前时间日期添加到数据对象中，然后存储到数组中</span>
+            <span class="token comment">//    3. 让用户重定向跳转到首页 /</span>
+            <span class="token comment">//       当用户重新请求 / 的时候，我数组中的数据已经发生变化了，所以用户看到的页面也就变了</span>
+            <span class="token keyword">var</span> comment <span class="token operator">=</span> parseObj<span class="token punctuation">.</span>query
+            comment<span class="token punctuation">.</span>dateTime <span class="token operator">=</span> <span class="token string">'2017-11-2 17:11:22'</span>
+            comments<span class="token punctuation">.</span><span class="token function">unshift</span><span class="token punctuation">(</span>comment<span class="token punctuation">)</span>
+            <span class="token comment">// 服务端这个时候已经把数据存储好了，接下来就是让用户重新请求 / 首页，就可以看到最新的留言内容了</span>
+
+            <span class="token comment">// 如何通过服务器让客户端重定向？</span>
+            <span class="token comment">//    1. 状态码设置为 302 临时重定向</span>
+            <span class="token comment">//        statusCode</span>
+            <span class="token comment">//    2. 在响应头中通过 Location 告诉客户端往哪儿重定向</span>
+            <span class="token comment">//        setHeader</span>
+            <span class="token comment">// 如果客户端发现收到服务器的响应的状态码是 302 就会自动去响应头中找 Location ，然后对该地址发起新的请求</span>
+            <span class="token comment">// 所以你就能看到客户端自动跳转了</span>
+            res<span class="token punctuation">.</span>statusCode <span class="token operator">=</span> <span class="token number">302</span>
+            res<span class="token punctuation">.</span><span class="token function">setHeader</span><span class="token punctuation">(</span><span class="token string">'Location'</span><span class="token punctuation">,</span> <span class="token string">'/'</span><span class="token punctuation">)</span>
+            res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+            fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span><span class="token string">'./views/404.html'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                    <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+                <span class="token punctuation">}</span>
+                res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'running...'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<p>前台表单：</p>
+<pre><code class="prism language-html"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>link</span> <span class="token attr-name">rel</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>stylesheet<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/public/lib/bootstrap/dist/css/bootstrap.css<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>header container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>page-header<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>首页<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>small</span><span class="token punctuation">&gt;</span></span>发表评论<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>small</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>comments container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token comment">&lt;!-- 
+      以前表单是如何提交的？
+      表单中需要提交的表单控件元素必须具有 name 属性
+      表单提交分为：
+        1. 默认的提交行为
+        2. 表单异步提交
+
+        action 就是表单提交的地址，说白了就是请求的 url 地址
+        method 请求方法
+            get
+            post
+     --&gt;</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>form</span> <span class="token attr-name">action</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>/pinglun<span class="token punctuation">"</span></span> <span class="token attr-name">method</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>get<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-group<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>input_name<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>你的大名<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-control<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token attr-name">minlength</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>2<span class="token punctuation">"</span></span> <span class="token attr-name">maxlength</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>10<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>input_name<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>name<span class="token punctuation">"</span></span> <span class="token attr-name">placeholder</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>请写入你的姓名<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-group<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>textarea_message<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>留言内容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>textarea</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>form-control<span class="token punctuation">"</span></span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>message<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>textarea_message<span class="token punctuation">"</span></span> <span class="token attr-name">cols</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>30<span class="token punctuation">"</span></span> <span class="token attr-name">rows</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>10<span class="token punctuation">"</span></span> <span class="token attr-name">required</span> <span class="token attr-name">minlength</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>5<span class="token punctuation">"</span></span> <span class="token attr-name">maxlength</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>20<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>textarea</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+      <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>button</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>submit<span class="token punctuation">"</span></span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>btn btn-default<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>发表<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>button</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>form</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+
+</code></pre>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>666God-Blog</title>
+    <meta name="keywords" content=""/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/m.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.js"></script>
+    <![endif]-->
+</head>
+<body>
+<header>
+    <div id="mnav">
+        <div class="logo"><a href="list_web.html">666God</a></div>
+        <h2 id="mnavh"><span class="navicon"></span></h2>
+        <ul id="starlist">
+
+            <!--<li><a href="share.html">模板分享</a></li>-->
+            <li><a href="list.html">BLOG</a></li>
+            <li><a href="index.html">About Me</a></li>
+            <!--<li><a href="info.html">慢生活</a></li>-->
+            <!--<li><a href="shareinfo.html">模板内容页</a></li>-->
+            <!--<li><a href="gbook.html">留言</a></li>-->
+        </ul>
+    </div>
+    <script>
+        window.onload = function () {
+            var oH2 = document.getElementById("mnavh");
+            var oUl = document.getElementById("starlist");
+            oH2.onclick = function () {
+                var style = oUl.style;
+                style.display = style.display == "block" ? "none" : "block";
+                oH2.className = style.display == "block" ? "open" : ""
+            }
+        }
+    </script>
+</header>
+<div class="line46"></div>
+<article>
+    <div class="leftbox">
+        <div class="newblogs">
+            <h2 class="hometitle"><span><a href="#">心得笔记</a><a href="#"></a><a
+                    href="#">node.js</a></span>学无止境</h2>
+            <ul>
+                <li>
+                    <a href="node_info/node_find.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （十四）find()、findIndex()</h3>
+                        <div class="bloginfo">
+                            <p> EcmaScript 6 新增方法,获取数据对象 find() 接收一个方法作为参数，方法内部返回一个条件 find() 会遍历所有的元素，执行你给定的带有条件返回值的函数
+                                符合该条件的元素会作为 find() 的返回值 如果遍历结束还没有符合该条件的元素，则返回 undefined find...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_package.jsom.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （十三）package.json、package-lock.json 最通俗的理解</h3>
+                        <div class="bloginfo">
+                            <p> 注意： npm v5 以后版本安装包可以不加 --save ,他会自动保存依赖信息 package.json express": "^4.16.2" 这个 ^ 符号就是代表版本
+                                对于开发者来说最有价值就是 dependencies ,可以用来帮我们保存第三方包的依赖...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_module.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （十二）JavaScript模块化问题</h3>
+                        <div class="bloginfo">
+                            <p> JavaScript 模块化 JavaScript 天生不支持模块化 注意：但是虽然标准已经发布了，但是很多 JavaScript 运行环境还不支持。 Node v8.5
+                                版本之后才对 EcmaScript 6 module 进行了支持 Node.js 里有exports、require ...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_module2.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （十一）模块化功能</h3>
+                        <div class="bloginfo">
+                            <p> 使用前面的案例定义模块化项目 路由模块 router.js 路由模块 处理路由 根据不同的请求方法+请求路径设置具体的请求处理函数 var router =
+                                express.Router() ...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_express.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （十） Express</h3>
+                        <div class="bloginfo">
+                            <p> 这里先说安装一个服务自动重启工具 nodemon ,这个工具省去我们手动重启node服务的步骤非常方便 npm install --global nodemon 路由
+                                //express搭建服务器 var express = require('express') var app = exp...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_expressbase.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （九） Express基础开发</h3>
+                        <div class="bloginfo">
+                            <p> 1. 安装 npm install express --save 创建服务 express() 创建你服务器应用程序,也就是原来的 http.createServer（）
+                                //1. 导入模块 var express = require('express') // 2. 创建你服务器应用...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_module3.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （八）模块系统</h3>
+                        <div class="bloginfo">
+                            <p> 导入模块 默认得到的是对象, 使用对象中的成员必须 . 点儿某个成员来访问 //在没有下面导出的模块是不能直接require模块的 var fooExports =
+                                require('./foo') // ReferenceError: foo is not defined // consol...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_each.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （七）each 、forEach 、$.each</h3>
+                        <div class="bloginfo">
+                            <p> each 、forEach 、$.each each 是 art-template 的模板语法，专属的 {{each 数组}} &lt;li&gt;{{ $value }}&lt;/li&gt;
+                                {{/each}} 这是 art-template 模板引擎支持...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_static.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （六） 静态资源处理、url模块</h3>
+                        <div class="bloginfo">
+                            <p> 浏览器收到 HTML 响应内容之后，就要开始从上到下依次解析， 当在解析的过程中，如果发现： link script img iframe video audio 等带有
+                                src 或者 href（link） 属性标签（具有外链的资源）的时候，浏览器会自动对这些资源发起新的请求。 注意：在服务端中...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_apache.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （五）模拟配置Apache服务</h3>
+                        <div class="bloginfo">
+                            <p> 配置Apache服务 //引入模块 var http = require('http') var fs = require('fs') //创建服务 var server =
+                                http.createServer() //服务公共地址 var wwwDir = 'D:/Movie/www' //收发...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_server_view.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （四） 服务端渲染</h3>
+                        <div class="bloginfo">
+                            <p> art-template 不仅可以在浏览器使用，也可以在 node 中使用 安装 该命令在哪执行就会把包下载到哪里。默认会下载到 node_modules 目录中
+                                node_modules 不要改，也不支持改。 在 Node 中使用 art-template 模板引擎 模板引起最早就是诞生...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_nofenhao.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （三）无分号代码风格应该注意什么?</h3>
+                        <div class="bloginfo">
+                            <p> 当你采用了无分号的代码风格的时候，只需要注意以下情况就不会有上面的问题了： 当一行代码是以： ( ;(function () { console.log('hello')
+                                })() [ ;['苹果', '香蕉'].forEach(function (item) { conso...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_http.html" target="_blank">
+                        <h3 class="blogtitle">Node.js学习 （二）搭建http服务器</h3>
+                        <div class="bloginfo">
+                            <p> http 这个模块的职责就是帮你创建编写服务器的 在 Node 中专门提供了一个核心模块：http 1. 加载 http 核心模块 var http =
+                                require('http') 2. 使用 http.createServer() 方法创建一个 Web 服务器 // 返回一个 Se...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+                <li>
+                    <a href="node_info/node_install.html" target="_blank">
+                        <h3 class="blogtitle"> Node.js学习 （一） node.js 安装</h3>
+                        <div class="bloginfo">
+                            <p> 一、 认识Node.js Node.js 是什么 JavaScript 运行时 既不是语言，也不是框架，它是一个平台。 是JavaScript语言的运行环境 Node.js
+                                中的 JavaScript 没有 BOM、DOM EcmaScript 基本的 JavaScript 语言部分...</p>
+                        </div>
+                    </a>
+                    <div class="autor">
+                        <span class="lm f_l" style="color:#096">666God个人博客</span>
+                    </div>
+                </li>
+            </ul>
+            <div class="pagelist">&nbsp;&nbsp;
+                <a href="list_web.html">web基础</a>&nbsp;
+                <a href="list_basejs.html">js基础</a>&nbsp;
+                <a href="list_node.html">node.js</a>&nbsp;
+                <a href="list_vue.html">Vue</a>&nbsp;
+                <a href="list.html">小程序</a>&nbsp;
+                <a href="list_php.html">php</a>&nbsp;
+                <a href="list_highjs.html">js高级</a>&nbsp;
+                <a href="list_otherweb.html">web其他</a>&nbsp;
+                <a href="list_server.html">后端其他</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="rightbox">
+        <div class="blank"></div>
+        <div class="search">
+            <form action="" method="post" name="searchform" id="searchform">
+                <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字"
+                       style="color: rgb(153, 153, 153);"
+                       onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}"
+                       onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+                <input name="show" value="title" type="hidden">
+                <input name="tempid" value="1" type="hidden">
+                <input name="tbname" value="news" type="hidden">
+                <input name="Submit" class="input_submit" value="搜索" type="submit">
+            </form>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">栏目推荐</a></h2>
+            <ul>
+                <li><b><a href="list_vue.html" target="_blank">Vue知识掌握</a></b>
+                    <p>Vue.js 的目标是通过尽可能简单的 API 实现响应的数据绑定和组合的视图组件...</p>
+                </li>
+                <li><b><a href="list_otherweb.html" target="_blank">React知识学习</a></b>
+                    <p>React 起源于 Facebook 的内部项目，因为该公司对市场上所有 JavaScript MVC 框架...</p>
+                </li>
+                <li><b><a href="list.html" target="_blank">微信小程序开发相关</a></b>
+                    <p>小程序是一种新的开放能力，开发者可以快速地开发一个小程序...</p>
+                </li>
+                <li><b><a href="list_node.html" target="_blank">Node.js 全面了解</a></b>
+                    <p>Node.js 是一个基于 Chrome V8 引擎的 JavaScript 运行环境。
+                        Node.js 使用了一个事件驱动、非阻塞式 I/O 的模型，使其轻量又高效。</p>
+                </li>
+                <li><b><a href="list_web.html" target="_blank">web基础学习</a></b>
+                    <p>通过HTML，CSS及JavaScript以及衍生出来的各种技术、框架、解决方案，来实现互联网产品的用户界面交互 ...</p>
+                </li>
+            </ul>
+            <div class="ad"><img src="images/ad01.jpg"></div>
+        </div>
+        <div class="paihang">
+            <h2 class="ab_title"><a href="#">进阶排行</a></h2>
+            <ul>
+                <li><b><a href="list_highjs.html" target="_blank">JavaScript高级</a></b>
+                    <p>在JavaScript基础后学习将更好的理解作用域、面向对象等</p>
+                </li>
+                <li><b><a href="list_php.html" target="_blank">服务端语言php整理</a></b>
+                    <p>一种通用开源脚本语言。语法吸收了C语言、Java和Perl的特点，利于学习，使用广泛，主要适用于Web开发领域...</p>
+                </li>
+            </ul>
+
+        </div>
+        <div class="weixin">
+            <h2 class="ab_title">微信鼓励</h2>
+            <ul>
+                <img src="images/wx.jpg">
+            </ul>
+        </div>
+    </div>
+</article>
+<footer>
+    <p>Design by <a href="#">666God</a></p>
+</footer>
+</body>
+</html>

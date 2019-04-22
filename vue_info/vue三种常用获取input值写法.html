@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vue三种常用获取input值写法</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">vue三种常用获取input值写法</h2>
+  <div class="stackedit__html"><h5><a id="1_vmodel___0"></a>1. v-model  表单输入绑定</h5>
+<blockquote>
+<p>使用v-model创建双向数据绑定, 用来监听用户的输入事件以更新数据，并对一些极端场景进行一些特殊处理。</p>
+</blockquote>
+<pre><code class="prism language-javascript">	
+	<span class="token operator">&lt;</span>template<span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+	        <span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"login-input"</span> type<span class="token operator">=</span><span class="token string">"text"</span>  v<span class="token operator">-</span>model<span class="token operator">=</span><span class="token string">"username"</span> placeholder<span class="token operator">=</span><span class="token string">"请输入账号"</span><span class="token operator">&gt;</span>
+	        <span class="token operator">&lt;</span>input <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"login-input"</span> type<span class="token operator">=</span><span class="token string">"password"</span> v<span class="token operator">-</span>model<span class="token operator">=</span><span class="token string">"password"</span> placeholder<span class="token operator">=</span><span class="token string">"请输入密码"</span><span class="token operator">&gt;</span>
+			<span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"login-button"</span> @click<span class="token operator">=</span><span class="token string">"login"</span> type<span class="token operator">=</span><span class="token string">"submit"</span><span class="token operator">&gt;</span>登陆<span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+	<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+       name<span class="token punctuation">:</span> <span class="token string">'Login'</span><span class="token punctuation">,</span>
+        <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token punctuation">{</span>
+                username<span class="token punctuation">:</span> <span class="token string">''</span><span class="token punctuation">,</span>
+                password<span class="token punctuation">:</span> <span class="token string">''</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+        methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+            <span class="token function">login</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>username<span class="token punctuation">)</span>
+                   console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>password<span class="token punctuation">)</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+	<span class="token operator">&lt;</span>script<span class="token operator">/</span><span class="token operator">&gt;</span>
+	
+</code></pre>
+<h5><a id="2_input__30"></a>2. @input 监听输入框</h5>
+<blockquote>
+<p>输入框只要输入的值变化了就会触发 input 调用 search 数据实时获取通过 event.currentTarget.value 获取到</p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token operator">&lt;</span>template<span class="token operator">&gt;</span>
+	  <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"class"</span><span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span>div<span class="token operator">&gt;</span>
+	      <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> @keyup<span class="token punctuation">.</span>enter<span class="token operator">=</span><span class="token string">"search"</span> @input<span class="token operator">=</span><span class="token string">"search($event)"</span><span class="token operator">/</span><span class="token operator">&gt;</span>
+	    <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+    <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+      name<span class="token punctuation">:</span> <span class="token string">"search"</span><span class="token punctuation">,</span>
+      <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	        <span class="token function">search</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span><span class="token punctuation">{</span>
+	          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>event<span class="token punctuation">.</span>currentTarget<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span>
+      	<span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+   <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+</code></pre>
+<h5><a id="3_ref__54"></a>3. ref 获取数据</h5>
+<blockquote>
+<p>这种方式类似于原生DOM,但是ref获取数据更方便</p>
+</blockquote>
+<pre><code class="prism language-javascript">	<span class="token operator">&lt;</span>template<span class="token operator">&gt;</span>
+	  <span class="token operator">&lt;</span>div <span class="token keyword">class</span><span class="token operator">=</span><span class="token string">"class"</span><span class="token operator">&gt;</span>
+	      <span class="token operator">&lt;</span>input type<span class="token operator">=</span><span class="token string">"text"</span> ref<span class="token operator">=</span><span class="token string">"getValue"</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+	      <span class="token operator">&lt;</span>button @click<span class="token operator">=</span><span class="token string">"subbmitButton"</span><span class="token operator">&gt;</span>获取表单数据<span class="token operator">&lt;</span><span class="token operator">/</span>button<span class="token operator">&gt;</span>
+	  <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span><span class="token operator">/</span>template<span class="token operator">&gt;</span>
+	<span class="token operator">&lt;</span>script<span class="token operator">&gt;</span>
+    <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+      name<span class="token punctuation">:</span> <span class="token string">"page"</span><span class="token punctuation">,</span>
+      <span class="token function">data</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	        <span class="token function">subbmitButton</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$refs<span class="token punctuation">.</span>getValue<span class="token punctuation">.</span>value<span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span>
+      	<span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token operator">&lt;</span><span class="token operator">/</span>script<span class="token operator">&gt;</span>
+
+</code></pre>
+</div>
+</body>
+
+</html>

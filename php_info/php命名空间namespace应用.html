@@ -1,0 +1,230 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>php命名空间namespace应用</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">php命名空间namespace应用</h2>
+  <div class="stackedit__html"><p>命名空间的实现跟我们系统目录文件的组织结构形式类似 , 一个目录下只能存在一个db.php文件。namespace关键字就是来定义类的空间区分。<br>
+受命名空间影响的类型：<mark>类、接口、函数、常量</mark> , 当然define()定义的常量是全局的,不受空间影响。如果使用命名空间定义常量要用 <mark>const</mark></p>
+<ul>
+<li>注：<br>
+\   一个反斜杠是指全局命名空间。\venter   这个是指全局命名空间下的其他子命名空间。但是这种情况只是类存在, 因为全局空间函数和常量在子空间调用的时候,如果空间内找不到会继续到全局空间寻找所以子空间内使用全局空间的函数变量, \ 加或不加功能一样。 如果优化的话应该加上 \ 提高效率。<br>
+例如：</li>
+<li>venter-&gt;session-&gt;db.php</li>
+<li>venter-&gt;db.php</li>
+</ul>
+<h5><a id="1namespace_7"></a>1.namespace的常规使用</h5>
+<p>以下为DEMO示例目录结构</p>
+<pre><code class="prism language-Markdown">-namespace
+	-App
+		-AppIndex.php
+	-lib
+		-LibIndex.php
+	-main.php
+</code></pre>
+<pre><code class="prism language-php">	<span class="token comment">/**
+	 * main.php
+	 * 通过测试如果不定义命名空间两个Index类包下面这个错误,无法重新声明Index类
+	 * Fatal error: Cannot redeclare class Index in D:\phpStudy\WWW\namespace\lib\LibIndex.php
+	 */</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'App/AppIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'lib/LibIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * AppIndex.php 
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserApp</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">/**
+	 * LibIndex
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserLib</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+<h6><a id="_40"></a>没有载入的命名空间不能调用,命名空间是全局的属性</h6>
+<p>通过加载入口文件main.php载入空间,才能在UserApp\Index里面调用另一个空间的类</p>
+<blockquote>
+<p>输出结果为：这是 UserApp\Index这是 UserLib\Index</p>
+</blockquote>
+<pre><code class="prism language-php">	<span class="token comment">/**
+	 * main.php
+	 */</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'App/AppIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'lib/LibIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>UserApp<span class="token punctuation">\</span>Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * AppIndex.php 
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserApp</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserApp\Index'</span><span class="token punctuation">;</span>
+	        <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>UserLib<span class="token punctuation">\</span>Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">/**
+	 * LibIndex
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserLib</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserLib\Index'</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+<h5><a id="2_use_74"></a>2. use的使用</h5>
+<blockquote>
+<p>常规导入类的名称过于繁琐 , 所以php中提供了一个关键字 use 来导入相应命名空间的类,尤其是导入<mark>函数和常量</mark>,普通方式不能导入函数常量</p>
+</blockquote>
+<pre><code class="prism language-php">	<span class="token comment">/**
+	 * main.php
+	 */</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'App/AppIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'lib/LibIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//use 导入空间</span>
+	<span class="token keyword">use</span>  <span class="token package">UserApp<span class="token punctuation">\</span>Index</span><span class="token punctuation">;</span>
+	<span class="token comment">//这里可以去掉路径前缀直接使用Index()</span>
+	<span class="token keyword">new</span> <span class="token class-name">Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * AppIndex.php 
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserApp</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserApp\Index'</span><span class="token punctuation">;</span>
+	        <span class="token keyword">new</span> <span class="token class-name"><span class="token punctuation">\</span>UserLib<span class="token punctuation">\</span>Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">/**
+	 * LibIndex
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserLib</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserLib\Index'</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+<p>注意：<code>PHP 7 之前版本需要使用多次 use</code></p>
+<pre><code class="prism language-php"><span class="token keyword">use</span> <span class="token package">some<span class="token punctuation">\</span>namespace<span class="token punctuation">\</span>ClassA</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">some<span class="token punctuation">\</span>namespace<span class="token punctuation">\</span>ClassB</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">some<span class="token punctuation">\</span>namespace<span class="token punctuation">\</span>ClassC</span> <span class="token keyword">as</span> C<span class="token punctuation">;</span> 
+
+<span class="token keyword">use</span> <span class="token package">function</span> some\<span class="token package">namespace<span class="token punctuation">\</span>fn_a</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">function</span> some\<span class="token package">namespace<span class="token punctuation">\</span>fn_b</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">function</span> some\<span class="token package">namespace<span class="token punctuation">\</span>fn_c</span><span class="token punctuation">;</span> 
+
+<span class="token keyword">use</span> <span class="token package">const</span> some\<span class="token package">namespace<span class="token punctuation">\</span>ConstA</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">const</span> some\<span class="token package">namespace<span class="token punctuation">\</span>ConstB</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">const</span> some\<span class="token package">namespace<span class="token punctuation">\</span>ConstC</span><span class="token punctuation">;</span> 
+</code></pre>
+<p><code>PHP 7+ 之后版本可以使用一个 use 导入同一个 namespace 的类</code></p>
+<pre><code class="prism language-php"><span class="token keyword">use</span> <span class="token package">some<span class="token punctuation">\</span>namespace<span class="token punctuation">\</span></span><span class="token punctuation">{</span>ClassA<span class="token punctuation">,</span> ClassB<span class="token punctuation">,</span> ClassC <span class="token keyword">as</span> C<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">function</span> some\<span class="token package">namespace<span class="token punctuation">\</span></span><span class="token punctuation">{</span>fn_a<span class="token punctuation">,</span> fn_b<span class="token punctuation">,</span> fn_c<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+<span class="token keyword">use</span> <span class="token package">const</span> some\<span class="token package">namespace<span class="token punctuation">\</span></span><span class="token punctuation">{</span>ConstA<span class="token punctuation">,</span> ConstB<span class="token punctuation">,</span> ConstC<span class="token punctuation">}</span><span class="token punctuation">;</span> 
+</code></pre>
+<h5><a id="3_as__133"></a>3. 别名as 的使用</h5>
+<p>如果在空间内use 导入另一个空间,并且两个空间类名相同, 那么为了避免这种类名冲突的问题出现php 里面设置一个as 别名的功能</p>
+<pre><code class="prism language-php">	<span class="token comment">/**
+	 * main.php
+	 */</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'App/AppIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'lib/LibIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">use</span>  <span class="token package">UserApp<span class="token punctuation">\</span>Index</span><span class="token punctuation">;</span>
+	<span class="token keyword">new</span> <span class="token class-name">Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * AppIndex.php 
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserApp</span><span class="token punctuation">;</span>
+	<span class="token comment">//这里直接将类设置别名为LibIndex</span>
+	<span class="token keyword">use</span> <span class="token package">UserLib<span class="token punctuation">\</span>Index</span> <span class="token keyword">as</span> LibIndex<span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserApp\Index'</span><span class="token punctuation">;</span>
+	        <span class="token comment">//此处直接调用别名就ok</span>
+	        <span class="token keyword">new</span> <span class="token class-name">LibIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">/**
+	 * LibIndex
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserLib</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserLib\Index'</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+<h5><a id="4use_170"></a>4.use导入函数、常量</h5>
+<pre><code class="prism language-php">	<span class="token comment">/**
+	 * main.php
+	 */</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'App/AppIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token keyword">include_once</span> <span class="token punctuation">(</span><span class="token single-quoted-string string">'lib/LibIndex.php'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">//use 导入空间</span>
+	<span class="token keyword">use</span>  <span class="token package">UserApp<span class="token punctuation">\</span>Index</span><span class="token punctuation">;</span>
+	<span class="token keyword">new</span> <span class="token class-name">Index</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token comment">/**
+	 * AppIndex.php 
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserApp</span><span class="token punctuation">;</span>
+	<span class="token keyword">use</span> <span class="token package">UserLib<span class="token punctuation">\</span>Index</span> <span class="token keyword">as</span> LibIndex<span class="token punctuation">;</span>
+	<span class="token comment">//此处调用UserLib空间的函数</span>
+	<span class="token keyword">use</span> <span class="token package">function</span> UserLib\<span class="token package">userLib</span><span class="token punctuation">;</span><span class="token comment">//function关键字要在php5.6以上才能用</span>
+	<span class="token keyword">use</span>  <span class="token package">UserLib<span class="token punctuation">\</span>userLib</span><span class="token punctuation">;</span><span class="token comment">//普通导入</span>
+	<span class="token comment">//常量的方式类似也可以不用关键词</span>
+	<span class="token keyword">use</span> <span class="token package">const</span> UserLib\<span class="token package">JXLV</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserApp\Index'</span><span class="token punctuation">;</span>
+	        <span class="token keyword">new</span> <span class="token class-name">LibIndex</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	        
+	        <span class="token function">userLib</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//function关键字导入的函数调用方式</span>
+	        \<span class="token package">UserLib<span class="token punctuation">\</span>userLib</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//普通导入函数调用方式</span>
+	        <span class="token keyword">echo</span> <span class="token constant">JXLV</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">/**
+	 * LibIndex
+	 */</span>
+	<span class="token keyword">namespace</span> <span class="token package">UserLib</span><span class="token punctuation">;</span>
+	<span class="token keyword">class</span> <span class="token class-name">Index</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">public</span> <span class="token keyword">function</span> <span class="token function">__construct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">{</span>
+	        <span class="token keyword">echo</span> <span class="token single-quoted-string string">'这是 UserLib\Index'</span><span class="token punctuation">;</span>
+	    <span class="token punctuation">}</span>
+	<span class="token punctuation">}</span>
+	<span class="token comment">//此处是空间的函数</span>
+	<span class="token keyword">function</span> <span class="token function">userLib</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	<span class="token punctuation">{</span>
+	    <span class="token keyword">echo</span> <span class="token single-quoted-string string">'我是userlib的函数'</span><span class="token punctuation">;</span>
+	<span class="token punctuation">}</span>
+</code></pre>
+</div>
+</body>
+
+</html>

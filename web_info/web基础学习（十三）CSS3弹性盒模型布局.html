@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>web基础学习（十三）CSS3弹性盒模型布局</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">web基础学习（十三）CSS3弹性盒模型布局</h2>
+  <div class="stackedit__html"><p><a href="https://blog.csdn.net/qq_39043923/article/details/88968703">上一节：CSS3之动画过渡实用案例</a>——————<a href="https://blog.csdn.net/qq_39043923/article/details/88970980">下一节：CSS3多列布局</a></p>
+<blockquote>
+<p>CSS3 弹性盒（ Flexible Box 或 flexbox），是一种当页面需要适应不同的屏幕大小以及设备类型时确保元素拥有恰当的行为的布局方式。<br>
+<img src="https://img-blog.csdnimg.cn/20190402125115919.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+<h5><a id="flex_container_3"></a>一、弹性容器(flex container也就是父级元素)</h5>
+<p><img src="https://img-blog.csdnimg.cn/20190402125158151.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>父级元素共有6个属性下面详细对这几个属性分析布局讲解</strong></li>
+</ul>
+<ol>
+<li><strong>flex-direction</strong>
+<blockquote>
+<p>设置<code>主轴方向</code>，确定弹性子元素排列方式<br>
+<code>flex-direction：row | row-reverse | column | column-reverse</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402125856245.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190402130106988.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+<li><strong>flex-wrap</strong>
+<blockquote>
+<p>设置弹性子元素<code>超出弹性容器</code>范围时<code>是否换行</code><br>
+<code>flex-wrap：nowrap | wrap | wrap-reverse</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402130331530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190402130414819.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+<li><strong>flex-flow</strong>
+<blockquote>
+<p>复合属性(flex-direction和flex-wrap)，设置弹性<code>子元素排列方式</code><br>
+<code>flex-flow：[ flex-direction ] || [ flex-wrap ]</code></p>
+</blockquote>
+</li>
+<li><strong>justify-content</strong>
+<blockquote>
+<p>设置弹性子元素<code>主轴</code>上的<code>对齐方式</code><br>
+<code>justify-content：flex-start | flex-end | center | space-between | space-around</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402130751402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190402130824868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+<li><strong>align-items</strong>
+<blockquote>
+<p>设置弹性子元素<code>侧轴</code>上的<code>对齐方式</code><br>
+<code>align-items：flex-start | flex-end | center | baseline | stretch</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402130958774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20190402131032884.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+<li><strong>align-content</strong>
+<blockquote>
+<p>侧轴<code>有空白</code>且<code>有多行</code>时，设置弹性子元素<code>侧轴</code>上的对齐方式<br>
+<code>align-content：flex-start | flex-end | center | space-between | space-around | stretch</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402131447735.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/2019040213151997.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+</ol>
+<h5><a id="flex_item_34"></a>二、弹性子元素(flex item)</h5>
+<p><img src="https://img-blog.csdnimg.cn/20190402125344526.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<ul>
+<li><strong>子元素也有6个属性下面是布局详解</strong></li>
+</ul>
+<ol>
+<li><strong>order</strong>
+<blockquote>
+<p>设置弹性子元素的顺序，<code>数值小</code>的排在<code>前面</code>，可以为负值<code>默认值为0</code>。<br>
+<code>order：&lt;integer&gt;</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402131851843.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+<li><strong>flex-grow</strong>
+<blockquote>
+<p>设置弹性子元素的<code>扩展比率</code>，不允许为负值，<code>默认值为0</code>,根据弹性盒子元素所设置的扩展因子作为比率来<code>分配剩余空间</code><br>
+<code>flex-grow：&lt;number&gt;</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402132125895.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+<li><strong>flex-shrink</strong><br>
+&gt;设置弹性子元素的<code>收缩比率</code>，不允许为负值，<code>默认值为1</code>,根据弹性盒子元素所设置的扩展因子作为比率来收缩空间<br>
+&gt;<code>flex-shrink：&lt;number&gt;</code><br>
+<img src="https://img-blog.csdnimg.cn/20190402132430651.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20190402132441732.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li><strong>flex-basis</strong>
+<blockquote>
+<p>设置弹性子元素的<code>伸缩基准值</code>(参照值)，不允许为负值。 <code>默认值为auto</code>，无特定宽度(高度)<br>
+<code>flex-basis：&lt;length&gt; | &lt;percentage&gt; | auto</code></p>
+</blockquote>
+</li>
+<li><strong>flex</strong>
+<blockquote>
+<p>复合属性，设置弹性子元素的空间如何分配<br>
+<code>flex：none | [ flex-grow ] || [ flex-shrink ] || [ flex-basis ]</code></p>
+</blockquote>
+</li>
+<li><strong>align-self</strong>
+<blockquote>
+<p>设置弹性子元素的在<code>侧轴</code>上的<code>对齐方式</code>，与<code>align-item</code>的相同。  设置某个弹性子元素的<code>独立对齐方式</code>。<br>
+<code>align-self：auto | flex-start | flex-end | center | baseline | stretch</code><img src="https://img-blog.csdnimg.cn/2019040213302763.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</blockquote>
+</li>
+</ol>
+<ul>
+<li>弹性盒模型重在理解,自己练习后很容易理解里面的含义。</li>
+<li>拷贝demo测试练习吧：</li>
+</ul>
+<pre><code class="prism language-html"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>viewport<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>width=device-width, initial-scale=1.0<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">http-equiv</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>X-UA-Compatible<span class="token punctuation">"</span></span> <span class="token attr-name">content</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>ie=edge<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>FLEX<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span><span class="token punctuation">&gt;</span></span><span class="token style language-css">
+        <span class="token selector">.flex-container</span> <span class="token punctuation">{</span>
+            <span class="token comment">/*开启弹性盒子*/</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+            <span class="token comment">/*设置主轴水平方向*/</span>
+            <span class="token property">flex-direction</span><span class="token punctuation">:</span> row<span class="token punctuation">;</span>
+            <span class="token comment">/*设置超出范围允许换行*/</span>
+            <span class="token property">flex-wrap</span><span class="token punctuation">:</span> wrap<span class="token punctuation">;</span>
+            <span class="token comment">/*复合方式写主轴水平方向和换行*/</span>
+            <span class="token property">flex-flow</span><span class="token punctuation">:</span> row wrap<span class="token punctuation">;</span>
+            <span class="token comment">/*设置主轴居中对齐*/</span>
+            <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token comment">/*设置子元素侧轴居中对齐*/</span>
+            <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 1200px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 640px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> lightsteelblue<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.flex-container .flex-item</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 320px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 240px<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token property">font-weight</span><span class="token punctuation">:</span> bolder<span class="token punctuation">;</span>
+            <span class="token property">line-height</span><span class="token punctuation">:</span> 240px<span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> lightsalmon<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">/*使用order设置每个子元素的顺序*/</span>
+        <span class="token selector">.flex-container .one</span><span class="token punctuation">{</span>
+            <span class="token property">order</span><span class="token punctuation">:</span> 1<span class="token punctuation">;</span>
+            <span class="token comment">/*设置扩展比率2 */</span>
+            <span class="token property">flex-grow</span><span class="token punctuation">:</span>2<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token selector">.flex-container .two</span><span class="token punctuation">{</span>
+            <span class="token property">order</span><span class="token punctuation">:</span> 3<span class="token punctuation">;</span>
+            <span class="token comment">/*设置扩展比率1 */</span>
+            <span class="token property">flex-grow</span><span class="token punctuation">:</span>1<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token selector">.flex-container .three</span><span class="token punctuation">{</span>
+            <span class="token property">order</span><span class="token punctuation">:</span> 4<span class="token punctuation">;</span>
+            <span class="token comment">/*设置扩展比率3 */</span>
+            <span class="token property">flex-grow</span><span class="token punctuation">:</span>3<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token selector">.flex-container .four</span><span class="token punctuation">{</span>
+            <span class="token property">order</span><span class="token punctuation">:</span> 2<span class="token punctuation">;</span>
+            
+        <span class="token punctuation">}</span>
+        <span class="token selector">.flex-container .five</span><span class="token punctuation">{</span>
+            <span class="token property">order</span><span class="token punctuation">:</span> 5<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token selector">.flex-container .six</span><span class="token punctuation">{</span>
+            <span class="token property">order</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-item one<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-item two<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-item three<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-item four<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>4<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-item five<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>5<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>flex-item six<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>6<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div>
+</body>
+
+</html>

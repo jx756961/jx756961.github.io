@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>微信小程序使用 async , await</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">微信小程序使用 async , await</h2>
+  <div class="stackedit__html"><ol>
+<li>直接使用 async , await 会报错  regeneratorRuntime is not defined</li>
+<li>下载第三方npm包 	regenerator-runtime    <a href="https://www.npmjs.com/package/regenerator-runtime">下载地址</a></li>
+<li>下载文件中的regenerator-runtime文件夹拿出来，放到小程序代码中去，一般是放在utils文件夹</li>
+<li>查看下面示例 async应用</li>
+</ol>
+<pre><code class="prism language-javascript"><span class="token comment">//index.js</span>
+<span class="token keyword">const</span> regeneratorRuntime <span class="token operator">=</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../utils/regenerator-runtime/runtime.js'</span><span class="token punctuation">)</span> 
+<span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token comment">/**
+   * 页面的初始数据
+   */</span>
+  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token comment">/**
+   * 生命周期函数--监听页面加载
+   */</span>
+  <span class="token keyword">async</span> <span class="token function">MyAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token string">'this is async function'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  onLoad<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">MyAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'1111'</span><span class="token operator">+</span>res<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre>
+<ol start="5">
+<li>控制台输出结果如图, async  函数返回的是一个 Promise 对象 , async 函数(包含函数语句、函数表达式、Lambda 表达式)会返回一个 Promise 对象，如果在函数中 return 一个直接量，async 会把这个直接量通过Promise.resolve() 封装成 Promise 对象。async 函数 在没有 await 的情况下执行async函数，它会立即执行，并且返回一个 promise 对象，并且绝不会阻塞后面的语句<img src="https://img-blog.csdnimg.cn/20190319152928840.png" alt="在这里插入图片描述"></li>
+<li>await 作用 表达式会暂停当前 async function 的执行，等待 Promise 处理完成若 Promise 正常处理，其处理结果作为 await 表达式的值，继续执行 async function 。若 Promise 处理异常 (rejected) , await 表达式会把 Promise 的异常原因抛出。另外，如果 await 操作符号的表达式的值不是一个 Promise ，那么该值将被转换为一个正常处理的 Promise 。</li>
+<li>async / await 的优势在于处理then链 ,查看下面示例</li>
+</ol>
+<pre><code class="prism language-javascript">	<span class="token comment">//index.js</span>
+	<span class="token keyword">const</span> regeneratorRuntime <span class="token operator">=</span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'../../utils/regenerator-runtime/runtime.js'</span><span class="token punctuation">)</span> 
+	<span class="token function">Page</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	  <span class="token comment">/**
+	   * 页面的初始数据
+	   */</span>
+	  data<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+	    
+	  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	  <span class="token comment">/**
+	   * 生命周期函数--监听页面加载
+	   */</span>
+	  <span class="token function">getOneMes</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getOneMes one'</span><span class="token punctuation">)</span>
+	    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	      wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	        url<span class="token punctuation">:</span> <span class="token string">'http://suggest.taobao.com/sug?code=utf-8&amp;q=衣服&amp;callback=cb'</span><span class="token punctuation">,</span>
+	        method<span class="token punctuation">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+	        dataType<span class="token punctuation">:</span> <span class="token string">'json'</span><span class="token punctuation">,</span>
+	        success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'one：'</span><span class="token punctuation">)</span>
+	          <span class="token function">resolve</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	  <span class="token function">getTwoMes</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getOneMes two'</span><span class="token punctuation">)</span>
+	    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	      wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	        url<span class="token punctuation">:</span> <span class="token string">'http://suggest.taobao.com/sug?code=utf-8&amp;q=帽子&amp;callback=cb'</span><span class="token punctuation">,</span>
+	        method<span class="token punctuation">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+	        dataType<span class="token punctuation">:</span> <span class="token string">'json'</span><span class="token punctuation">,</span>
+	        success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'two：'</span><span class="token punctuation">)</span>
+	          <span class="token function">resolve</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	  <span class="token function">getThreeMes</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'getOneMes three'</span><span class="token punctuation">)</span>
+	    <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+	      wx<span class="token punctuation">.</span><span class="token function">request</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+	        url<span class="token punctuation">:</span> <span class="token string">'http://suggest.taobao.com/sug?code=utf-8&amp;q=裤子&amp;callback=cb'</span><span class="token punctuation">,</span>
+	        method<span class="token punctuation">:</span> <span class="token string">'GET'</span><span class="token punctuation">,</span>
+	        dataType<span class="token punctuation">:</span> <span class="token string">'json'</span><span class="token punctuation">,</span>
+	        success<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	          console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'three：'</span><span class="token punctuation">)</span>
+	          <span class="token function">resolve</span><span class="token punctuation">(</span>res<span class="token punctuation">)</span>
+	        <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	  <span class="token keyword">async</span> <span class="token function">MyAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+	    <span class="token keyword">let</span> one <span class="token operator">=</span><span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getOneMes</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>one<span class="token punctuation">)</span>
+	    <span class="token keyword">let</span> two <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getTwoMes</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>two<span class="token punctuation">)</span>
+	    <span class="token keyword">let</span> three <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getThreeMes</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+	    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>three<span class="token punctuation">)</span>
+	  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	  onLoad<span class="token punctuation">:</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>options<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">MyAsync</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">=&gt;</span><span class="token punctuation">{</span>
+	      console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'MyAsync'</span><span class="token punctuation">)</span>
+	    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+	  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span><span class="token punctuation">)</span>	
+</code></pre>
+<ol start="8">
+<li>输出结果异步变同步如图结果：先执行的one，等one完全执行结束 然后是two，最后是three<img src="https://img-blog.csdnimg.cn/20190319160926591.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+<img src="https://img-blog.csdnimg.cn/20190319161052599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5MDQzOTIz,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>
+本文内容借鉴<a href="https://blog.csdn.net/er_ba/article/details/79310727">er_ba</a>的博客,推荐一下,大家相互学习</li>
+</ol>
+</div>
+</body>
+
+</html>

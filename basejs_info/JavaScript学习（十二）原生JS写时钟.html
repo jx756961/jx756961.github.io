@@ -1,0 +1,398 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript学习（十二）原生JS写时钟</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">JavaScript学习（十二）原生JS写时钟 </h2>
+  <div class="stackedit__html"><h5><a id="_0"></a>一、时钟案例练习</h5>
+<p><img src="https://img-blog.csdnimg.cn/20190408095835322.gif" alt="在这里插入图片描述"></p>
+<ul>
+<li>源码</li>
+</ul>
+<pre><code class="prism language-html"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token style language-css">
+        <span class="token selector">html, body</span> <span class="token punctuation">{</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 100%<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">body</span> <span class="token punctuation">{</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #ccc<span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+            <span class="token property">flex-flow</span><span class="token punctuation">:</span> row nowrap<span class="token punctuation">;</span>
+            <span class="token property">justify-content</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">align-items</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.sz</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 400px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #fff<span class="token punctuation">;</span>
+            <span class="token property">border</span><span class="token punctuation">:</span> 5px solid black<span class="token punctuation">;</span>
+            <span class="token property">border-radius</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+            <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.sz &gt; span</span> <span class="token punctuation">{</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">line-height</span><span class="token punctuation">:</span> 50px<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.one</span> <span class="token punctuation">{</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 175px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.two</span> <span class="token punctuation">{</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 175px<span class="token punctuation">;</span>
+            <span class="token property">right</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.three</span> <span class="token punctuation">{</span>
+            <span class="token property">bottom</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 175px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.four</span> <span class="token punctuation">{</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 175px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 5px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#hours, #minutes, #seconds</span> <span class="token punctuation">{</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+            <span class="token comment">/*定位时分秒指针的旋转位置*/</span>
+            <span class="token property">transform-origin</span><span class="token punctuation">:</span> 0 50%<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#hours</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 120px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 10px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> red<span class="token punctuation">;</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 195px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#minutes</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 140px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 6px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> blue<span class="token punctuation">;</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 197px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#seconds</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 170px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 2px<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> black<span class="token punctuation">;</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 199px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 50%<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#time</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+            <span class="token property">bottom</span><span class="token punctuation">:</span> 100px<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 150px<span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> flex<span class="token punctuation">;</span>
+            <span class="token property">flex-flow</span><span class="token punctuation">:</span> row nowrap<span class="token punctuation">;</span>
+            <span class="token property">justify-content</span><span class="token punctuation">:</span> space-between<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#time &gt; span</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+            <span class="token property">background-color</span><span class="token punctuation">:</span> #000000<span class="token punctuation">;</span>
+            <span class="token property">font-size</span><span class="token punctuation">:</span> 26px<span class="token punctuation">;</span>
+            <span class="token property">color</span><span class="token punctuation">:</span> #ffffff<span class="token punctuation">;</span>
+            <span class="token property">text-align</span><span class="token punctuation">:</span> center<span class="token punctuation">;</span>
+            <span class="token property">line-height</span><span class="token punctuation">:</span> 30px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token comment">&lt;!--书写钟表样式--&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>sz<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>hours<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>minutes<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>seconds<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>one<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>12<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>two<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>three<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>6<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>four<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>9<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>time<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+	<span class="token comment">//页面加载</span>
+    window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">//处理如果时分秒小于10不能显示个位数要显示两位数方法处理 比如：01的格式</span>
+        <span class="token keyword">function</span> <span class="token function">toDou</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token string">"0"</span> <span class="token operator">+</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+                <span class="token keyword">return</span> <span class="token string">""</span> <span class="token operator">+</span> n<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 时间变化方法定义</span>
+        <span class="token keyword">function</span> <span class="token function">times</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 创建对象,获取时分秒</span>
+            <span class="token keyword">var</span> mydate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> h <span class="token operator">=</span> mydate<span class="token punctuation">.</span><span class="token function">getHours</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> m <span class="token operator">=</span> mydate<span class="token punctuation">.</span><span class="token function">getMinutes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> s <span class="token operator">=</span> mydate<span class="token punctuation">.</span><span class="token function">getSeconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 时间栏里面的时间创建,利用DOM id="time"</span>
+            <span class="token keyword">var</span> time <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"time"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 获取time下面的三个span标签</span>
+            <span class="token keyword">var</span> span <span class="token operator">=</span> time<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"span"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 第一个标签为小时,使用上面的toDou方法变化一下单数时间格式</span>
+            span<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token function">toDou</span><span class="token punctuation">(</span>h<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 第二个标签为分钟</span>
+            span<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token function">toDou</span><span class="token punctuation">(</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 第三个标签为秒数</span>
+            span<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> <span class="token function">toDou</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// DOM元素时分秒</span>
+            <span class="token keyword">var</span> hour <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"hours"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> minute <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"minutes"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">var</span> second <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"seconds"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token comment">// 旋转时分秒指针</span>
+            hour<span class="token punctuation">.</span>style<span class="token punctuation">.</span>transform <span class="token operator">=</span> <span class="token string">"rotate("</span> <span class="token operator">+</span> <span class="token punctuation">(</span>h <span class="token operator">*</span> <span class="token number">30</span> <span class="token operator">-</span> <span class="token number">90</span> <span class="token operator">+</span> <span class="token number">0.5</span> <span class="token operator">*</span> m<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"deg)"</span><span class="token punctuation">;</span>
+            minute<span class="token punctuation">.</span>style<span class="token punctuation">.</span>transform <span class="token operator">=</span> <span class="token string">"rotate("</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>m <span class="token operator">*</span> <span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"deg)"</span><span class="token punctuation">;</span>
+            second<span class="token punctuation">.</span>style<span class="token punctuation">.</span>transform <span class="token operator">=</span> <span class="token string">"rotate("</span> <span class="token operator">+</span> <span class="token punctuation">(</span><span class="token punctuation">(</span>s <span class="token operator">*</span> <span class="token number">6</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">90</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"deg)"</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token comment">// 计时器显示时间数据</span>
+        <span class="token function">setInterval</span><span class="token punctuation">(</span>times<span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">times</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h5><a id="_179"></a>二、简单的轮播图</h5>
+<p><img src="https://img-blog.csdnimg.cn/20190408102809494.gif" alt="在这里插入图片描述"></p>
+<ul>
+<li>源码</li>
+</ul>
+<pre><code class="prism language-html"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>Document<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>style</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/css<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token style language-css">
+        <span class="token selector">.container</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 846px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 108px<span class="token punctuation">;</span>
+            <span class="token comment">/* background-color: yellow; */</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 100px auto<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.container &gt; span</span> <span class="token punctuation">{</span>
+            <span class="token property">display</span><span class="token punctuation">:</span> block<span class="token punctuation">;</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 67px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 67px<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+            <span class="token property">top</span><span class="token punctuation">:</span> 20px<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.container &gt; span:nth-of-type(1)</span> <span class="token punctuation">{</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url("images/btn.jpg")</span> no-repeat -67px 0<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">.container &gt; span:nth-of-type(2)</span> <span class="token punctuation">{</span>
+            <span class="token property">right</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">background</span><span class="token punctuation">:</span> <span class="token url">url("images/btn.jpg")</span> no-repeat 0px 0<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#box</span> <span class="token punctuation">{</span>
+            <span class="token property">width</span><span class="token punctuation">:</span> 712px<span class="token punctuation">;</span>
+            <span class="token property">height</span><span class="token punctuation">:</span> 108px<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 0 auto<span class="token punctuation">;</span>
+            <span class="token property">overflow</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> relative<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#box ul</span> <span class="token punctuation">{</span>
+            <span class="token property">list-style</span><span class="token punctuation">:</span> none<span class="token punctuation">;</span>
+            <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">padding</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+            <span class="token property">position</span><span class="token punctuation">:</span> absolute<span class="token punctuation">;</span>
+            <span class="token property">left</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+        <span class="token selector">#box ul li</span> <span class="token punctuation">{</span>
+            <span class="token property">float</span><span class="token punctuation">:</span> left<span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>style</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>container<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>back<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>box<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>images/1.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>images/2.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>images/3.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+            <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>images/4.jpg<span class="token punctuation">"</span></span> <span class="token attr-name">alt</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">&gt;</span></span>
+        <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>next<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+    window<span class="token punctuation">.</span><span class="token function-variable function">onload</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// 获取元素</span>
+        <span class="token keyword">var</span> div <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"box"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> ul <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"ul"</span><span class="token punctuation">)</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> li <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementsByTagName</span><span class="token punctuation">(</span><span class="token string">"li"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> back <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"back"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">var</span> next <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">"next"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 定义移动速度 正为向右走,负为向左走</span>
+        <span class="token keyword">var</span> speed <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token comment">// 复制一个ul ,让轮播衔接上</span>
+        ul<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> ul<span class="token punctuation">.</span>innerHTML <span class="token operator">+</span> ul<span class="token punctuation">.</span>innerHTML<span class="token punctuation">;</span>
+        <span class="token comment">// 定义ul的长度是所有li长度和 （li[0]是第一个li,随便一个就可以,offsetWidth：是自身宽度）</span>
+        ul<span class="token punctuation">.</span>style<span class="token punctuation">.</span>width <span class="token operator">=</span> li<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">.</span>offsetWidth <span class="token operator">*</span> li<span class="token punctuation">.</span>length <span class="token operator">+</span> <span class="token string">"px"</span><span class="token punctuation">;</span>
+
+        <span class="token keyword">function</span> <span class="token function">move</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 向左移动ul , speed的距离上面定义-2</span>
+            ul<span class="token punctuation">.</span>style<span class="token punctuation">.</span>left <span class="token operator">=</span> ul<span class="token punctuation">.</span>offsetLeft <span class="token operator">+</span> speed <span class="token operator">+</span> <span class="token string">"px"</span><span class="token punctuation">;</span>
+            <span class="token comment">// 判断如果距#box左边的距离小于ul距离的一半,也就是一组图片的宽度时候(其实就是将轮播图拉回的过程)</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ul<span class="token punctuation">.</span>offsetLeft <span class="token operator">&lt;</span> <span class="token operator">-</span>ul<span class="token punctuation">.</span>offsetWidth <span class="token operator">/</span> <span class="token number">2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                <span class="token comment">// 重置距#box左边距离</span>
+                ul<span class="token punctuation">.</span>style<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token string">"0"</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+            <span class="token comment">// 这里是判断向右移动的拉回效果,原理如同上面</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>ul<span class="token punctuation">.</span>offsetLeft <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+
+                ul<span class="token punctuation">.</span>style<span class="token punctuation">.</span>left <span class="token operator">=</span> <span class="token operator">-</span>ul<span class="token punctuation">.</span>offsetWidth <span class="token operator">/</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token string">"px"</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+
+        将移动方法放进计时器中
+        <span class="token keyword">var</span> jsq <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span>move<span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">// 点击两个按钮设置speed的正负也就是移动的方向</span>
+        back<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            speed <span class="token operator">=</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        next<span class="token punctuation">.</span><span class="token function-variable function">onclick</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            speed <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 鼠标经过停止计时器</span>
+        ul<span class="token punctuation">.</span><span class="token function-variable function">onmouseover</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">clearInterval</span><span class="token punctuation">(</span>jsq<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment">// 鼠标移开开启计时器</span>
+        ul<span class="token punctuation">.</span><span class="token function-variable function">onmouseout</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            jsq <span class="token operator">=</span> <span class="token function">setInterval</span><span class="token punctuation">(</span>move<span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+<h5><a id="_302"></a>三、多级联动</h5>
+<pre><code class="prism language-html"><span class="token doctype">&lt;!DOCTYPE html&gt;</span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>html</span> <span class="token attr-name">lang</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>en<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>head</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>meta</span> <span class="token attr-name">charset</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>UTF-8<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>title</span><span class="token punctuation">&gt;</span></span>二级联动、多级联动<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>title</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>head</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>countrie<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>|-{-请选择国家<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>select</span> <span class="token attr-name">name</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>province<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>option</span> <span class="token attr-name">value</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span><span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>|--请选择省份<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>option</span><span class="token punctuation">&gt;</span></span>
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>select</span><span class="token punctuation">&gt;</span></span>
+
+	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>text/javascript<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token script language-javascript">
+		<span class="token keyword">var</span> countrieArr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'中国'</span><span class="token punctuation">,</span><span class="token string">'美国'</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+		<span class="token keyword">var</span> provinceArr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'内蒙古'</span><span class="token punctuation">,</span><span class="token string">'北京'</span><span class="token punctuation">,</span><span class="token string">'上海'</span><span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token punctuation">[</span><span class="token string">'洛杉矶'</span><span class="token punctuation">,</span><span class="token string">'华盛顿'</span><span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+		<span class="token keyword">var</span> countrieObj <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'countrie'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">var</span> provinceObj <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'province'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+		<span class="token keyword">var</span> countrieOpt <span class="token operator">=</span> <span class="token string">''</span><span class="token punctuation">;</span>
+		<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>countrieArr<span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+			<span class="token comment">/*
+				var begin = '&lt;option value="'; var end = '"&gt;'; 
+				var i = 1; 
+				console.log(begin+i+end);
+				VM451:1 &lt;option value="1"&gt;
+
+				var i=1;console.log('&lt;option value="'+i+'"&gt;');
+				VM491:1 &lt;option value="1"&gt;
+			*/</span>
+			countrieOpt <span class="token operator">+=</span> <span class="token string">'&lt;option value="'</span><span class="token operator">+</span>i<span class="token operator">+</span><span class="token string">'"&gt;'</span><span class="token operator">+</span>countrieArr<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'&lt;/option&gt;'</span><span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+		<span class="token comment">/*
+			i = 0;
+			i是否小于2  true
+			执行代码
+			i++
+		
+		
+			i = 1;
+			i是否小于2 true
+			执行代码
+			i++
+			
+			i = 2
+			i是否小于2 false
+			跳出循环，终止循环代码;
+		*/</span>
+		
+		<span class="token comment">//countrieObj.innerHTML = countrieObj.innerHTML + countrieOpt;</span>
+		countrieObj<span class="token punctuation">.</span>innerHTML <span class="token operator">+=</span>  countrieOpt<span class="token punctuation">;</span>
+
+		<span class="token comment">//onchange表示内容发生改变，如果内容没有改变是不会触发的.</span>
+		countrieObj<span class="token punctuation">.</span><span class="token function-variable function">onchange</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+		
+			<span class="token comment">//获取当前国家下面的省份</span>
+			<span class="token comment">//var a = document.getElementById('countrie').value;</span>
+			<span class="token comment">//console.log(provinceArr[a]);</span>
+			
+			<span class="token comment">//console.log(provinceArr[this.value]);</span>
+		
+			<span class="token keyword">var</span> provinceOpt <span class="token operator">=</span> <span class="token string">'&lt;option value=""&gt;|--请选择省份&lt;/option&gt;'</span><span class="token punctuation">;</span>
+		
+			<span class="token comment">// this.value 表示获取当前对象的value值</span>
+			<span class="token keyword">if</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>value <span class="token operator">!=</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+				<span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">var</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>provinceArr<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">]</span><span class="token punctuation">.</span>length<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+					provinceOpt <span class="token operator">+=</span> <span class="token string">'&lt;option&gt;'</span><span class="token operator">+</span>provinceArr<span class="token punctuation">[</span><span class="token keyword">this</span><span class="token punctuation">.</span>value<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">+</span><span class="token string">'&lt;/option&gt;'</span><span class="token punctuation">;</span>
+				<span class="token punctuation">}</span>
+			<span class="token punctuation">}</span>
+			provinceObj<span class="token punctuation">.</span>innerHTML <span class="token operator">=</span> provinceOpt<span class="token punctuation">;</span>
+		<span class="token punctuation">}</span>
+	</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>body</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>html</span><span class="token punctuation">&gt;</span></span>
+</code></pre>
+</div>
+</body>
+
+</html>

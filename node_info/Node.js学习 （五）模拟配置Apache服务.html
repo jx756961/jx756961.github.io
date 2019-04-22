@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js学习 （五）模拟配置Apache服务</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+<h2 style="text-align: center">Node.js学习 （五）模拟配置Apache服务</h2>
+  <div class="stackedit__html"><h5><a id="404_0"></a>页面重定向、404</h5>
+<pre><code class="prism language-javascript"><span class="token comment">//引入模块</span>
+<span class="token keyword">var</span> http <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'http'</span><span class="token punctuation">)</span>
+<span class="token keyword">var</span> fs <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'fs'</span><span class="token punctuation">)</span>
+<span class="token comment">//创建服务</span>
+<span class="token keyword">var</span> server <span class="token operator">=</span> http<span class="token punctuation">.</span><span class="token function">createServer</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">//服务公共地址</span>
+<span class="token keyword">var</span> wwwDir <span class="token operator">=</span> <span class="token string">'D:/Movie/www'</span>
+<span class="token comment">//收发数据</span>
+server<span class="token punctuation">.</span><span class="token function">on</span><span class="token punctuation">(</span><span class="token string">'request'</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>req<span class="token punctuation">,</span> res<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+	<span class="token comment">//获取请求地址</span>
+  <span class="token keyword">var</span> url <span class="token operator">=</span> req<span class="token punctuation">.</span>url
+  <span class="token comment">// / index.html</span>
+  <span class="token comment">// /a.txt wwwDir + /a.txt</span>
+  <span class="token comment">// /apple/login.html wwwDir + /apple/login.html</span>
+  <span class="token comment">// /img/ab1.jpg wwwDir + /img/ab1.jpg</span>
+  
+
+  <span class="token keyword">var</span> filePath <span class="token operator">=</span> <span class="token string">'/index.html'</span>
+  <span class="token comment">//重定向页面首页</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>url <span class="token operator">!==</span> <span class="token string">'/'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    filePath <span class="token operator">=</span> url
+  <span class="token punctuation">}</span>
+	<span class="token comment">//读取文件</span>
+  fs<span class="token punctuation">.</span><span class="token function">readFile</span><span class="token punctuation">(</span>wwwDir <span class="token operator">+</span> filePath<span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span>err<span class="token punctuation">,</span> data<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">//找不到文件</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>err<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token string">'404 Not Found.'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">//找得到文件返回文件数据</span>
+    res<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token comment">// 3. 绑定端口号，启动服务</span>
+server<span class="token punctuation">.</span><span class="token function">listen</span><span class="token punctuation">(</span><span class="token number">3000</span><span class="token punctuation">,</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'running...'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+</code></pre>
+</div>
+</body>
+
+</html>
