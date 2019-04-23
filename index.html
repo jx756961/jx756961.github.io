@@ -39,12 +39,15 @@
 
         .line-height-content {
             line-height: 40px;
+            font-size: 15px;
         }
 
         .min-show-div {
             display: none;
         }
-
+        .min-none-div{
+            display: block;
+        }
         .set-project-font ul li {
             font-size: 13px;
             line-height: 26px;
@@ -54,6 +57,9 @@
         @media screen and (max-width: 959px) {
             .min-show-div {
                 display: block;
+            }
+            .min-none-div{
+                display: none;
             }
         }
     </style>
@@ -164,7 +170,7 @@
     </div>
 </div>
 <article>
-    <div class="pics">
+    <div class="pics min-none-div">
         <ul>
             <li class="back-image-one"><i><a href="#"></a></i><span>数据平台</span></li>
             <li class="back-image-two"><i><a href="#"></a></i><span>物联网App</span></li>
@@ -174,11 +180,12 @@
     <div class="blank"></div>
     <div class="leftbox">
         <div class="set-project-font">
-            <h2 class="hometitle"><span><a href="list_web.html">Blog</a><a href="#">学无止境</a><a href="#">慢生活</a></span>工作经验
+            <h2 class="hometitle min-none-div"><span><a href="list_web.html">Blog</a><a href="#">学无止境</a><a href="#">慢生活</a></span>工作经验
             </h2>
+            <h2 class="ab_title min-show-div">工作经验</h2>
             <ul>
                 <li style="border-bottom: 1px solid #333;padding-bottom: 40px">
-                    <h4 class="line-height-content">内蒙古联业农业科技有限公司：</h4>
+                    <h3 class="line-height-content">内蒙古联业农业科技有限公司</h3>
                     <p class="line-height-content">任职时间 ：2017 . 5 ~ 2019 . 5</p>
                     <p class="line-height-content">职位名称 ：网站全栈开发，服务端开发, 项目基础架构</p>
                     <p><span class="l text" data-en-name="Job Description:">工作描述：</span>
@@ -191,7 +198,7 @@
                 </li>
 
                 <li>
-                    <h4 class="line-height-content">赤峰云联科技有限公司：</h4>
+                    <h3 class="line-height-content">赤峰云联科技有限公司</h3>
                     <p class="line-height-content">任职时间 ：2016 . 9 ~ 2017 . 4</p>
                     <p class="line-height-content">职位名称 ：网站全栈开发工程师</p>
                     <p><span class="l text" data-en-name="Job Description:">工作描述：</span>
@@ -202,7 +209,8 @@
             </ul>
         </div>
         <div class="newblogs set-project-font">
-            <h2 class="hometitle">项目经验</h2>
+            <h2 class="hometitle min-none-div">项目经验</h2>
+            <h2 class="ab_title min-show-div">项目经验</h2>
             <ul id="list" style="">
                 <li>
                     <h3 class="blogtitle"><a href="/" target="_blank">数据管理平台</a></h3>
@@ -337,6 +345,5 @@
 <footer>
     <p>Design by <a href="#">666God</a></p>
 </footer>
-
 </body>
 </html>
