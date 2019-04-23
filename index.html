@@ -45,7 +45,10 @@
             background: #FFF;
             border-radius: 10px;
             overflow: hidden;
-            padding: 20px 0;
+            padding: 20px 10px;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
         }
         .min-show-div {
             display: none;
@@ -62,6 +65,7 @@
         @media screen and (max-width: 959px) {
             .min-show-div {
                 display: block;
+
             }
             .min-none-div{
                 display: none;
@@ -100,7 +104,7 @@
     </script>
 </header>
 <div class="line46"></div>
-<div class="min-show-div">
+<div class="min-show-div" style="width: 96%;margin: 0 auto;">
     <div class="aboutme">
         <h2 class="ab_title">关于我</h2>
         <div class="avatar"><img src="images/b04.jpg"/></div>
