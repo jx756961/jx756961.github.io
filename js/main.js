@@ -2,15 +2,7 @@
 
 	'use strict';
 
-	$('#submit').click(function () {
-		var pV = $('#password').val()
-		var oBox = $('.fill-screen')
-		if(pV === 'jx756961') {
-            oBox.css({'display': 'none'})
-		} else {
-			alert('密码错误')
-		}
-    })
+
 
 	// iPad and iPod detection
 	var isiPad = function(){
@@ -97,7 +89,15 @@
 	};
 
 
-
+    $('#submit').click(function () {
+        var pV = $('#password').val()
+        var oBox = $('.fill-screen')
+        if(pV === 'jx756961') {
+            oBox.css({'display': 'none'})
+        } else {
+            alert('密码错误')
+        }
+    })
 
 	$(function(){
 		magnifPopup();
