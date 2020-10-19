@@ -92,7 +92,7 @@
     $('#submit').click(function () {
         var pV = $('#password').val()
         var oBox = $('.fill-screen')
-        if(pV === 'jx756961') {
+        if(pV === 'jx188756') {
             oBox.css({'display': 'none'})
         } else {
             alert('密码错误')
